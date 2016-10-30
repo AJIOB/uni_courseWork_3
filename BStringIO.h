@@ -9,10 +9,10 @@ class BStringIO
 {
 public:
 	template <typename InfoType>
-	InfoType ReadBInfo(const std::string& str, strPos& iterator);
+	static InfoType ReadBInfo(const std::string& str, strPos& iterator);
 
 	template <typename InfoType>
-	std::string GetBString(InfoType info);
+	static std::string GetBString(InfoType info);
 };
 
 

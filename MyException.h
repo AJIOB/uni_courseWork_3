@@ -3,7 +3,7 @@
 
 #include "log.h"
 
-class MyException : std::exception
+class MyException : public std::exception
 {
 public:
 	MyException();

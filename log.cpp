@@ -1,6 +1,6 @@
 #include "log.h"
 
-void AJIOB_ProgramLog(const std::string putToLogFile, const char errorText[], const bool isCloseFile)
+void AJIOB_ProgramLog(const std::string putToLogFile, const bool isCloseFile, const char errorText[])
 {
 	//„тобы переменна€ с открытым файлом всегда была видна
 	static std::ofstream file;
@@ -27,7 +27,7 @@ void AJIOB_ProgramLog(const std::string putToLogFile, const char errorText[], co
 	//убираем \n в конце строки
 	timeInChar [strlen(timeInChar) - 1] = '\0';
 
-	file << timeInChar << ": " << putToLogFile << "\n";
+	file << timeInChar << ": " << putToLogFile << std::endl;
 
 	if (isCloseFile)
 	{

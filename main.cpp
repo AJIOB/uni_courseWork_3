@@ -5,8 +5,8 @@ int main()
 	setlocale(LC_ALL, "Russian");
 	programBegin();
 
-	defaultFunction();
+	int errorCode = defaultFunction();
 	
 	programEnd();
-	return 0;
+	return errorCode;
 }

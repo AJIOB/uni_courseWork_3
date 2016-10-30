@@ -4,8 +4,9 @@
 #include <fstream>
 //#include <iostream>
 
-#include "log.h"
+//#include "log.h"
 #include "MyException.h"
+#include "WorkWithStreams.h"
 //#include "BStringIO.h"
 /*
 //Мои константы
@@ -36,7 +37,7 @@ protected:
 	//методы для открытия/закрытия файла
 	bool FileOpenIn();
 	bool FileOpenOut();
-	bool FileReset();
+	bool FileReset(bool nothrow = false);
 	void FileClose();
 	//временно public
 //public:

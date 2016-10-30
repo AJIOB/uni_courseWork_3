@@ -60,22 +60,22 @@ bool AJIOB_BinaryFileInputOutput::FileOpenOut()
 	return true;
 }
 
-bool AJIOB_BinaryFileInputOutput::FileReset()
+bool AJIOB_BinaryFileInputOutput::FileReset(bool nothrow)
 {
 	FileClose();
 
 	try
 	{
-		fout.open(cl_fileName, std::ios::binary | std::ios::out | std::ios::app | std::ios::trunc);
+		fout.open(cl_fileName, std::ios::binary | std::ios::out | /*std::ios::app |*/ std::ios::trunc);
 		if (!fout.is_open())
 		{
-			AJIOB_ProgramLog("Не удается сбросить файл " + cl_fileName);
+			SwitchBetweenExceptionAndFalse(nothrow, "Не удается сбросить файл " + cl_fileName);
 			return false;
 		}
 	}
 	catch (std::ios_base::failure e)
 	{
-		AJIOB_ProgramLog("Не удается сбросить файл " + cl_fileName + ". Ошибка: " + e.what());
+		SwitchBetweenExceptionAndFalse(nothrow, "Не удается сбросить файл " + cl_fileName + ". Ошибка: " + e.what());
 		return false;
 	}
 

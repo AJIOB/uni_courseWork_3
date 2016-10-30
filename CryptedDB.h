@@ -14,6 +14,7 @@ public:
 	static void Encrypt(std::string& strToEncrypt, int pos);
 	static void Decrypt(std::string& strToDecrypt, int pos);
 
+	
 public:
 	CryptedDB(const std::string& wayToAuthDBFile);
 	~CryptedDB();

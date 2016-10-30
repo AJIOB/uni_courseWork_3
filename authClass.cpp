@@ -1,20 +1,27 @@
 #include "authClass.h"
 
-void AuthClass::ReadAllFile()
+void AuthClass::AuthProcessing()
 {
+	OneElementOf::Auth currentLogin;
+	std::cout << "¬ведите логин:\n";
+	//currentLogin.setLogin(Input<DefaultID<AJIOBTypes::PrivelegeType>>());
+	currentLogin.setPassword(getpass("¬ведите пароль:"));
 }
 
 AuthClass::AuthClass(): loginDB(wayToLoginDB)
 {
-	ReadAllFile();
+	
 }
 
 AuthClass::~AuthClass()
 {
-	//DBArray.clear();
+	
 }
 
-int AuthClass::run()
+DefaultID<AJIOBTypes::PrivelegeType> AuthClass::run()
 {
-	return 0;
+	//
+	//AuthProcessing();
+
+	return DefaultID<AJIOBTypes::PrivelegeType>();
 }

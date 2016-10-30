@@ -9,4 +9,4 @@ static const char *logfileWay = "librarylog.log";
 static const int strSize = 40;
 
 
-void AJIOB_ProgramLog(const std::string putToLogFile, const char errorText[] = "Error when open log file", const bool isCloseFile = false);
+void AJIOB_ProgramLog(const std::string putToLogFile, const bool isCloseFile = false, const char errorText[] = "Error when open log file");

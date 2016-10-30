@@ -1,6 +1,9 @@
 #include "MyLibrary.h"
 
-void defaultFunction()
+//#include "ExternalLib.h"
+
+
+int defaultFunction()
 {
 	//testing
 	/*
@@ -21,9 +24,26 @@ void defaultFunction()
 	
 	//std::cout << sizeof password;
 
+	/*
+	std::string tmp = getpass("Enter password: ");
+
+	std::cout << std::endl << tmp;*/
 	//end testing
 
-	AuthClass localAuth;
+	int errorCode = 0;
 
-	localAuth.run();
+	try
+	{
+		//AuthClass localAuth;
+		//errorCode = localAuth.run();
+		AJIOBMenuClass localMenu;
+		localMenu.AdminMenu();
+		//errorCode = localMenu.run(localAuth.run());
+	}
+	catch (...)
+	{
+		errorCode = -1;
+	}
+
+	return errorCode;
 }
