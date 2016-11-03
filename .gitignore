@@ -42,3 +42,4 @@ Thumbs.db
 *.vcxproj.filters
 *.vcxproj.user
 /Debug/*
+/x64/Debug/*
