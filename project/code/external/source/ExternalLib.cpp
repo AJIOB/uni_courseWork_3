@@ -1,4 +1,5 @@
 #include "../headers/ExternalLib.h"
+#include "../../view/headers/StreamInput.h"
 
 std::string getpass(const char* prompt, bool show_asterisk)
 {
@@ -10,6 +11,9 @@ std::string getpass(const char* prompt, bool show_asterisk)
 
 	std::cout <<prompt<< std::endl;
 
+	std::cin >> password;
+	ClearStream();
+	/*
 	DWORD con_mode;
 	DWORD dwRead;
 
@@ -38,6 +42,6 @@ std::string getpass(const char* prompt, bool show_asterisk)
 				std::cout <<'*';
         }
 	}
-	std::cout << std::endl;
+	std::cout << std::endl;*/
 	return password;
 }

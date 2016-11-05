@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Recycle Bin">
+      <UniqueIdentifier>{4aa6fadd-7553-450d-91f5-ae0bf7a00532}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="controller">
+      <UniqueIdentifier>{8414354a-4994-4449-9411-2c5782cb9a62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external">
+      <UniqueIdentifier>{f18eae94-4551-4c46-94cd-6acdc7557d46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model">
+      <UniqueIdentifier>{32cc9b48-892d-40ce-b37f-6df30d089c38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="other">
+      <UniqueIdentifier>{23763abb-6136-4e24-a08f-be7353bfe6ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="view">
+      <UniqueIdentifier>{a44ef07d-72c7-4a35-a71c-0675d70be7c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="view\headers">
+      <UniqueIdentifier>{a2eb558e-f37d-442e-a953-c26c427d1157}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="view\source">
+      <UniqueIdentifier>{2b8da615-d7f7-40dd-9a94-d391dce616d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\dbs">
+      <UniqueIdentifier>{928bbf64-0f3b-4403-9080-7aaf694cf2ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\dbs\headers">
+      <UniqueIdentifier>{bd355339-706a-43d4-908f-4e615e12ec12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\dbs\source">
+      <UniqueIdentifier>{dffe3bca-47f7-46e0-a78d-9d580bf5e938}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\dbs\templates">
+      <UniqueIdentifier>{e0c778e4-bccd-4533-83f3-fc669f57b6fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\BinaryIO">
+      <UniqueIdentifier>{e23a0743-6036-4135-a8c7-e8b22ec9f309}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\BinaryIO\headers">
+      <UniqueIdentifier>{9ba46658-4cdf-4f6d-844f-b71b3449fc88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\BinaryIO\source">
+      <UniqueIdentifier>{ab7af21a-d79f-41ee-838c-ac7c10492a35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\BinaryIO\templates">
+      <UniqueIdentifier>{99e18001-8eb5-41df-ad2e-a81400d84f93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\enums">
+      <UniqueIdentifier>{1a7ffa96-4e71-4665-a86d-adc4d770f691}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\other">
+      <UniqueIdentifier>{2493422b-cffa-4397-a24f-8ac396f63b0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\other\templates">
+      <UniqueIdentifier>{60bf4901-599c-470e-8f9b-d1d0f58593c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\OneElementOf">
+      <UniqueIdentifier>{f9f518ae-6fda-4444-a36d-3a574ab29358}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\OneElementOf\headers">
+      <UniqueIdentifier>{d68f1e61-2441-481c-a30f-eadb972169b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\OneElementOf\source">
+      <UniqueIdentifier>{bb252946-86b4-4aec-bd82-ae2fac38142d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="controller\headers">
+      <UniqueIdentifier>{13196337-a467-4ea9-acc8-70a1b2a1a50b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\headers">
+      <UniqueIdentifier>{5dbcf470-6bb1-470e-a758-2758d41d3d20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\source">
+      <UniqueIdentifier>{f39f1a58-3f61-4fb1-82e9-590ddfecb258}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="controller\source">
+      <UniqueIdentifier>{ccbc7af9-4dc9-4ca6-ab3d-c90b45a759c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="other\headers">
+      <UniqueIdentifier>{0573372d-4125-46de-930f-859f5e7da328}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="other\source">
+      <UniqueIdentifier>{418f83b3-dc0f-4294-a01d-6a59af0a8cd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\other\headers">
+      <UniqueIdentifier>{58262c86-4aa7-4fa3-8ce6-3c2094cfbf98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\other\source">
+      <UniqueIdentifier>{8d642234-bd4a-4a7e-baae-f7d0998188bc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="project\code\model\binary input&amp;output\headers\BFileIO.h">
+      <Filter>model\BinaryIO\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\binary input&amp;output\templates\BStringIO.h">
+      <Filter>model\BinaryIO\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\dbs\headers\LoginDBClass.h">
+      <Filter>model\dbs\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\dbs\templates\CryptedDB.h">
+      <Filter>model\dbs\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\dbs\templates\DefaultDB.h">
+      <Filter>model\dbs\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\enums\PrivelegeType.h">
+      <Filter>model\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\one element of db\headers\Auth.h">
+      <Filter>model\OneElementOf\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\view\headers\log.h">
+      <Filter>view\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\controller\headers\AJIOBMenuClass.h">
+      <Filter>controller\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\controller\headers\authClass.h">
+      <Filter>controller\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\external\headers\ExternalLib.h">
+      <Filter>external\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\other\templates\DefaultID.h">
+      <Filter>model\other\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\other\headers\MyException.h">
+      <Filter>other\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\other\headers\MyLibrary.h">
+      <Filter>other\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\view\headers\view.h">
+      <Filter>view\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\other\otherHeaders.h">
+      <Filter>Recycle Bin</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\other\headers\StringFuncs.h">
+      <Filter>model\other\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\view\headers\StreamInput.h">
+      <Filter>view\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\view\headers\StreamOutput.h">
+      <Filter>view\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\other\headers\NoLoginException.h">
+      <Filter>other\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\other\headers\OverloadedOperations.h">
+      <Filter>Recycle Bin</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="project\code\controller\source\AJIOBMenuClass.cpp">
+      <Filter>controller\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\controller\source\authClass.cpp">
+      <Filter>controller\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\external\source\ExternalLib.cpp">
+      <Filter>external\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\model\binary input&amp;output\source\BFileIO.cpp">
+      <Filter>model\BinaryIO\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\model\dbs\source\LoginDBClass.cpp">
+      <Filter>model\dbs\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\model\one element of db\source\Auth.cpp">
+      <Filter>model\OneElementOf\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\other\source\MyException.cpp">
+      <Filter>other\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\other\source\MyLibrary.cpp">
+      <Filter>other\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\view\source\log.cpp">
+      <Filter>view\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\other\main.cpp">
+      <Filter>other</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\model\other\source\StringFuncs.cpp">
+      <Filter>model\other\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\view\source\StreamOutput.cpp">
+      <Filter>view\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\other\source\NoLoginException.cpp">
+      <Filter>Recycle Bin</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\view\source\StreamInput.cpp">
+      <Filter>view\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\other\source\OverloadedOperations.cpp">
+      <Filter>Recycle Bin</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

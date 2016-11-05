@@ -38,8 +38,12 @@ Thumbs.db
 
 #Microsoft Visual Studio files#
 ###############################
-*.vcxproj
-*.vcxproj.filters
-*.vcxproj.user
+#*.vcxproj
+#*.vcxproj.filters
+#*.vcxproj.user
 /Debug/*
 /x64/Debug/*
+
+#MyDBs
+*.db
+*.db.bak

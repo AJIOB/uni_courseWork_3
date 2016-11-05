@@ -1,6 +1,6 @@
 ﻿#include "../headers/view.h"
 
-void OutputInfo(const std::string& s)
+void OutputConsole(const std::string& s)
 {
 	std::cout << s << std::endl;
 }
@@ -8,7 +8,7 @@ void OutputInfo(const std::string& s)
 void OutputWarning(const std::string& s)
 {
 	std::cout << "Warning: " << s << std::endl;
-	OutputLog("Warning: " + s);
+	//OutputLog("Warning: " + s);
 }
 
 void OutputError(const std::string& s)
@@ -26,7 +26,7 @@ std::string OutputEnum(const std::vector<std::string>& texts, const int& enumToS
 {
 	std::string result;
 	int i = 0;
-	for ( ; i < texts.size(); ++i)
+	for ( ; i < static_cast<long int>(texts.size()); ++i)
 	{
 		if (enumToShow == i)
 		{
@@ -35,7 +35,7 @@ std::string OutputEnum(const std::vector<std::string>& texts, const int& enumToS
 		}
 	}
 
-	if (i >= texts.size())
+	if (i >= static_cast<long int>(texts.size()))
 	{
 		result = "Другое";
 	}

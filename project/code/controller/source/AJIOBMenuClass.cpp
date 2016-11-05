@@ -1,8 +1,37 @@
 ﻿#include "../headers/AJIOBMenuClass.h"
 
+
+DefaultID<AJIOBTypes::PrivelegeType> AJIOBMenuClass::Auth() const
+{
+	AuthClass localAuth(&cl_loginDB);
+	DefaultID<AJIOBTypes::PrivelegeType> loggedID;
+
+	do
+	{
+		try
+		{
+			loggedID = localAuth.run();
+
+			if (loggedID.GetType() != AJIOBTypes::PrivelegeType::none)
+			{
+				break;
+			}
+
+			OutputConsole("Ошибка входа. У вас нет прав для доступа к каким-либо данным.");
+		}
+		catch(const NoLoginException&)
+		{
+			OutputConsole("Извините, вы ввели несуществующую комбинацию логина и пароля.");
+		}
+	}
+	while (GetOnlyYN("Желаете повторить ввод?") == 'Y');
+
+	return loggedID;
+}
+
 void AJIOBMenuClass::WithLoginDB()
 {
-	system("cls");
+	ClearConsole();
 	std::cout << "Взаимодействие с базой данных логинов и паролей" << std::endl;
 
 	do
@@ -28,17 +57,17 @@ void AJIOBMenuClass::WithLoginDB()
 			cl_loginDB.Show();
 			break;
 		case '3':
-			//WithClientDB();
+			cl_loginDB.Update();
 			break;
 		case '4':
-			//WithClientDB();
+			cl_loginDB.Delete();
 			break;
 		default:
 			OutputWarning("Извините, такого варианта не существует. Пожалуйста, повторите выбор");
 		}
 
-		system("pause");
-		system("cls");
+		PauseConsole();
+		ClearConsole();
 	}
 	while (true);
 }
@@ -46,19 +75,19 @@ void AJIOBMenuClass::WithLoginDB()
 void AJIOBMenuClass::WithBooksDBs()
 {
 	//
-	OutputInfo("Тут будет работа с книгами");
+	OutputConsole("Тут будет работа с книгами");
 }
 
 void AJIOBMenuClass::WithClientDB()
 {
 	//
-	OutputInfo("Тут будет работа с базой читателей");
+	OutputConsole("Тут будет работа с базой читателей");
 }
 
 void AJIOBMenuClass::AdminMenu()
 {
-	system("cls");
-	std::cout << "Вы зашли под правами Администратора" << std::endl;
+	ClearConsole();
+	std::cout << "Здравствуйте. Вы зашли как администратор библиотеки." << std::endl;
 
 	do
 	{		
@@ -88,21 +117,25 @@ void AJIOBMenuClass::AdminMenu()
 			OutputWarning("Извините, такого варианта не существует. Пожалуйста, повторите выбор");
 		}
 
-		system("pause");
-		system("cls");
+		PauseConsole();
+		ClearConsole();
 	}
 	while (true);
 }
 
 void AJIOBMenuClass::WorkerMenu()
 {
+	ClearConsole();
+	std::cout << "Здравствуйте. Вы зашли как работник библиотеки." << std::endl;
 }
 
 void AJIOBMenuClass::ClientMenu()
 {
+	ClearConsole();
+	std::cout << "Здравствуйте. Вы зашли как читатель библиотеки." << std::endl;
 }
 
-AJIOBMenuClass::AJIOBMenuClass() : cl_loginDB(false)
+AJIOBMenuClass::AJIOBMenuClass() : cl_loginDB()
 {
 
 }
@@ -112,8 +145,36 @@ AJIOBMenuClass::~AJIOBMenuClass()
 	//cl_loginDB.Unload();
 }
 
-int AJIOBMenuClass::run(DefaultID<AJIOBTypes::PrivelegeType> loggedUser)
+int AJIOBMenuClass::run()
 {
-	//
+	int errorCode = 0;
+
+	auto id = Auth();
+	if (id.GetType() != AJIOBTypes::none)
+	{
+		errorCode = LoginSuccessfully(id);
+	}
+
+	return errorCode;
+}
+
+int AJIOBMenuClass::LoginSuccessfully(DefaultID<AJIOBTypes::PrivelegeType> loggedUserID)
+{
+	auto loggedType = loggedUserID.GetType();
+	switch (loggedType)
+	{
+	case AJIOBTypes::user:
+		ClientMenu();
+		break;
+	case AJIOBTypes::worker:
+		WorkerMenu();
+		break;
+	case AJIOBTypes::admin:
+		AdminMenu();
+		break;
+	default:
+		OutputConsole("Извините, у вас нету доступа к каким-либо базам данных");
+	}
+
 	return 0;
 }

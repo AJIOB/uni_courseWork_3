@@ -19,14 +19,21 @@ namespace OneElementOf
 		Auth(const std::string& bInfo, strPos& it);
 		~Auth();
 	
-		DefaultID<AJIOBTypes::PrivelegeType> getLogin() const;
+		DefaultID<AJIOBTypes::PrivelegeType> GetLogin() const;
 		
-		void setLogin(const DefaultID<AJIOBTypes::PrivelegeType>& newLogin);
-		void setPassword(const std::string& newPassword);
+		void SetLogin(const DefaultID<AJIOBTypes::PrivelegeType>& newLogin);
+		void SetPassword(const std::string& newPassword);
 
 		std::string BRead();
 
 		friend std::ostream& operator<< (std::ostream& s, const Auth& that);
 		friend std::istream& operator>> (std::istream& s, Auth& that);
+
+		void InputAuthFromConsole();
+
+		bool EqualByAll(const Auth& that) const;
+		bool EqualByLogin(const Auth& that) const;
+
+		bool operator==(const Auth& that) const;
 	};
 }

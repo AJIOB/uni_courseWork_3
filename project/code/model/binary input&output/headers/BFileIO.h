@@ -52,5 +52,5 @@ protected:
 	*/
 public:
 	AJIOB_BinaryFileInputOutput(const std::string& fileName);
-	~AJIOB_BinaryFileInputOutput();
+	virtual ~AJIOB_BinaryFileInputOutput();
 };

@@ -11,23 +11,27 @@ class CryptedDB : public DefaultDB<Type>
 {
 protected:
 //public:
-	static void Encrypt(std::string& strToEncrypt, int pos);
-	static void Decrypt(std::string& strToDecrypt, int pos);
+	static void Encrypt(std::string& strToEncrypt, const size_t pos);
+	static void Decrypt(std::string& strToDecrypt, const size_t pos);
 
 	
 public:
 	CryptedDB(const std::string& wayToAuthDBFile, bool isReadOnly = true);
 	~CryptedDB();
+
+	//методы (перегружены)
+	void ReadAll() override;
+	void WriteAll() override;
 };
 
 
 
 //cpp
 template <typename Type>
-void CryptedDB<Type>::Encrypt(std::string& strToEncrypt, int pos)
+void CryptedDB<Type>::Encrypt(std::string& strToEncrypt, const size_t pos)
 {
 	//длины измен€емой строки и парол€ соответственно
-	auto stlen = strToEncrypt.length();
+	auto stlen = static_cast<long int>(strToEncrypt.length());
 	auto pwdlen = sizeof password;
 
 	for (auto i = 0; i < stlen; ++i)
@@ -37,7 +41,7 @@ void CryptedDB<Type>::Encrypt(std::string& strToEncrypt, int pos)
 }
 
 template <typename Type>
-void CryptedDB<Type>::Decrypt(std::string& strToDecrypt, int pos)
+void CryptedDB<Type>::Decrypt(std::string& strToDecrypt, const size_t pos)
 {
 	//длины измен€емой строки и парол€ соответственно
 	auto stlen = strToDecrypt.length();
@@ -59,3 +63,47 @@ CryptedDB<Type>::~CryptedDB()
 {
 }
 
+template <typename Type>
+void CryptedDB<Type>::ReadAll()
+{
+	if (!FileOpenIn())
+	{
+		return;
+	}
+
+	cl_ourArray.clear();
+
+	strPos it = 0;
+	size_t n = BStringIO::ReadBInfo<size_t>(ReadStringFromFile(), it);
+
+	for (size_t i = 0; i < n; ++i)
+	{
+		auto posInFile = fin.tellg();
+		std::string buff = ReadStringFromFile();
+		Decrypt(buff, posInFile);
+		it = 0;
+		cl_ourArray.push_back(Type(buff, it));
+	}
+
+	cl_isChanged = false;
+}
+
+template <typename Type>
+void CryptedDB<Type>::WriteAll()
+{
+	OutputLog("—охранение изменений в файле " + cl_fileName);
+
+	FileReset();
+
+	//ѕишем количество строк в файле
+	WriteStringToFile(BStringIO::GetBString(cl_ourArray.size()));
+	
+	for (auto it = cl_ourArray.begin(); it != cl_ourArray.end(); ++it)
+	{
+		std::string buffstr = it->BRead();
+		Encrypt(buffstr, fout.tellp());
+		WriteStringToFile(buffstr);
+	}
+
+	cl_isChanged = false;
+}

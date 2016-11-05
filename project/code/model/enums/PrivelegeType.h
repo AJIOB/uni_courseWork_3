@@ -1,5 +1,8 @@
 ﻿#pragma once
 
+#include <string>
+#include <vector>
+
 namespace AJIOBTypes{
 	enum PrivelegeType
 	{

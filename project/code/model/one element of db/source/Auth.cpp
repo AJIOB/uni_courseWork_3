@@ -23,17 +23,17 @@ OneElementOf::Auth::~Auth()
 	password.clear();
 }
 
-DefaultID<AJIOBTypes::PrivelegeType> OneElementOf::Auth::getLogin() const
+DefaultID<AJIOBTypes::PrivelegeType> OneElementOf::Auth::GetLogin() const
 {
 	return this->login;
 }
 
-void OneElementOf::Auth::setLogin(const DefaultID<AJIOBTypes::PrivelegeType>& newLogin)
+void OneElementOf::Auth::SetLogin(const DefaultID<AJIOBTypes::PrivelegeType>& newLogin)
 {
 	this->login = newLogin;
 }
 
-void OneElementOf::Auth::setPassword(const std::string& newPassword)
+void OneElementOf::Auth::SetPassword(const std::string& newPassword)
 {
 	this->password = newPassword;
 }
@@ -41,6 +41,28 @@ void OneElementOf::Auth::setPassword(const std::string& newPassword)
 std::string OneElementOf::Auth::BRead()
 {
 	return (login.BRead() + BStringIO::GetBString(password));
+}
+
+void OneElementOf::Auth::InputAuthFromConsole()
+{
+	OutputConsole("Введите логин:");
+	login.SetID(Input<ul>());
+	password = getpass("Введите пароль:");
+}
+
+bool OneElementOf::Auth::EqualByAll(const Auth& that) const
+{
+	return (EqualByLogin(that) && (password == that.password));
+}
+
+bool OneElementOf::Auth::EqualByLogin(const Auth& that) const
+{
+	return (this->login == that.login);
+}
+
+bool OneElementOf::Auth::operator==(const Auth& that) const
+{
+	return EqualByAll(that);
 }
 
 std::ostream& OneElementOf::operator<<(std::ostream& s, const Auth& that)
@@ -64,7 +86,7 @@ std::istream& OneElementOf::operator>>(std::istream& s, Auth& that)
 			break;
 		}
 
-		OutputInfo("Введенные пароли не совпадают. Пожалуйста, повторите ввод");
+		OutputConsole("Введенные пароли не совпадают. Пожалуйста, повторите ввод");
 	}
 	return s;
 }
