@@ -3,8 +3,9 @@
 #include <string>
 #include <vector>
 
-#include "../../other/headers/MyException.h"
 #include "StreamOutput.h"
+//#include "../../other/headers/MyException.h"
+#include "../../model/exceptions/AllExceptions.h"
 
 inline void ClearStream()
 {
@@ -47,12 +48,14 @@ char GetOnlyYN(const std::string& infoText);
 
 int InputEnum(const std::vector<std::string>& texts, int numOfTheFirstElementToShow = 1);
 
+//class MinMaxException;
+
 template<typename InputType>
 InputType InputInRange(const std::string& shownText, const InputType& min, const InputType& max)
 {
 	if (min > max)
 	{
-		//throw;
+		//throw MinMaxException();
 	}
 
 	InputType buffer;

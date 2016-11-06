@@ -5,7 +5,8 @@
 //#include <iostream>
 
 //#include "log.h"
-#include "../../../other/headers/MyException.h"
+//#include "../../../other/headers/MyException.h"
+#include "../../../model/exceptions/AllExceptions.h"
 #include "../../../view/headers/view.h"
 //#include "BStringIO.h"
 /*

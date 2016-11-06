@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <string>
 
-#include "../../../other/headers/MyException.h"
+#include "../../../model/exceptions/AllExceptions.h"
 
 typedef unsigned int strPos;
 

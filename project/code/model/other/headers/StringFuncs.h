@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <string>
 
-#include "../../../other/headers/MyException.h"
+#include "../../../model/exceptions/AllExceptions.h"
 
 std::string StringCat(const std::string& str, const int i);

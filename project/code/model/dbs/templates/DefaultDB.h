@@ -5,8 +5,8 @@
 #include "../../binary input&output/headers/BFileIO.h"
 #include "../../binary input&output/templates/BStringIO.h"
 #include "../../../view/headers/view.h"
-
 #include "../../other/headers/StringFuncs.h"
+#include "../../../model/exceptions/AllExceptions.h"
 
 template <typename oneElementOfDB>
 class DefaultDB : public AJIOB_BinaryFileInputOutput
@@ -135,9 +135,16 @@ void DefaultDB<oneElementOfDB>::Update()
 	int index = 0;
 	do
 	{
-		index = InputInRange("Введите индекс элемента, который вы хотите обновить:", 1, static_cast<int> (cl_ourArray.size())) - 1;
-		std::cout << cl_ourArray[index];
-
+		try
+		{
+			index = InputInRange("Введите индекс элемента, который вы хотите обновить:", 1, static_cast<int> (cl_ourArray.size())) - 1;
+			std::cout << cl_ourArray[index];
+		}
+		catch(const MinMaxException&)
+		{
+			OutputConsole("База данных пуста.");
+			return;
+		}
 	} while (GetOnlyYN("Вы хотите обновить именно этот элемент?") == 'N');
 
 	UpdateElementWithIndex(index);
@@ -155,9 +162,16 @@ void DefaultDB<oneElementOfDB>::Delete()
 
 	ClearConsole();
 
-	int delPos = InputInRange("Введите № удаляемого элемента:", 1, static_cast<int> (cl_ourArray.size())) - 1;
-
-	cl_ourArray.erase(cl_ourArray.begin() + delPos);
+	try
+	{
+		int delPos = InputInRange("Введите № удаляемого элемента:", 1, static_cast<int> (cl_ourArray.size())) - 1;
+		cl_ourArray.erase(cl_ourArray.begin() + delPos);
+	}
+	catch(const MinMaxException&)
+	{
+		OutputConsole("База данных пуста. Нечего удалять");
+		return;
+	}
 
 	cl_isChanged = true;
 }

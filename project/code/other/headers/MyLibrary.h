@@ -7,7 +7,7 @@
 
 #include "../../controller/headers/AJIOBMenuClass.h"
 #include "../../controller/headers/authClass.h"
-#include "NoLoginException.h"
+#include "../../model/exceptions/AllExceptions.h"
 
 //основная функция
 inline void programBegin()

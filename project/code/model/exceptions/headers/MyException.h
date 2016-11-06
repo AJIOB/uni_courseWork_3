@@ -1,7 +1,13 @@
 ﻿#pragma once
 #include <exception>
+#include <string>
 
-#include "../../view/headers/view.h"
+//#include "../../view/headers/view.h"
+
+#ifndef STREAM_IO
+void OutputLog(const std::string&, bool);
+//void OutputLog(const std::string&);
+#endif
 
 class MyException : public std::exception
 {
@@ -13,7 +19,7 @@ public:
 
 
 
-inline bool SwitchBetweenExceptionAndFalse(bool nothrow, std::string info)
+inline bool SwitchBetweenExceptionAndFalse(bool nothrow, const std::string& info)
 {
 	if (nothrow)
 	{

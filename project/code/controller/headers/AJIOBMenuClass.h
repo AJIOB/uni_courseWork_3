@@ -2,7 +2,7 @@
 
 #include "../../model/dbs/headers/LoginDBClass.h"
 #include "../../view/headers/view.h"
-#include "../../other/headers/NoLoginException.h"
+#include "../../model/exceptions/AllExceptions.h"
 #include "../headers/authClass.h"
 
 class AJIOBMenuClass

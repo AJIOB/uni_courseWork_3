@@ -8,7 +8,7 @@
 //#include "../../model/dbs/templates/CryptedDB.h"
 //#include "../../model/one element of db/headers/Auth.h"
 #include "../../model/dbs/headers/LoginDBClass.h"
-#include "../../other/headers/NoLoginException.h"
+#include "../../model/exceptions/AllExceptions.h"
 
 class AuthClass
 {

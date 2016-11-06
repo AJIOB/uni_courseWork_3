@@ -91,6 +91,15 @@
     <Filter Include="model\other\source">
       <UniqueIdentifier>{8d642234-bd4a-4a7e-baae-f7d0998188bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="model\exceptions">
+      <UniqueIdentifier>{74f64bed-c427-4600-a5fd-4f3042cb8ed5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\exceptions\headers">
+      <UniqueIdentifier>{f03612f3-b02c-44bb-b826-c2592e5f6a26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model\exceptions\source">
+      <UniqueIdentifier>{9a4068d8-1e97-4abf-ba79-7a020b76f6ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="project\code\model\binary input&amp;output\headers\BFileIO.h">
@@ -129,17 +138,11 @@
     <ClInclude Include="project\code\model\other\templates\DefaultID.h">
       <Filter>model\other\templates</Filter>
     </ClInclude>
-    <ClInclude Include="project\code\other\headers\MyException.h">
-      <Filter>other\headers</Filter>
-    </ClInclude>
     <ClInclude Include="project\code\other\headers\MyLibrary.h">
       <Filter>other\headers</Filter>
     </ClInclude>
     <ClInclude Include="project\code\view\headers\view.h">
       <Filter>view\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="project\code\other\otherHeaders.h">
-      <Filter>Recycle Bin</Filter>
     </ClInclude>
     <ClInclude Include="project\code\model\other\headers\StringFuncs.h">
       <Filter>model\other\headers</Filter>
@@ -150,11 +153,17 @@
     <ClInclude Include="project\code\view\headers\StreamOutput.h">
       <Filter>view\headers</Filter>
     </ClInclude>
-    <ClInclude Include="project\code\other\headers\NoLoginException.h">
-      <Filter>other\headers</Filter>
+    <ClInclude Include="project\code\model\exceptions\headers\MinMaxException.h">
+      <Filter>model\exceptions\headers</Filter>
     </ClInclude>
-    <ClInclude Include="project\code\other\headers\OverloadedOperations.h">
-      <Filter>Recycle Bin</Filter>
+    <ClInclude Include="project\code\model\exceptions\headers\MyException.h">
+      <Filter>model\exceptions\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\exceptions\headers\NoLoginException.h">
+      <Filter>model\exceptions\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\exceptions\AllExceptions.h">
+      <Filter>model\exceptions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -176,9 +185,6 @@
     <ClCompile Include="project\code\model\one element of db\source\Auth.cpp">
       <Filter>model\OneElementOf\source</Filter>
     </ClCompile>
-    <ClCompile Include="project\code\other\source\MyException.cpp">
-      <Filter>other\source</Filter>
-    </ClCompile>
     <ClCompile Include="project\code\other\source\MyLibrary.cpp">
       <Filter>other\source</Filter>
     </ClCompile>
@@ -194,14 +200,11 @@
     <ClCompile Include="project\code\view\source\StreamOutput.cpp">
       <Filter>view\source</Filter>
     </ClCompile>
-    <ClCompile Include="project\code\other\source\NoLoginException.cpp">
-      <Filter>Recycle Bin</Filter>
-    </ClCompile>
     <ClCompile Include="project\code\view\source\StreamInput.cpp">
       <Filter>view\source</Filter>
     </ClCompile>
-    <ClCompile Include="project\code\other\source\OverloadedOperations.cpp">
-      <Filter>Recycle Bin</Filter>
+    <ClCompile Include="project\code\model\exceptions\source\MyException.cpp">
+      <Filter>model\exceptions\source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

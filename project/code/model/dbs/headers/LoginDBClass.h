@@ -16,11 +16,11 @@ public:
 	
 	void Unload();
 
-	void Add();
-	void Show() const;
+	void Add() override;
+	void Show() const override;
 	int Find(const OneElementOf::Auth& currLP) const;
-	void Update();
-	void Delete();
+	void Update() override;
+	void Delete() override;
 
 	OneElementOf::Auth& Get(int index);
 	const OneElementOf::Auth& Get(int index) const;
