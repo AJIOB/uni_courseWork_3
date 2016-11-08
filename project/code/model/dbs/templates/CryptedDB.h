@@ -14,10 +14,9 @@ protected:
 	static void Encrypt(std::string& strToEncrypt, const size_t pos);
 	static void Decrypt(std::string& strToDecrypt, const size_t pos);
 
-	
 public:
 	CryptedDB(const std::string& wayToAuthDBFile, bool isReadOnly = true);
-	~CryptedDB();
+	virtual ~CryptedDB();
 
 	//методы (перегружены)
 	void ReadAll() override;
@@ -82,7 +81,7 @@ void CryptedDB<Type>::ReadAll()
 		std::string buff = ReadStringFromFile();
 		Decrypt(buff, posInFile);
 		it = 0;
-		cl_ourArray.push_back(Type(buff, it));
+		cl_ourArray.push_back(Type(buff, it, GetMe()));
 	}
 
 	cl_isChanged = false;

@@ -4,23 +4,35 @@
 #include "../../view/headers/view.h"
 #include "../../model/exceptions/AllExceptions.h"
 #include "../headers/authClass.h"
+#include "../../model/dbs/headers/PublisherDBClass.h"
+#include "../../model/dbs/headers/CountryDBClass.h"
 
 class AJIOBMenuClass
 {
 	LoginDBClass cl_loginDB;
+	//PublisherDBClass cl_publishersDB;
+	CountryDBClass cl_countriesDB;
+
 	//
 
-	DefaultID<AJIOBTypes::PrivelegeType> Auth() const;
-	int LoginSuccessfully(DefaultID<AJIOBTypes::PrivelegeType> loggedUserID);
+	OneElementOf::Auth cl_loggedUser;
+
+	OneElementOf::Auth Auth();
+	int LoginSuccessfully();
 
 	void WithLoginDB();
-	void WithBooksDBs();
-	void WithClientDB();
+	void WithPublisherDB();
+	void WithCountryDB();
 
 	void AdminMenu();
 	void WorkerMenu();
 	void ClientMenu();
 	//
+	void SaveAllChanges();
+
+	void ManageYourProfile();
+	void ChangeYourPassword();
+
 public:
 	AJIOBMenuClass();
 	~AJIOBMenuClass();

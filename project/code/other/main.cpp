@@ -2,9 +2,11 @@
 
 int main()
 {
-	setlocale(LC_ALL, "Russian");
-	programBegin();
+	SetConsoleOutputCP(1251);
+	SetConsoleCP(1251);
 
+	programBegin();
+	
 	int errorCode = defaultFunction();
 	
 	programEnd();

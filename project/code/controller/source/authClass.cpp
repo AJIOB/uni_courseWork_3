@@ -9,13 +9,13 @@ void AuthClass::AuthProcessing()
 	currentLogin.setPassword(getpass("¬ведите пароль:"));
 }
 */
-AuthClass::AuthClass()
+AuthClass::AuthClass() : loginDB(new LoginDBClass()), CurrentUser(loginDB)
 {
-	loginDB = new LoginDBClass();
+	//loginDB = new LoginDBClass();
 	isGetDBbyExternal = false;
 }
 
-AuthClass::AuthClass(const LoginDBClass* loginDBnew)
+AuthClass::AuthClass(LoginDBClass* loginDBnew) : CurrentUser(loginDBnew)
 {
 	loginDB = loginDBnew;
 	isGetDBbyExternal = true;
@@ -29,9 +29,9 @@ AuthClass::~AuthClass()
 	}
 }
 
-DefaultID<AJIOBTypes::PrivelegeType> AuthClass::run() const
+OneElementOf::Auth AuthClass::run()
 {
-	OneElementOf::Auth currentLoginPassword;
+	OneElementOf::Auth currentLoginPassword(this);
 	currentLoginPassword.InputAuthFromConsole();
 
 	int index = loginDB->Find(currentLoginPassword);
@@ -43,12 +43,12 @@ DefaultID<AJIOBTypes::PrivelegeType> AuthClass::run() const
 
 	try
 	{
-		return loginDB->Get(index).GetLogin();
+		return loginDB->GetElement(index);
 	}
 	catch(std::out_of_range& e)
 	{
 		OutputConsole(e.what());
 		OutputLog(e.what());
-		return DefaultID<AJIOBTypes::PrivelegeType>();
+		return OneElementOf::Auth(this);
 	}	
 }

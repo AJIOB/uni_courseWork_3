@@ -165,6 +165,27 @@
     <ClInclude Include="project\code\model\exceptions\AllExceptions.h">
       <Filter>model\exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="project\code\model\exceptions\headers\KeyException.h">
+      <Filter>model\exceptions\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\exceptions\headers\CtrlCException.h">
+      <Filter>model\exceptions\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\one element of db\headers\Publisher.h">
+      <Filter>model\OneElementOf\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\other\templates\MyContainer.h">
+      <Filter>model\other\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\one element of db\headers\Country.h">
+      <Filter>model\OneElementOf\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\dbs\headers\CountryDBClass.h">
+      <Filter>model\dbs\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\other\headers\ISBNOnePart.h">
+      <Filter>model\other\headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="project\code\controller\source\AJIOBMenuClass.cpp">
@@ -205,6 +226,18 @@
     </ClCompile>
     <ClCompile Include="project\code\model\exceptions\source\MyException.cpp">
       <Filter>model\exceptions\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\model\one element of db\source\Publisher.cpp">
+      <Filter>model\OneElementOf\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\model\one element of db\source\Country.cpp">
+      <Filter>model\OneElementOf\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\model\dbs\source\CountryDBClass.cpp">
+      <Filter>model\dbs\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\model\other\source\ISBNOnePart.cpp">
+      <Filter>model\other\source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

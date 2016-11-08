@@ -5,24 +5,33 @@
 #include "../../../view/headers/view.h"
 #include "../../enums/PrivelegeType.h"
 
-typedef unsigned long int ul;
+#ifndef AJIOB_UI
+#define AJIOB_UI
+
+typedef unsigned long int uli;
+
+#endif
 
 template <typename Type>
 class DefaultID
 {
-	Type t;
-	ul id;
+	Type cl_type;
+	uli cl_id;
 
 	void BWrite(const std::string& bInfo, strPos& it);
 public:
 	DefaultID();
+	DefaultID(const DefaultID& that);
 	DefaultID(const std::string& bInfo, strPos& it);
 	~DefaultID();
 
+	DefaultID<Type>& operator=(const DefaultID<Type>& that);
+
 	std::string BRead();
 
-	bool SetID(const ul& newID);
-	//ul GetID() const;
+	bool SetID(const uli& newID);
+	void InputNewType();
+	uli GetID() const;
 	Type GetType() const;
 
 	template <typename T>
@@ -37,18 +46,31 @@ public:
 };
 
 
+
+
+
+
+
+//cpp
+
 template <typename Type>
 void DefaultID<Type>::BWrite(const std::string& bInfo, strPos& it)
 {
-	t = BStringIO::ReadBInfo<Type>(bInfo, it);
-	id = BStringIO::ReadBInfo<ul>(bInfo, it);
+	cl_type = BStringIO::ReadBInfo<Type>(bInfo, it);
+	cl_id = BStringIO::ReadBInfo<uli>(bInfo, it);
 }
 
 template <typename Type>
 DefaultID<Type>::DefaultID()
 {
-	id = 0;
-	t = AJIOBTypes::PrivelegeType::none;
+	cl_id = 0;
+	cl_type = AJIOBTypes::PrivelegeType::none;
+}
+
+template <typename Type>
+DefaultID<Type>::DefaultID(const DefaultID& that)
+{
+	(*this) = that;
 }
 
 template <typename Type>
@@ -63,29 +85,43 @@ DefaultID<Type>::~DefaultID()
 }
 
 template <typename Type>
-std::string DefaultID<Type>::BRead()
+DefaultID<Type>& DefaultID<Type>::operator=(const DefaultID<Type>& that)
 {
-
-	return (BStringIO::GetBString(t) + BStringIO::GetBString(id));
+	cl_id = that.cl_id;
+	cl_type = that.cl_type;
+	return (*this);
 }
 
 template <typename Type>
-bool DefaultID<Type>::SetID(const ul& newID)
+std::string DefaultID<Type>::BRead()
 {
-	id = newID;
+
+	return (BStringIO::GetBString(cl_type) + BStringIO::GetBString(cl_id));
+}
+
+template <typename Type>
+bool DefaultID<Type>::SetID(const uli& newID)
+{
+	cl_id = newID;
 	return true;
+}
+
+template <typename Type>
+void DefaultID<Type>::InputNewType()
+{
+	Stream::Input(cl_type);
 }
 
 template <typename Type>
 bool DefaultID<Type>::EqualByID(const DefaultID<Type>& that) const
 {
-	return (id == that.id);
+	return (cl_id == that.cl_id);
 }
 
 template <typename Type>
 bool DefaultID<Type>::EqualByAll(const DefaultID<Type>& that) const
 {
-	return (EqualByID(that) && (t == that.t));
+	return (EqualByID(that) && (cl_type == that.cl_type));
 }
 
 template <typename Type>
@@ -94,37 +130,34 @@ bool DefaultID<Type>::operator==(const DefaultID<Type>& that) const
 	return EqualByID(that);
 }
 
-/*
+
 template <typename Type>
-ul DefaultID<Type>::GetID() const
+uli DefaultID<Type>::GetID() const
 {
-	return id;
-}*/
+	return cl_id;
+}
 
 template <typename Type>
 Type DefaultID<Type>::GetType() const
 {
-	return t;
+	return cl_type;
 }
 
 template <typename Type>
 std::ostream& operator<<(std::ostream& oStr, const DefaultID<Type>& ID)
 {
-	oStr << "Логин: " << ID.id << std::endl;
-	oStr << "Права доступа: " << OutputEnum(AJIOBTypes::PrivelegeFieldsAsVector, static_cast<int>(ID.t)) << std::endl;
+	oStr << "Логин: " << ID.cl_id << std::endl;
+	oStr << "Права доступа: " << OutputEnum(AJIOBTypes::PrivelegeFieldsAsVector, static_cast<int>(ID.cl_type)) << std::endl;
 	return oStr;
 }
 
 template <typename Type>
 std::istream& operator>>(std::istream& s, DefaultID<Type>& ID)
 {
-	//s << "Логин: " << ID.id << std::endl;
-	//s << "Права доступа: " << ID.t << std::endl;
-
 	OutputConsole("Введите уникальный числовой идентификатор пользователя: ");
-	ID.id = Input<ul>();
+	ID.cl_id = Stream::Input<uli>();
 	OutputConsole("Введите права доступа пользователя: ");
-	ID.t = static_cast<AJIOBTypes::PrivelegeType> (InputEnum(AJIOBTypes::PrivelegeFieldsAsVector));
+	ID.cl_type = static_cast<AJIOBTypes::PrivelegeType> (Stream::InputEnum(AJIOBTypes::PrivelegeFieldsAsVector));
 
 	return s;
 }

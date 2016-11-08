@@ -24,11 +24,14 @@ protected:
 //protected:
 	void WriteAllIfNeed();
 
-	virtual void UpdateElementWithIndex(int index) = 0;
+	virtual bool UpdateElement(oneElementOfDB&) = 0;
+	void* GetMe();
 
 public:
 	DefaultDB(const std::string& wayToFile, bool isReadOnly = true);
-	~DefaultDB();
+	virtual ~DefaultDB();
+
+	virtual void SaveChangesToFile();
 
 	//методы
 	virtual void ReadAll();
@@ -38,6 +41,9 @@ public:
 	virtual void Show() const;
 	virtual void Update();
 	virtual void Delete();
+
+	void SetReadOnly(const bool isReadOnly);
+	bool GetReadOnly() const;
 };
 
 
@@ -59,7 +65,7 @@ void DefaultDB<oneElementOfDB>::ReadAll()
 	for (size_t i = 0; i < n; ++i)
 	{
 		it = 0;
-		cl_ourArray.push_back(oneElementOfDB(ReadStringFromFile(), it));
+		cl_ourArray.push_back(oneElementOfDB(ReadStringFromFile(), it, GetMe()));
 	}
 
 	cl_isChanged = false;
@@ -98,7 +104,7 @@ void DefaultDB<oneElementOfDB>::Add()
 
 	ClearConsole();
 
-	oneElementOfDB buff;
+	oneElementOfDB buff(GetMe());
 
 	do
 	{
@@ -106,7 +112,7 @@ void DefaultDB<oneElementOfDB>::Add()
 		ClearConsole();
 		OutputConsole("Пожалуйста, проверьте правильность распознавания введенной Вами информации");
 		std::cout << buff;
-	} while (GetOnlyYN("Повторить ввод данной информации?") == 'Y');
+	} while (Stream::GetOnlyYN("Всё введено корректно?") == 'N');
 
 	cl_ourArray.push_back(buff);
 	cl_isChanged = true;
@@ -117,9 +123,14 @@ void DefaultDB<oneElementOfDB>::Show() const
 {
 	try
 	{
+		if (cl_ourArray.empty())
+		{
+			OutputConsole("Пусто");
+		}
+
 		for (auto i = 0; i < cl_ourArray.size(); ++i)
 		{
-			OutputConsole(StringCat(std::string("Элемент №"), i + 1));
+			OutputConsole(std::string("Элемент №") + AJIOBStringFuncs::IntToString(i + 1));
 			std::cout << cl_ourArray[i] << std::endl;
 		}
 	}
@@ -137,7 +148,7 @@ void DefaultDB<oneElementOfDB>::Update()
 	{
 		try
 		{
-			index = InputInRange("Введите индекс элемента, который вы хотите обновить:", 1, static_cast<int> (cl_ourArray.size())) - 1;
+			index = Stream::InputInRange("Введите индекс элемента, который вы хотите обновить:", 1, static_cast<int> (cl_ourArray.size())) - 1;
 			std::cout << cl_ourArray[index];
 		}
 		catch(const MinMaxException&)
@@ -145,11 +156,12 @@ void DefaultDB<oneElementOfDB>::Update()
 			OutputConsole("База данных пуста.");
 			return;
 		}
-	} while (GetOnlyYN("Вы хотите обновить именно этот элемент?") == 'N');
+	} while (Stream::GetOnlyYN("Вы хотите обновить именно этот элемент?") == 'N');
 
-	UpdateElementWithIndex(index);
-
-	cl_isChanged = true;
+	if (UpdateElement(cl_ourArray[index]))
+	{
+		cl_isChanged = true;
+	}
 }
 
 template <typename oneElementOfDB>
@@ -162,18 +174,47 @@ void DefaultDB<oneElementOfDB>::Delete()
 
 	ClearConsole();
 
-	try
+	int delPos = 0;
+
+	do
 	{
-		int delPos = InputInRange("Введите № удаляемого элемента:", 1, static_cast<int> (cl_ourArray.size())) - 1;
-		cl_ourArray.erase(cl_ourArray.begin() + delPos);
-	}
-	catch(const MinMaxException&)
-	{
-		OutputConsole("База данных пуста. Нечего удалять");
-		return;
-	}
+		try
+		{
+			 delPos = Stream::InputInRange("Введите № удаляемого элемента:", 1, static_cast<int> (cl_ourArray.size())) - 1;
+			 std::cout << cl_ourArray.at(delPos);
+		}
+		catch(const MinMaxException&)
+		{
+			OutputConsole("База данных пуста. Нечего удалять");
+			return;
+		}
+
+	} while (Stream::GetOnlyYN("Вы хотите обновить именно этот элемент?") == 'N');
+
+	cl_ourArray.erase(cl_ourArray.begin() + delPos);
 
 	cl_isChanged = true;
+}
+
+template <typename oneElementOfDB>
+void DefaultDB<oneElementOfDB>::SetReadOnly(const bool isReadOnly)
+{
+	if (cl_readOnly)
+	{
+		ReadAll();
+	}
+	else
+	{
+		WriteAllIfNeed();
+	}
+
+	cl_readOnly = isReadOnly;
+}
+
+template <typename oneElementOfDB>
+bool DefaultDB<oneElementOfDB>::GetReadOnly() const
+{
+	return cl_readOnly;
 }
 
 template <typename oneElementOfDB>
@@ -184,11 +225,21 @@ void DefaultDB<oneElementOfDB>::WriteAllIfNeed()
 		return;
 	}
 
-	if (GetOnlyYN("Вы хотите сохранить изменения?") == 'Y')
+	if (Stream::GetOnlyYN("Вы хотите сохранить изменения?") == 'Y')
 	{
 		WriteAll();
 	}
+
+	//нужно было сохранять
+	cl_isChanged = false;
 }
+
+template <typename oneElementOfDB>
+void* DefaultDB<oneElementOfDB>::GetMe()
+{
+	return reinterpret_cast<void*> (this);
+}
+
 
 template <typename oneElementOfDB>
 DefaultDB<oneElementOfDB>::DefaultDB(const std::string& wayToFile, bool isReadOnly = true) : AJIOB_BinaryFileInputOutput(wayToFile)
@@ -203,4 +254,17 @@ template <typename oneElementOfDB>
 DefaultDB<oneElementOfDB>::~DefaultDB()
 {
 	WriteAllIfNeed();
+}
+
+template <typename oneElementOfDB>
+void DefaultDB<oneElementOfDB>::SaveChangesToFile()
+{
+	if (cl_readOnly || !cl_isChanged)
+	{
+		OutputConsole("В файле записана актуальная информация");
+		return;
+	}
+
+	WriteAll();
+	OutputConsole("Все изменения успешно сохранены");
 }

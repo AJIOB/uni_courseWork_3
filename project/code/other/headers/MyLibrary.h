@@ -24,7 +24,7 @@ inline void programEnd()
 {
 	OutputConsole("Программа завершила свою работу. Для выхода введите любой символ");
 	OutputLog("Завершение программы", true);
-	Get();
+	Stream::Get();
 	//fflush(stdin);
 	//std::cin.get();
 }

@@ -2,18 +2,31 @@
 #include <string>
 
 #include "../../../model/exceptions/AllExceptions.h"
-
-typedef unsigned int strPos;
-
-class BStringIO
+#include "../../one element of db/headers/Publisher.h"
+/*
+namespace OneElementOf
 {
-public:
+	class Publisher;
+}*/
+
+#ifndef AJIOB_BStringIO_header
+#define AJIOB_BStringIO_header
+
+#ifndef AJIOB_STRPOS
+#define AJIOB_STRPOS
+typedef unsigned int strPos;
+#endif
+
+namespace BStringIO
+{
 	template <typename InfoType>
-	static InfoType ReadBInfo(const std::string& str, strPos& iterator);
+	InfoType ReadBInfo(const std::string& str, strPos& iterator);
 
 	template <typename InfoType>
-	static std::string GetBString(InfoType info);
-};
+	std::string GetBString(const InfoType& info);
+}
+
+#endif
 
 
 //default
@@ -33,9 +46,9 @@ InfoType BStringIO::ReadBInfo(const std::string& str, strPos& iterator)
 }
 
 template <typename InfoType>
-std::string BStringIO::GetBString(InfoType info)
+std::string BStringIO::GetBString(const InfoType& info)
 {
-	char* tmp = reinterpret_cast<char *> (&info);
+	const char* tmp = reinterpret_cast<const char *> (&info);
 	return std::string(tmp, sizeof InfoType);
 }
 
@@ -58,7 +71,36 @@ inline std::string BStringIO::ReadBInfo<std::string>(const std::string& str, str
 }
 
 template <>
-inline std::string BStringIO::GetBString(std::string info)
+inline std::string BStringIO::GetBString(const std::string& info)
 {
 	return (GetBString(info.length()) + info);
+}
+
+
+//for publisher
+template <>
+inline OneElementOf::Publisher BStringIO::ReadBInfo<OneElementOf::Publisher>(const std::string& str, strPos& iterator)
+{
+	return OneElementOf::Publisher(str, iterator, nullptr);
+
+	/*
+	size_t len = ReadBInfo<size_t>(str, iterator);
+	if (iterator + len > str.length())
+	{
+		throw MyException("Ошибка чтения из бинарной строки. Выход за пределы.");
+	}
+
+	//переписываем саму строку
+	std::string to_return (str.begin() + iterator, str.begin() + iterator + len);
+	iterator += len;
+
+	return to_return;*/
+}
+
+template <>
+inline std::string BStringIO::GetBString<OneElementOf::Publisher>(const OneElementOf::Publisher& info)
+{
+	//return (GetBString(info.length()) + info);
+	//return std::string();
+	return info.BRead();
 }

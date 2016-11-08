@@ -1,13 +1,13 @@
 #include "../headers/StreamInput.h"
 
-char GetOnlyYN(const std::string& infoText)
+char Stream::GetOnlyYN(const std::string& infoText)
 {
 	char result;
 
 	while (true)
 	{
 		OutputConsole(infoText +  " (Y - да, N - нет)");
-		result = Get();
+		result = Stream::Get();
 
 		if (result == 'y' || (result == 'n'))
 		{
@@ -26,7 +26,7 @@ char GetOnlyYN(const std::string& infoText)
 	return result;
 }
 
-int InputEnum(const std::vector<std::string>& texts, int numOfTheFirstElementToShow)
+int Stream::InputEnum(const std::vector<std::string>& texts, int numOfTheFirstElementToShow)
 {
 	int result = 0;
 
@@ -42,14 +42,14 @@ int InputEnum(const std::vector<std::string>& texts, int numOfTheFirstElementToS
 
 		if ((std::cin >> result) && (result >= numOfTheFirstElementToShow) && (result < static_cast<long int>(texts.size())))
 		{
-			ClearStream();
+			Clear();
 			break;
 		}		
 
-		ClearStream();
+		Clear();
 		ClearConsole();
 
-		OutputWarning("Извините, такой вариант нельзя ввести. Пожалуйста, введите что-либо из вышепредложенных вариантов");
+		OutputWarning("Извините, такой вариант нельзя ввести. Пожалуйста, введите что-либо из нижепредложенных вариантов");
 	}
 
 	return result;

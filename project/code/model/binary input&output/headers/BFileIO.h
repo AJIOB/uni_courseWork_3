@@ -32,25 +32,17 @@ protected:
 	std::ifstream fin;
 	//путь к файлу с его именем
 	std::string cl_fileName;
-	//позиция, с которой читать
-	//int cl_inputPos;
-
+	
 	//методы для открытия/закрытия файла
 	bool FileOpenIn();
 	bool FileOpenOut();
 	bool FileReset(bool nothrow = false);
 	void FileClose();
-	//временно public
-//public:
+	
 	std::string ReadStringFromFile();
-	/*
-	int readIntFromFile();
-	double readDoubleFromFile();
-*/
-	bool WriteStringToFile(const std::string& info);/*
-	bool writeIntToFile(const int& info);
-	bool writeDoubleToFile(const double& info);
-	*/
+	
+	bool WriteStringToFile(const std::string& info);
+
 public:
 	AJIOB_BinaryFileInputOutput(const std::string& fileName);
 	virtual ~AJIOB_BinaryFileInputOutput();

@@ -12,7 +12,7 @@
 
 class AuthClass
 {
-	const LoginDBClass* loginDB;
+	LoginDBClass* loginDB;
 	bool isGetDBbyExternal;
 
 	OneElementOf::Auth CurrentUser;
@@ -21,10 +21,10 @@ public:
 	//конструктор (загрузка из БД)
 	AuthClass();
 
-	AuthClass(const LoginDBClass* loginDB);
+	AuthClass(LoginDBClass* loginDB);
 	//деструктор
 	~AuthClass();
 
 	//основная функция. Возвращает ID авторизованного пользователя
-	DefaultID<AJIOBTypes::PrivelegeType> run() const;
+	OneElementOf::Auth run();
 };
