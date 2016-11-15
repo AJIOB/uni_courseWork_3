@@ -11,7 +11,7 @@ std::ostream& OneElementOf::operator<<(std::ostream& s, const Publisher& that)
 
 std::istream& OneElementOf::operator>>(std::istream& s, Publisher& that)
 {
-	OutputConsole("Введите название:");
+	OutputConsole("Введите название издательства:");
 	Stream::Input(that.cl_name);
 	OutputConsole("Введите город дислокации:");
 	Stream::Input(that.cl_city);
@@ -52,6 +52,12 @@ OneElementOf::Publisher::~Publisher()
 {
 }
 
+bool OneElementOf::Publisher::AddISBNPart(const ISBNOnePart& newISBNPart)
+{
+	cl_ISBN_PublisherPart.push_back(newISBNPart);
+	return true;
+}
+
 OneElementOf::Publisher& OneElementOf::Publisher::operator=(const Publisher& that)
 {
 	cl_name = that.cl_name;
@@ -59,6 +65,21 @@ OneElementOf::Publisher& OneElementOf::Publisher::operator=(const Publisher& tha
 	cl_ISBN_PublisherPart = that.cl_ISBN_PublisherPart;
 	cl_parent = that.cl_parent;
 	return (*this);
+}
+
+std::string OneElementOf::Publisher::GetName() const
+{
+	return cl_name;
+}
+
+std::string OneElementOf::Publisher::GetCity() const
+{
+	return cl_city;
+}
+
+MyContainer<ISBNOnePart> OneElementOf::Publisher::GetISBNParts() const
+{
+	return cl_ISBN_PublisherPart;
 }
 
 std::string OneElementOf::Publisher::BRead() const
@@ -85,21 +106,6 @@ bool OneElementOf::Publisher::InputNewName()
 	(*this) = buffer;
 	return true;
 }
-/*
-bool OneElementOf::Publisher::InputNewCountry()
-{
-	Publisher buffer(*this);
-	do
-	{
-		OutputConsole("Введите новый ISBN страны.");
-		//Stream::Input(buffer.cl_countryISBNPart);
-		OutputConsole("Измененный элемент:");
-		std::cout << buffer;
-	} while (Stream::GetOnlyYN("Всё ли введено правильно?") == 'N');
-
-	(*this) = buffer;
-	return true;
-}*/
 
 bool OneElementOf::Publisher::InputNewCity()
 {
@@ -114,4 +120,79 @@ bool OneElementOf::Publisher::InputNewCity()
 
 	(*this) = buffer;
 	return true;
+}
+
+bool OneElementOf::Publisher::WorkWithISBNPart()
+{
+	return cl_ISBN_PublisherPart.OperationsWithElements();
+}
+
+bool OneElementOf::Publisher::EqualByName(const Publisher& that) const
+{
+	return (this->cl_name == that.cl_name);
+}
+
+bool OneElementOf::Publisher::EqualByNameAndCity(const Publisher& that) const
+{
+	return ((this->cl_name == that.cl_name) && (this->cl_city == that.cl_city));
+}
+
+bool OneElementOf::Publisher::EqualByISBNPart(const ISBNOnePart& ISBNpart) const
+{
+	if (this->cl_ISBN_PublisherPart.Find(ISBNpart) >= 0)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool OneElementOf::Publisher::operator==(const Publisher& that) const
+{
+	return EqualByNameAndCity(that);
+}
+
+bool OneElementOf::Publisher::UpdateMe()
+{
+	ClearConsole();
+	bool isUpdated = false;
+
+	do
+	{
+		std::cout << "Выберите, пожалуйста, что вы хотите сделать:" << std::endl;
+		std::cout << "1) Просмотреть элемент" << std::endl;
+		std::cout << "2) Изменить название издательства" << std::endl;
+		std::cout << "3) Изменить город расположения издательства" << std::endl;
+		std::cout << "4) Поработать с ISBN идентификаторами издательства" << std::endl;
+		std::cout << "0) Назад" << std::endl;
+		std::cout << "Пожалуйста, сделайте свой выбор" << std::endl;
+	
+		auto k = Stream::Get();
+		
+		switch (k)
+		{
+		case '0':
+			return isUpdated;
+		case '1':
+			std::cout << *this << std::endl;
+			break;
+		case '2':
+			if (this->InputNewName()) isUpdated = true;
+			break;
+		case '3':
+			if (this->InputNewCity()) isUpdated = true;
+			break;
+		case '4':
+			if (this->WorkWithISBNPublisherPart()) isUpdated = true;
+			break;
+		default:
+			OutputWarning("Извините, такого варианта не существует. Пожалуйста, повторите выбор");
+		}
+
+		PauseConsole();
+		ClearConsole();
+	}
+	while (true);
+
+
+	return false;
 }

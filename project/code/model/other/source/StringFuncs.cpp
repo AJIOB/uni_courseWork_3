@@ -71,3 +71,25 @@ void AJIOBStringFuncs::Invert(std::string& str)
 		str[j] = tmp;
 	}
 }
+
+std::vector<std::string> AJIOBStringFuncs::BreakStringToArrayOfUIntStrings(const std::string& str, const char devider)
+{
+	std::vector<std::string> result;
+	std::string buff;
+
+	for (auto it = str.begin(); it != str.end(); ++it)
+	{
+		if ((*it) == devider)
+		{
+			result.push_back(buff);
+			buff.clear();
+			continue;
+		}
+
+		buff.push_back(*it);
+	}
+
+	result.push_back(buff);
+
+	return result;
+}

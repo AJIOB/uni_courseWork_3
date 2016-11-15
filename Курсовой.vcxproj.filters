@@ -153,9 +153,6 @@
     <ClInclude Include="project\code\view\headers\StreamOutput.h">
       <Filter>view\headers</Filter>
     </ClInclude>
-    <ClInclude Include="project\code\model\exceptions\headers\MinMaxException.h">
-      <Filter>model\exceptions\headers</Filter>
-    </ClInclude>
     <ClInclude Include="project\code\model\exceptions\headers\MyException.h">
       <Filter>model\exceptions\headers</Filter>
     </ClInclude>
@@ -184,6 +181,27 @@
       <Filter>model\dbs\headers</Filter>
     </ClInclude>
     <ClInclude Include="project\code\model\other\headers\ISBNOnePart.h">
+      <Filter>model\other\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\one element of db\headers\Publication.h">
+      <Filter>model\OneElementOf\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\other\headers\ISBNClass.h">
+      <Filter>model\other\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\enums\ISBNType.h">
+      <Filter>model\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\exceptions\headers\RangeException.h">
+      <Filter>model\exceptions\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\dbs\headers\PublicationDBClass.h">
+      <Filter>model\dbs\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\one element of db\headers\Copies.h">
+      <Filter>model\OneElementOf\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\other\headers\IsPublicationGetted.h">
       <Filter>model\other\headers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -239,5 +257,23 @@
     <ClCompile Include="project\code\model\other\source\ISBNOnePart.cpp">
       <Filter>model\other\source</Filter>
     </ClCompile>
+    <ClCompile Include="project\code\model\one element of db\source\Publication.cpp">
+      <Filter>model\OneElementOf\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\model\other\source\ISBNClass.cpp">
+      <Filter>model\other\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\model\dbs\source\PublicationDBClass.cpp">
+      <Filter>model\dbs\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\model\one element of db\source\Copies.cpp">
+      <Filter>model\OneElementOf\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\model\other\source\IsPublicationGetted.cpp">
+      <Filter>model\other\source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

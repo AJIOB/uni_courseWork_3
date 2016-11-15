@@ -3,11 +3,6 @@
 
 #include "../../../model/exceptions/AllExceptions.h"
 #include "../../one element of db/headers/Publisher.h"
-/*
-namespace OneElementOf
-{
-	class Publisher;
-}*/
 
 #ifndef AJIOB_BStringIO_header
 #define AJIOB_BStringIO_header

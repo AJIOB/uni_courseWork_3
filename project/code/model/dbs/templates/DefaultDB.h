@@ -37,13 +37,16 @@ public:
 	virtual void ReadAll();
 	virtual void WriteAll();
 
-	virtual void Add();
+	virtual void Add(bool IsUnique = false);
 	virtual void Show() const;
 	virtual void Update();
 	virtual void Delete();
+	virtual int Find(const oneElementOfDB& elem) const;
 
 	void SetReadOnly(const bool isReadOnly);
 	bool GetReadOnly() const;
+
+	virtual void SomethingIsChanged();
 };
 
 
@@ -91,11 +94,12 @@ void DefaultDB<oneElementOfDB>::WriteAll()
 		WriteStringToFile(it->BRead());
 	}
 
+	FileClose();
 	cl_isChanged = false;
 }
 
 template <typename oneElementOfDB>
-void DefaultDB<oneElementOfDB>::Add()
+void DefaultDB<oneElementOfDB>::Add(bool isUnique)
 {
 	if (cl_readOnly)
 	{
@@ -112,10 +116,27 @@ void DefaultDB<oneElementOfDB>::Add()
 		ClearConsole();
 		OutputConsole("Пожалуйста, проверьте правильность распознавания введенной Вами информации");
 		std::cout << buff;
-	} while (Stream::GetOnlyYN("Всё введено корректно?") == 'N');
 
-	cl_ourArray.push_back(buff);
-	cl_isChanged = true;
+		if (Stream::GetOnlyYN("Всё введено корректно?") == 'N')
+		{
+			continue;
+		}
+
+		if (isUnique && (Find(buff) >= 0))
+		{
+			if (Stream::GetOnlyYN("Извините, такой объект уже имеется. Отменить ввод?") == 'Y')
+			{
+				return;
+			}
+
+			continue;
+		}
+
+		cl_ourArray.push_back(buff);
+		cl_isChanged = true;
+
+		break;
+	} while (true);
 }
 
 template <typename oneElementOfDB>
@@ -151,7 +172,7 @@ void DefaultDB<oneElementOfDB>::Update()
 			index = Stream::InputInRange("Введите индекс элемента, который вы хотите обновить:", 1, static_cast<int> (cl_ourArray.size())) - 1;
 			std::cout << cl_ourArray[index];
 		}
-		catch(const MinMaxException&)
+		catch(const RangeException&)
 		{
 			OutputConsole("База данных пуста.");
 			return;
@@ -183,17 +204,30 @@ void DefaultDB<oneElementOfDB>::Delete()
 			 delPos = Stream::InputInRange("Введите № удаляемого элемента:", 1, static_cast<int> (cl_ourArray.size())) - 1;
 			 std::cout << cl_ourArray.at(delPos);
 		}
-		catch(const MinMaxException&)
+		catch(const RangeException&)
 		{
 			OutputConsole("База данных пуста. Нечего удалять");
 			return;
 		}
 
-	} while (Stream::GetOnlyYN("Вы хотите обновить именно этот элемент?") == 'N');
+	} while (Stream::GetOnlyYN("Вы хотите удалить именно этот элемент?") == 'N');
 
 	cl_ourArray.erase(cl_ourArray.begin() + delPos);
 
 	cl_isChanged = true;
+}
+
+template <typename oneElementOfDB>
+int DefaultDB<oneElementOfDB>::Find(const oneElementOfDB& elem) const
+{
+	for (auto i = 0; i < cl_ourArray.size(); ++i)
+	{
+		if (cl_ourArray[i] == elem)
+		{
+			return i;
+		}
+	}
+	return -1;
 }
 
 template <typename oneElementOfDB>
@@ -218,6 +252,12 @@ bool DefaultDB<oneElementOfDB>::GetReadOnly() const
 }
 
 template <typename oneElementOfDB>
+void DefaultDB<oneElementOfDB>::SomethingIsChanged()
+{
+	cl_isChanged = true;
+}
+
+template <typename oneElementOfDB>
 void DefaultDB<oneElementOfDB>::WriteAllIfNeed()
 {
 	if (cl_readOnly || !cl_isChanged)
@@ -239,7 +279,6 @@ void* DefaultDB<oneElementOfDB>::GetMe()
 {
 	return reinterpret_cast<void*> (this);
 }
-
 
 template <typename oneElementOfDB>
 DefaultDB<oneElementOfDB>::DefaultDB(const std::string& wayToFile, bool isReadOnly = true) : AJIOB_BinaryFileInputOutput(wayToFile)

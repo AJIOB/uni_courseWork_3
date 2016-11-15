@@ -60,9 +60,22 @@ bool ISBNOnePart::operator==(const ISBNOnePart& that) const
 	return true;
 }
 
+bool ISBNOnePart::operator!=(const ISBNOnePart& that) const
+{
+	return (!operator==(that));
+}
+
+bool ISBNOnePart::UpdateMe()
+{
+	OutputConsole("¬ведите новое значение ISBN части");
+	Stream::Input(*this);
+
+	return true;
+}
+
 std::ostream& operator<<(std::ostream& s, const ISBNOnePart& elem)
 {
-	s << elem.GetString();
+	s << elem.GetString() << std::endl;
 	return s;
 }
 

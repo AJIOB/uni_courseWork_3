@@ -33,6 +33,9 @@ struct ISBNOnePart
 	bool SetString(const std::string& num);
 
 	bool operator==(const ISBNOnePart& that) const;
+	bool operator!=(const ISBNOnePart& that) const;
+
+	bool UpdateMe();
 };
 
 std::ostream& operator<<(std::ostream& s, const ISBNOnePart& elem);

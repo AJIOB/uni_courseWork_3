@@ -104,5 +104,6 @@ void CryptedDB<Type>::WriteAll()
 		WriteStringToFile(buffstr);
 	}
 
+	FileClose();
 	cl_isChanged = false;
 }

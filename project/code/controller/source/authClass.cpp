@@ -9,23 +9,23 @@ void AuthClass::AuthProcessing()
 	currentLogin.setPassword(getpass("¬ведите пароль:"));
 }
 */
-AuthClass::AuthClass() : loginDB(new LoginDBClass()), CurrentUser(loginDB)
+AuthClass::AuthClass() : cl_loginDB(new LoginDBClass()), cl_currentUser(cl_loginDB)
 {
 	//loginDB = new LoginDBClass();
-	isGetDBbyExternal = false;
+	cl_isGetDBbyExternal = false;
 }
 
-AuthClass::AuthClass(LoginDBClass* loginDBnew) : CurrentUser(loginDBnew)
+AuthClass::AuthClass(LoginDBClass* loginDBnew) : cl_currentUser(loginDBnew)
 {
-	loginDB = loginDBnew;
-	isGetDBbyExternal = true;
+	cl_loginDB = loginDBnew;
+	cl_isGetDBbyExternal = true;
 }
 
 AuthClass::~AuthClass()
 {
-	if (!isGetDBbyExternal && loginDB)
+	if (!cl_isGetDBbyExternal && cl_loginDB)
 	{
-		delete loginDB;
+		delete cl_loginDB;
 	}
 }
 
@@ -34,7 +34,7 @@ OneElementOf::Auth AuthClass::run()
 	OneElementOf::Auth currentLoginPassword(this);
 	currentLoginPassword.InputAuthFromConsole();
 
-	int index = loginDB->Find(currentLoginPassword);
+	int index = cl_loginDB->Find(currentLoginPassword);
 
 	if (index < 0)
 	{
@@ -43,7 +43,7 @@ OneElementOf::Auth AuthClass::run()
 
 	try
 	{
-		return loginDB->GetElement(index);
+		return cl_loginDB->GetElement(index);
 	}
 	catch(std::out_of_range& e)
 	{

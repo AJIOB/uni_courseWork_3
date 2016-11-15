@@ -46,4 +46,6 @@ protected:
 public:
 	AJIOB_BinaryFileInputOutput(const std::string& fileName);
 	virtual ~AJIOB_BinaryFileInputOutput();
+
+	std::string GetFileName() const;
 };

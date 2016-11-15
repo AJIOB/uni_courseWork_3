@@ -28,12 +28,12 @@ public:
 
 	bool OperationsWithElements();
 
-	bool AddUnique();
+	bool Add(bool isUnique /*= false*/);
 	void Show() const;
 	bool Update();
 	bool Delete();
 
-	int Find(const Type& elementToFind);
+	int Find(const Type& elementToFind) const;
 
 	//MyContainer& operator= (const MyContainer& x);
 };
@@ -79,7 +79,7 @@ bool MyContainer<Type>::OperationsWithElements()
 		std::cout << "Выберите, пожалуйста, что вы хотите сделать:" << std::endl;
 		std::cout << "1) Добавить элемент" << std::endl;
 		std::cout << "2) Просмотреть все элементы" << std::endl;
-		//std::cout << "3) Обновить информацию об элементе" << std::endl;
+		std::cout << "3) Обновить информацию об элементе" << std::endl;
 		std::cout << "4) Удалить элемент" << std::endl;
 		std::cout << "0) Назад" << std::endl;
 		std::cout << "Пожалуйста, сделайте свой выбор" << std::endl;
@@ -91,20 +91,14 @@ bool MyContainer<Type>::OperationsWithElements()
 		case '0':
 			return isUpdated;
 		case '1':
-			if (this->AddUnique())
-			{
-				isUpdated = true;
-			}
+			if (this->Add(true)) isUpdated = true;
 			break;
 		case '2':
 			this->Show();
-			break;/*
+			break;
 		case '3':
-			if (this->Update())
-			{
-				isUpdated = true;
-			}
-			break;*/
+			if (this->Update()) isUpdated = true;
+			break;
 		case '4':
 			if (this->Delete())
 			{
@@ -122,7 +116,7 @@ bool MyContainer<Type>::OperationsWithElements()
 }
 
 template <typename Type>
-bool MyContainer<Type>::AddUnique()
+bool MyContainer<Type>::Add(bool isUnique)
 {
 	ClearConsole();
 
@@ -141,7 +135,7 @@ bool MyContainer<Type>::AddUnique()
 			continue;
 		}
 
-		if (Find(buff) >= 0)
+		if (isUnique && (Find(buff) >= 0))
 		{
 			if (Stream::GetOnlyYN("Извините, такой объект уже имеется. Отменить ввод?") == 'Y')
 			{
@@ -190,24 +184,14 @@ bool MyContainer<oneElementOfDB>::Update()
 			index = Stream::InputInRange("Введите индекс элемента, который вы хотите обновить:", 1, static_cast<int> (this->size())) - 1;
 			std::cout << this->at(index);
 		}
-		catch(const MinMaxException&)
+		catch(const RangeException&)
 		{
 			OutputConsole("База данных пуста.");
 			return false;
 		}
 	} while (Stream::GetOnlyYN("Вы хотите обновить именно этот элемент?") == 'N');
 
-	/*
-
-
-
-
-	if (UpdateElement(cl_ourArray[index]))
-	{
-		return true;
-	}*/
-
-	return false;
+	return (this->at(index).UpdateMe());
 }
 
 template <typename oneElementOfDB>
@@ -225,12 +209,12 @@ bool MyContainer<oneElementOfDB>::Delete()
 			 std::cout << this->at(delPos);
 
 		}
-		catch(const MinMaxException&)
+		catch(const RangeException&)
 		{
 			OutputConsole("База данных пуста. Нечего удалять");
 			return false;
 		}
-	} while (Stream::GetOnlyYN("Вы хотите обновить именно этот элемент?") == 'N');
+	} while (Stream::GetOnlyYN("Вы хотите удалить именно этот элемент?") == 'N');
 
 	this->erase(this->begin() + delPos);
 		
@@ -239,7 +223,7 @@ bool MyContainer<oneElementOfDB>::Delete()
 }
 
 template <typename Type>
-int MyContainer<Type>::Find(const Type& elementToFind)
+int MyContainer<Type>::Find(const Type& elementToFind) const
 {
 	for (int i = 0; i < this->size(); i++)
 	{

@@ -1,4 +1,6 @@
-﻿#include "headers/MyLibrary.h"
+﻿#include <windows.h>
+
+#include "headers/MyLibrary.h"
 
 int main()
 {

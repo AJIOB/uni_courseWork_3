@@ -12,10 +12,10 @@
 
 class AuthClass
 {
-	LoginDBClass* loginDB;
-	bool isGetDBbyExternal;
+	LoginDBClass* cl_loginDB;
+	bool cl_isGetDBbyExternal;
 
-	OneElementOf::Auth CurrentUser;
+	OneElementOf::Auth cl_currentUser;
 
 public:
 	//конструктор (загрузка из БД)

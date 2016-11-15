@@ -11,4 +11,6 @@ namespace AJIOBStringFuncs
 	long int StringToInt(const std::string& text);
 
 	void Invert(std::string& str);
+
+	std::vector<std::string> BreakStringToArrayOfUIntStrings(const std::string& str, const char devider = ' ');
 }

@@ -13,6 +13,10 @@ AJIOB_BinaryFileInputOutput::~AJIOB_BinaryFileInputOutput()
 	FileClose();
 }
 
+std::string AJIOB_BinaryFileInputOutput::GetFileName() const
+{
+	return cl_fileName;
+}
 
 bool AJIOB_BinaryFileInputOutput::FileOpenIn()
 {

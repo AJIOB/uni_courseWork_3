@@ -18,7 +18,7 @@ public:
 	void Save();
 	void Unload();
 
-	void Add() override;
+	void Add();
 	void Show() const override;
 	int Find(const OneElementOf::Auth& currLP) const;
 	void Update() override;
@@ -28,5 +28,5 @@ public:
 	const OneElementOf::Auth& GetElement(int index) const;
 	OneElementOf::Auth& operator[](int index);
 
-	void SomethingIsChanged();
+	void SomethingIsChanged() override;
 };

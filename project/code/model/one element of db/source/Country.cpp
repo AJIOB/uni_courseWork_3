@@ -1,4 +1,5 @@
 ﻿#include "../headers/Country.h"
+#include "../../dbs/headers/CountryDBClass.h"
 
 std::ostream& OneElementOf::operator<<(std::ostream& s, const Country& that)
 {
@@ -12,8 +13,20 @@ std::istream& OneElementOf::operator>>(std::istream& s, Country& that)
 {
 	OutputConsole("Введите название региона (страны):");
 	Stream::Input(that.cl_nameOfCountry);
+
+	if ((that.cl_parentDB) && (that.cl_parentDB->FindByName(that.cl_nameOfCountry) >= 0))
+	{
+		return s;
+	}
+
 	OutputConsole("Введите ISBN часть кода региона (страны):");
 	Stream::Input(that.cl_countryISBNPart);
+	
+	if ((that.cl_parentDB) && (that.cl_parentDB->FindByISBNPart(that.cl_countryISBNPart) >= 0))
+	{
+		return s;
+	}
+
 	OutputConsole("Введите издательство региона (страны):");
 	Stream::Input(that.cl_publishers);
 	return s;
@@ -32,6 +45,52 @@ void OneElementOf::Country::BWrite(const std::string& bInfo, strPos& it)
 	}
 
 	(*this) = buffer;
+}
+
+bool OneElementOf::Country::AddByISBN(const ISBNClass& num)
+{
+	if (cl_countryISBNPart != num[1])
+	{
+		return false;
+	}
+
+	//ищем, а вдруг есть уже такой номер
+	for (auto it1 = cl_publishers.begin(); it1 != cl_publishers.end(); ++it1)
+	{
+		for (auto it2 = it1->cl_ISBN_PublisherPart.begin(); it2 != it1->cl_ISBN_PublisherPart.end(); ++it2)
+		{
+			if ((*it2) == num[2])
+			{
+				return false;
+			}
+		}
+	}
+
+	OneElementOf::Publisher tmpPublisher;
+	OutputConsole("Введите название издательства:");
+	Stream::Input(tmpPublisher.cl_name);
+	OutputConsole("Введите город расположения издательства:");
+	Stream::Input(tmpPublisher.cl_city);
+
+	int indexOfPublisher = cl_publishers.Find(tmpPublisher);
+	if (indexOfPublisher < 0)
+	{
+		indexOfPublisher = cl_publishers.size();
+		cl_publishers.push_back(tmpPublisher);
+	}
+
+	cl_publishers[indexOfPublisher].cl_ISBN_PublisherPart.push_back(num[2]);
+	return true;
+}
+
+OneElementOf::Country& OneElementOf::Country::GetParentElement(const int index) const
+{
+	if ((index < 0) || (index >= cl_parentDB->cl_ourArray.size()))
+	{
+		throw RangeException();
+	}
+
+	return (cl_parentDB->cl_ourArray[index]);
 }
 
 OneElementOf::Country::Country(void* parentDB) : cl_countryISBNPart()
@@ -64,15 +123,25 @@ OneElementOf::Country& OneElementOf::Country::operator=(const Country& that)
 	return (*this);
 }
 
-std::string OneElementOf::Country::BRead()
+std::string OneElementOf::Country::GetName() const
+{
+	return cl_nameOfCountry;
+}
+
+ISBNOnePart OneElementOf::Country::GetISBNPart() const
+{
+	return cl_countryISBNPart;
+}
+
+MyContainer<OneElementOf::Publisher> OneElementOf::Country::GetPublishers() const
+{
+	return cl_publishers;
+}
+
+std::string OneElementOf::Country::BRead() const
 {
 	return (BStringIO::GetBString(cl_nameOfCountry) + BStringIO::GetBString(cl_countryISBNPart) + cl_publishers.BRead());
 }
-/*
-bool OneElementOf::Country::WorkWithISBNCountryPart()
-{
-	return cl_ISBN_CountryPart.OperationsWithElements();
-}*/
 
 bool OneElementOf::Country::InputNewName()
 {
@@ -104,7 +173,32 @@ bool OneElementOf::Country::InputNewISBNPart()
 	return true;
 }
 
+bool OneElementOf::Country::WorkWithPublishers()
+{
+	return cl_publishers.OperationsWithElements();
+}
+
+int OneElementOf::Country::FindByName(const std::string& name)
+{
+	for (auto i = 0; i < cl_publishers.size(); ++i)
+	{
+		if (cl_publishers[i].cl_name == name)
+		{
+			return i;
+		}
+	}
+
+	return  -1;
+}
+
+
+
 bool OneElementOf::Country::EqualByISBNPart(const Country& that) const
 {
 	return (cl_countryISBNPart == that.cl_countryISBNPart);
+}
+
+bool OneElementOf::Country::operator==(const Country& that) const
+{
+	return EqualByISBNPart(that);
 }

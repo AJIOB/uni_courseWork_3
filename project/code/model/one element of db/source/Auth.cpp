@@ -2,7 +2,7 @@
 
 void OneElementOf::Auth::BWrite(const std::string& bInfo, strPos& it)
 {
-	DefaultID <AJIOBTypes::PrivelegeType> buflogin(bInfo, it);
+	DefaultID <AJIOBTypes::PrivelegeType::PrivelegeType> buflogin(bInfo, it);
 	cl_login = buflogin;
 	cl_password = BStringIO::ReadBInfo<std::string>(bInfo, it);
 }
@@ -37,7 +37,7 @@ OneElementOf::Auth& OneElementOf::Auth::operator=(const Auth& that)
 	return (*this);
 }
 
-DefaultID<AJIOBTypes::PrivelegeType> OneElementOf::Auth::GetLogin() const
+DefaultID<AJIOBTypes::PrivelegeType::PrivelegeType> OneElementOf::Auth::GetLogin() const
 {
 	return this->cl_login;
 }

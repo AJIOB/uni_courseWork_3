@@ -115,5 +115,5 @@ OneElementOf::Auth& LoginDBClass::operator[](int index)
 
 void LoginDBClass::SomethingIsChanged()
 {
-	cl_isChanged = true;
+	CryptedDB<OneElementOf::Auth>::SomethingIsChanged();
 }

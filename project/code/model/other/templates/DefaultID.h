@@ -157,7 +157,7 @@ std::istream& operator>>(std::istream& s, DefaultID<Type>& ID)
 	OutputConsole("Введите уникальный числовой идентификатор пользователя: ");
 	ID.cl_id = Stream::Input<uli>();
 	OutputConsole("Введите права доступа пользователя: ");
-	ID.cl_type = static_cast<AJIOBTypes::PrivelegeType> (Stream::InputEnum(AJIOBTypes::PrivelegeFieldsAsVector));
+	ID.cl_type = static_cast<AJIOBTypes::PrivelegeType::PrivelegeType> (Stream::InputEnum(AJIOBTypes::PrivelegeFieldsAsVector));
 
 	return s;
 }

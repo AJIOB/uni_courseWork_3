@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "MyException.h"
 
-class MinMaxException : public MyException
+class RangeException : public MyException
 {
 	
 };

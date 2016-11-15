@@ -76,53 +76,6 @@ void AJIOBMenuClass::WithLoginDB()
 	while (true);
 }
 
-void AJIOBMenuClass::WithPublisherDB()
-{/*
-	ClearConsole();
-	std::cout << "Взаимодействие с базой данных издательств" << std::endl;
-
-	do
-	{		
-		std::cout << "Выберите, пожалуйста, что вы хотите сделать:" << std::endl;
-		std::cout << "1) Добавить издательство" << std::endl;
-		std::cout << "2) Просмотреть все издательства" << std::endl;
-		std::cout << "3) Обновить информацию об издательстве" << std::endl;
-		std::cout << "4) Удалить издательство" << std::endl;
-		std::cout << "9) Сохранить информацию в файл" << std::endl;
-		std::cout << "0) Назад" << std::endl;
-		std::cout << "Пожалуйста, сделайте свой выбор" << std::endl;
-	
-		auto k = Stream::Get();
-
-		switch (k)
-		{
-		case '9':
-			cl_publishersDB.Save();
-			break;
-		case '0':
-			return;
-		case '1':
-			cl_publishersDB.Add();
-			break;
-		case '2':
-			cl_publishersDB.Show();
-			break;
-		case '3':
-			cl_publishersDB.Update();
-			break;
-		case '4':
-			cl_publishersDB.Delete();
-			break;
-		default:
-			OutputWarning("Извините, такого варианта не существует. Пожалуйста, повторите выбор");
-		}
-
-		PauseConsole();
-		ClearConsole();
-	}
-	while (true);*/
-}
-
 void AJIOBMenuClass::WithCountryDB()
 {
 	ClearConsole();
@@ -170,6 +123,53 @@ void AJIOBMenuClass::WithCountryDB()
 	while (true);
 }
 
+void AJIOBMenuClass::WithPublicationsDB()
+{
+	ClearConsole();
+	std::cout << "Взаимодействие с базой данных изданий" << std::endl;
+
+	do
+	{		
+		std::cout << "Выберите, пожалуйста, что вы хотите сделать:" << std::endl;
+		std::cout << "1) Добавить издание" << std::endl;
+		std::cout << "2) Просмотреть все издания" << std::endl;
+		std::cout << "3) Обновить информацию об издании" << std::endl;
+		std::cout << "4) Удалить издание" << std::endl;
+		std::cout << "9) Сохранить информацию в файл" << std::endl;
+		std::cout << "0) Назад" << std::endl;
+		std::cout << "Пожалуйста, сделайте свой выбор" << std::endl;
+	
+		auto k = Stream::Get();
+
+		switch (k)
+		{
+		case '9':
+			cl_publicationsDB.Save();
+			break;
+		case '0':
+			return;
+		case '1':
+			cl_publicationsDB.Add();
+			break;
+		case '2':
+			cl_publicationsDB.Show();
+			break;
+		case '3':
+			cl_publicationsDB.Update();
+			break;
+		case '4':
+			cl_publicationsDB.Delete();
+			break;
+		default:
+			OutputWarning("Извините, такого варианта не существует. Пожалуйста, повторите выбор");
+		}
+
+		PauseConsole();
+		ClearConsole();
+	}
+	while (true);
+}
+
 void AJIOBMenuClass::AdminMenu()
 {
 	ClearConsole();
@@ -179,8 +179,8 @@ void AJIOBMenuClass::AdminMenu()
 	{
 		std::cout << "Выберите, пожалуйста, с какой базой данных вы хотите поработать:" << std::endl;
 		std::cout << "1) Логины и пароли пользователей" << std::endl;
-		std::cout << "2) Управление ISBN стран" << std::endl;
-		std::cout << "3) Управление издательствами" << std::endl;
+		std::cout << "2) Управление ISBN регионов и их издательств" << std::endl;
+		std::cout << "3) Управление изданиями" << std::endl;
 		std::cout << "8) Управление своим профилем" << std::endl;
 		std::cout << "9) Сохранить все изменения" << std::endl;
 		std::cout << "0) Выход" << std::endl;
@@ -201,7 +201,7 @@ void AJIOBMenuClass::AdminMenu()
 			WithCountryDB();
 			break;
 		case '3':
-			WithPublisherDB();
+			WithPublicationsDB();
 			break;
 		case '8':
 			ManageYourProfile();
@@ -279,8 +279,10 @@ void AJIOBMenuClass::ClientMenu()
 void AJIOBMenuClass::SaveAllChanges()
 {
 	cl_loginDB.Save();
-	//cl_publishersDB.Save();
 	cl_countriesDB.Save();
+	cl_publicationsDB.Save();
+
+	//
 }
 
 void AJIOBMenuClass::ManageYourProfile()
@@ -333,7 +335,8 @@ void AJIOBMenuClass::ChangeYourPassword()
 	cl_loginDB.Save();
 }
 
-AJIOBMenuClass::AJIOBMenuClass() : cl_loginDB(), /*cl_publishersDB(), */cl_loggedUser(&cl_loginDB)
+AJIOBMenuClass::AJIOBMenuClass() :
+	cl_loginDB(), cl_countriesDB(), cl_publicationsDB(&cl_countriesDB), /**/ cl_loggedUser(&cl_loginDB)
 {
 
 }
@@ -348,7 +351,7 @@ int AJIOBMenuClass::run()
 	int errorCode = 0;
 
 	auto user = Auth();
-	if (user.GetLogin().GetType() != AJIOBTypes::none)
+	if (user.GetLogin().GetType() != AJIOBTypes::PrivelegeType::none)
 	{
 		this->cl_loggedUser = user;
 		errorCode = LoginSuccessfully();

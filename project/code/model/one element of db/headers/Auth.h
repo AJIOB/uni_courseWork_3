@@ -19,7 +19,7 @@ class OneElementOf::Auth
 	friend LoginDBClass;
 	LoginDBClass* cl_parentDB;
 
-	DefaultID <AJIOBTypes::PrivelegeType> cl_login;
+	DefaultID <AJIOBTypes::PrivelegeType::PrivelegeType> cl_login;
 	std::string cl_password;
 
 	void BWrite(const std::string& bInfo, strPos& it);
@@ -31,7 +31,7 @@ public:
 
 	Auth& operator=(const Auth& that);
 	
-	DefaultID<AJIOBTypes::PrivelegeType> GetLogin() const;
+	DefaultID<AJIOBTypes::PrivelegeType::PrivelegeType> GetLogin() const;
 		
 	//void SetLogin(const DefaultID<AJIOBTypes::PrivelegeType>& newLogin);
 	void InputNewPrivelege();

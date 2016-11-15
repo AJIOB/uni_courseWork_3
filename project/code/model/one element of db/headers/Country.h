@@ -4,6 +4,7 @@
 #include "../../other/templates/MyContainer.h"
 #include "../../binary input&output/templates/BStringIO.h"
 #include "Publisher.h"
+#include "../../other/headers/ISBNClass.h"
 
 #ifndef AJIOB_UI
 #define AJIOB_UI
@@ -29,21 +30,33 @@ class OneElementOf::Country
 
 	void BWrite(const std::string& bInfo, strPos& it);
 
+	bool AddByISBN(const ISBNClass& num);
+
+	OneElementOf::Country& GetParentElement(const int index) const;
 public:
-	Country(void* parentDB);
+	Country(void* parentDB = nullptr);
 	Country(const Country& that);
 	Country(const std::string& bInfo, strPos& it, void* parentDB);
 	~Country();
 
 	Country& operator=(const Country& that);
 
-	std::string BRead();
+	std::string GetName() const;
+	ISBNOnePart GetISBNPart() const;
+	MyContainer<OneElementOf::Publisher> GetPublishers() const;
+
+	std::string BRead() const;
 
 	friend std::ostream& operator<< (std::ostream& s, const Country& that);
 	friend std::istream& operator>> (std::istream& s, Country& that);
 
 	bool InputNewName();
 	bool InputNewISBNPart();
+	bool WorkWithPublishers();
+
+	int FindByName(const std::string& name);
 
 	bool EqualByISBNPart(const Country& that) const;
+
+	bool operator==(const Country& that) const;
 };
