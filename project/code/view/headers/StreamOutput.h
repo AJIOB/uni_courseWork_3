@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 
-#include "../../external/headers/ExternalLib.h"
+//#include "../../external/headers/ExternalLib.h"
 #include "log.h"
 
 void OutputConsole(const std::string&);

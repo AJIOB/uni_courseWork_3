@@ -1,26 +1,25 @@
-﻿#include "../headers/PublicationDBClass.h"
+﻿#include "../headers/CopiesDBClass.h"
 
-PublicationDBClass::PublicationDBClass(CountryDBClass* dbToConnect/*, CopiesDBClass* copiesDBToConnect*/, bool isReadOnly)
-	: DefaultDB<OneElementOf::Publication>(PublicationDBDefaultWay, isReadOnly)
+CopiesDBClass::CopiesDBClass(PublicationDBClass* dbToConnect, bool isReadOnly)
+	: DefaultDB<OneElementOf::Copies>(CopiesDBDefaultWay, isReadOnly)
 {
 	//cl_readOnly = isReadOnly;
 	Load(isReadOnly);
-	cl_connected_CountryDB = dbToConnect;
-	//cl_connected_CopiesDB = copiesDBToConnect;
+	cl_connected_PublicationDB = dbToConnect;
 }
 
-PublicationDBClass::~PublicationDBClass()
+CopiesDBClass::~CopiesDBClass()
 {
 	Unload();
 }
 
-void PublicationDBClass::Load(bool isReadOnly)
+void CopiesDBClass::Load(bool isReadOnly)
 {
 	cl_readOnly = isReadOnly;
 	ReadAll();
 }
 
-bool PublicationDBClass::UpdateElement(OneElementOf::Publication& elem)
+bool CopiesDBClass::UpdateElement(OneElementOf::Copies& elem)
 {
 	ClearConsole();
 	bool isUpdated = false;
@@ -28,12 +27,12 @@ bool PublicationDBClass::UpdateElement(OneElementOf::Publication& elem)
 	do
 	{
 		std::cout << "Выберите, пожалуйста, что вы хотите сделать:" << std::endl;
-		std::cout << "1) Просмотреть текущий элемент" << std::endl;
+		std::cout << "1) Просмотреть текущий элемент" << std::endl;/*
 		std::cout << "2) Изменить ISBN издания" << std::endl;
 		std::cout << "3) Изменить название издания" << std::endl;
 		std::cout << "4) Изменить авторов" << std::endl;
 		std::cout << "5) Изменить год издания" << std::endl;
-		std::cout << "6) Поработать с пользовательскими метками" << std::endl;
+		std::cout << "6) Поработать с пользовательскими метками" << std::endl;*/
 		std::cout << "0) Назад" << std::endl;
 		std::cout << "Пожалуйста, сделайте свой выбор" << std::endl;
 	
@@ -45,7 +44,7 @@ bool PublicationDBClass::UpdateElement(OneElementOf::Publication& elem)
 			return isUpdated;
 		case '1':
 			std::cout << elem << std::endl;
-			break;
+			break;/*
 		case '2':
 			if (elem.InputNewISBN()) isUpdated = true;
 			break;
@@ -60,7 +59,7 @@ bool PublicationDBClass::UpdateElement(OneElementOf::Publication& elem)
 			break;
 		case '6':
 			if (elem.WorkWithTags()) isUpdated = true;
-			break;
+			break;*/
 		default:
 			OutputWarning("Извините, такого варианта не существует. Пожалуйста, повторите выбор");
 		}
@@ -72,48 +71,49 @@ bool PublicationDBClass::UpdateElement(OneElementOf::Publication& elem)
 
 	//return false;
 }
+
 /*
-int PublicationDBClass::Add()
+int CopiesDBClass::Add()
 {
-	return DefaultDB<OneElementOf::Publication>::Add(true);
+	return DefaultDB<OneElementOf::Copies>::Add(true);
 }
 
-void PublicationDBClass::Show() const
+void CopiesDBClass::Show() const
 {
-	DefaultDB<OneElementOf::Publication>::Show();
+	DefaultDB<OneElementOf::Copies>::Show();
 }
 
-void PublicationDBClass::Update()
+void CopiesDBClass::Update()
 {
-	DefaultDB<OneElementOf::Publication>::Update();
+	DefaultDB<OneElementOf::Copies>::Update();
 }
 
-void PublicationDBClass::Delete()
+void CopiesDBClass::Delete()
 {
-	DefaultDB<OneElementOf::Publication>::Delete();
-}
-*/
-OneElementOf::Publication& PublicationDBClass::GetElement(int index)
+	DefaultDB<OneElementOf::Copies>::Delete();
+}*/
+
+OneElementOf::Copies& CopiesDBClass::GetElement(int index)
 {
 	return cl_ourArray[index];
 }
 
-const OneElementOf::Publication& PublicationDBClass::GetElement(int index) const
+const OneElementOf::Copies& CopiesDBClass::GetElement(int index) const
 {
 	return cl_ourArray[index];
 }
 
-OneElementOf::Publication& PublicationDBClass::operator[](int index)
+OneElementOf::Copies& CopiesDBClass::operator[](int index)
 {
 	return GetElement(index);
 }
-
-void PublicationDBClass::SomethingIsChanged()
+/*
+void CopiesDBClass::SomethingIsChanged()
 {
-	DefaultDB<OneElementOf::Publication>::SomethingIsChanged();
-}
+	DefaultDB<OneElementOf::Copies>::SomethingIsChanged();
+}*/
 
-int PublicationDBClass::FindByISBN(const ISBNClass& ISBNToFind) const
+int CopiesDBClass::FindByISBN(const ISBNClass& ISBNToFind) const
 {
 	for (auto i = 0; i < cl_ourArray.size(); ++i)
 	{

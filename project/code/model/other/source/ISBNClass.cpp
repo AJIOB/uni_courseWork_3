@@ -70,7 +70,7 @@ bool ISBNClass::ParseConsoleString(const std::string& str)
 	static const int sizeOfISBN10 = 13;
 	static const int sizeOfISBN13 = 17;
 
-	auto vectorOfStrings = AJIOBStringFuncs::BreakStringToArrayOfUIntStrings(str, '-');
+	auto vectorOfStrings = AJIOBStringFuncs::BreakStringToArrayOfStrings(str, '-');
 
 	ISBNClass buffer;
 
@@ -113,7 +113,7 @@ bool ISBNClass::ParseConsoleString(const std::string& str)
 	return true;
 }
 
-void ISBNClass::BWrite(const std::string& bInfo, strPos& it)
+void ISBNClass::BWrite(const bString& bInfo, strPos& it)
 {
 	cl_type = BStringIO::ReadBInfo<AJIOBTypes::ISBNType::ISBNType>(bInfo, it);
 
@@ -128,7 +128,7 @@ ISBNClass::ISBNClass()
 	cl_type = AJIOBTypes::ISBNType::none;
 }
 
-ISBNClass::ISBNClass(const std::string& bInfo, strPos& it)
+ISBNClass::ISBNClass(const bString& bInfo, strPos& it)
 {
 	BWrite(bInfo, it);
 }
@@ -141,10 +141,10 @@ std::string ISBNClass::BRead() const
 {
 	std::string buffer;
 
-	buffer += BStringIO::GetBString(cl_type);
+	buffer += BStringIO::MakeBString(cl_type);
 	for (auto i = 0; i < numOfISBNFields; i++)
 	{
-		buffer += BStringIO::GetBString(cl_fields[i]);
+		buffer += BStringIO::MakeBString(cl_fields[i]);
 	}
 
 	return buffer;

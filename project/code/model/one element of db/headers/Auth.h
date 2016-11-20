@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <string>
 
-#include "../../other/templates/DefaultID.h"
+#include "../../other/headers/DefaultID.h"
 #include "../../enums/PrivelegeType.h"
 #include "../../binary input&output/templates/BStringIO.h"
 #include "../../other/headers/StringFuncs.h"
@@ -12,34 +12,34 @@ namespace OneElementOf
 	class Auth;
 }
 
-class LoginDBClass;
+class AuthDBClass;
 
 class OneElementOf::Auth
 {
-	friend LoginDBClass;
-	LoginDBClass* cl_parentDB;
+	friend AuthDBClass;
+	AuthDBClass* cl_parentDB;
 
-	DefaultID <AJIOBTypes::PrivelegeType::PrivelegeType> cl_login;
+	DefaultID cl_login;
 	std::string cl_password;
 
-	void BWrite(const std::string& bInfo, strPos& it);
+	void BWrite(const bString& bInfo, strPos& it);
 public:
 	Auth(void* parentDB);
 	Auth(const Auth& that);
-	Auth(const std::string& bInfo, strPos& it, void* parentDB);
+	Auth(const bString& bInfo, strPos& it, void* parentDB);
 	~Auth();
 
 	Auth& operator=(const Auth& that);
 	
-	DefaultID<AJIOBTypes::PrivelegeType::PrivelegeType> GetLogin() const;
+	DefaultID GetLogin() const;
 		
-	//void SetLogin(const DefaultID<AJIOBTypes::PrivelegeType>& newLogin);
+	//void SetLogin(const DefaultID& newLogin);
 	void InputNewPrivelege();
 	bool InputNewPassword();
 	void SetPassword(const std::string& newPassword);
 	void ResetPassword();
 
-	std::string BRead();
+	bString BRead() const;
 
 	friend std::ostream& operator<< (std::ostream& s, const Auth& that);
 	friend std::istream& operator>> (std::istream& s, Auth& that);

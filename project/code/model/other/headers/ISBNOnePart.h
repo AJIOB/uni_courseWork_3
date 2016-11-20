@@ -4,20 +4,7 @@
 #include <string>
 
 #include "../../../view/headers/view.h"
-
-#ifndef AJIOB_UI
-#define AJIOB_UI
-
-typedef unsigned long int uli;
-
-#endif
-
-#ifndef AJIOB_USI
-#define AJIOB_USI
-
-typedef unsigned short int usi;
-
-#endif
+#include "typedefs.h"
 
 struct ISBNOnePart
 {

@@ -95,7 +95,7 @@ void CryptedDB<Type>::WriteAll()
 	FileReset();
 
 	//Пишем количество строк в файле
-	WriteStringToFile(BStringIO::GetBString(cl_ourArray.size()));
+	WriteStringToFile(BStringIO::MakeBString(cl_ourArray.size()));
 	
 	for (auto it = cl_ourArray.begin(); it != cl_ourArray.end(); ++it)
 	{

@@ -8,6 +8,24 @@ std::ostream& OneElementOf::operator<<(std::ostream& s, const Publication& that)
 	s << "Авторы: " << that.cl_authors << std::endl;
 	s << "Год издания: " << that.cl_yearOfPublication <<std::endl;
 	s << (that.GetConnectedCountryDB()->GetInfo(that.cl_ISBN));
+
+	if (that.cl_userTags.size() > 0)
+	{
+		s << "Пользовательские метки:" <<std::endl;
+		s << that.cl_userTags;
+	}
+
+	/*
+	int index = that.GetConnectedCopiesDB()->FindByISBN(that.cl_ISBN);
+	if (index < 0)
+	{
+		s << "В библиотеке отсутствуют экземпляры данной книги" << std::endl;
+	}
+	else
+	{
+		s << that.GetConnectedCopiesDB()[0][index] << std::endl;
+	}*/
+
 	return s;
 }
 
@@ -26,7 +44,7 @@ std::istream& OneElementOf::operator>>(std::istream& s, Publication& that)
 	return s;
 }
 
-void OneElementOf::Publication::BWrite(const std::string& bInfo, strPos& it)
+void OneElementOf::Publication::BWrite(const bString& bInfo, strPos& it)
 {
 	Publication buffer(cl_parent);
 
@@ -34,6 +52,7 @@ void OneElementOf::Publication::BWrite(const std::string& bInfo, strPos& it)
 	buffer.cl_name = BStringIO::ReadBInfo<std::string>(bInfo, it);
 	buffer.cl_authors = BStringIO::ReadBInfo<std::string>(bInfo, it);
 	buffer.cl_yearOfPublication = BStringIO::ReadBInfo<uli>(bInfo, it);
+	buffer.cl_userTags.BWrite(bInfo, it);
 	
 	(*this) = buffer;
 }
@@ -42,6 +61,11 @@ CountryDBClass* OneElementOf::Publication::GetConnectedCountryDB() const
 {
 	return (cl_parent->cl_connected_CountryDB);
 }
+/*
+CopiesDBClass* OneElementOf::Publication::GetConnectedCopiesDB() const
+{
+	return cl_parent->cl_connected_CopiesDB;
+}*/
 
 OneElementOf::Publication::Publication(void* parent)
 {
@@ -56,7 +80,7 @@ OneElementOf::Publication::Publication(const Publication& that)
 	(*this) = that;
 }
 
-OneElementOf::Publication::Publication(const std::string& bInfo, strPos& it, void* parent)
+OneElementOf::Publication::Publication(const bString& bInfo, strPos& it, void* parent)
 {
 	cl_parent = reinterpret_cast<PublicationDBClass*> (parent);
 	BWrite(bInfo, it);
@@ -72,6 +96,8 @@ OneElementOf::Publication& OneElementOf::Publication::operator=(const Publicatio
 	cl_name = that.cl_name;
 	cl_authors = that.cl_authors;
 	cl_yearOfPublication = that.cl_yearOfPublication;
+	cl_userTags = that.cl_userTags;
+
 	cl_parent = that.cl_parent;
 
 	return (*this);
@@ -92,14 +118,19 @@ std::string OneElementOf::Publication::GetAuthor() const
 	return cl_authors;
 }
 
-uli OneElementOf::Publication::GetYearOfPublicatiion() const
+uli OneElementOf::Publication::GetYearOfPublication() const
 {
 	return cl_yearOfPublication;
 }
 
-std::string OneElementOf::Publication::BRead() const
+MyContainer<std::string> OneElementOf::Publication::GetUserTags() const
 {
-	return (cl_ISBN.BRead() + BStringIO::GetBString(cl_name) + BStringIO::GetBString(cl_authors) + BStringIO::GetBString(cl_yearOfPublication));
+	return cl_userTags;
+}
+
+bString OneElementOf::Publication::BRead() const
+{
+	return (cl_ISBN.BRead() + BStringIO::MakeBString(cl_name) + BStringIO::MakeBString(cl_authors) + BStringIO::MakeBString(cl_yearOfPublication) + cl_userTags.BRead());
 }
 
 bool OneElementOf::Publication::EqualByISBN(const Publication& that) const
@@ -122,7 +153,7 @@ bool OneElementOf::Publication::InputNewISBN()
 			OutputConsole("Введите новое название издания.");
 			Stream::Input(buffer.cl_ISBN);
 
-			if (cl_parent->FindByISBNPart(buffer.cl_ISBN) < 0)
+			if (cl_parent->FindByISBN(buffer.cl_ISBN) < 0)
 			{
 				break;
 			}
@@ -183,114 +214,29 @@ bool OneElementOf::Publication::InputNewYear()
 	return true;
 }
 
+bool OneElementOf::Publication::WorkWithTags()
+{
+	return cl_userTags.OperationsWithElements();
+}
 /*
-bool OneElementOf::Publication::WorkWithISBNPublicationPart()
+void OneElementOf::Publication::InputElem(bool ISBNIsGettedByParametr, const ISBNClass ISBN)
 {
-	return cl_ISBN_PublicationPart.OperationsWithElements();
-}
-
-bool OneElementOf::Publication::InputNewName()
-{
-	Publication buffer(*this);
-	do
+	if (!ISBNIsGettedByParametr)
 	{
-		OutputConsole("Введите новое название.");
-		Stream::Input(buffer.cl_name);
-		OutputConsole("Измененный элемент:");
-		std::cout << buffer;
-	} while (Stream::GetOnlyYN("Всё ли введено правильно?") == 'N');
-
-	(*this) = buffer;
-	return true;
-}
-
-bool OneElementOf::Publication::InputNewCity()
-{
-	Publication buffer(*this);
-	do
-	{
-		OutputConsole("Введите новый город расположения.");
-		Stream::Input(buffer.cl_city);
-		OutputConsole("Измененный элемент:");
-		std::cout << buffer;
-	} while (Stream::GetOnlyYN("Всё ли введено правильно?") == 'N');
-
-	(*this) = buffer;
-	return true;
-}
-
-bool OneElementOf::Publication::WorkWithISBNPart()
-{
-	return cl_ISBN_PublicationPart.OperationsWithElements();
-}
-
-bool OneElementOf::Publication::EqualByName(const Publication& that) const
-{
-	return (this->cl_name == that.cl_name);
-}
-
-bool OneElementOf::Publication::EqualByNameAndCity(const Publication& that) const
-{
-	return ((this->cl_name == that.cl_name) && (this->cl_city == that.cl_city));
-}
-
-bool OneElementOf::Publication::operator==(const Publication& that) const
-{
-	return EqualByNameAndCity(that);
-}
-
-bool OneElementOf::Publication::UpdateMe()
-{
-	ClearConsole();
-	bool isUpdated = false;
-
-	do
-	{
-		/*std::string cl_name;
-	std::string cl_city;
-	MyContainer<ISBNOnePart> cl_ISBN_PublicationPart;
-		 *
-		 *
-		 *
-		 *
-		 */
-/*
-		std::cout << "Выберите, пожалуйста, что вы хотите сделать:" << std::endl;
-		std::cout << "1) Просмотреть элемент" << std::endl;
-		std::cout << "2) Изменить название издательства" << std::endl;
-		std::cout << "3) Изменить город расположения издательства" << std::endl;
-		std::cout << "4) Поработать с ISBN идентификаторами издательства" << std::endl;
-		std::cout << "0) Назад" << std::endl;
-		std::cout << "Пожалуйста, сделайте свой выбор" << std::endl;
-	
-		auto k = Stream::Get();
-		
-		switch (k)
-		{
-		case '0':
-			return isUpdated;
-		case '1':
-			std::cout << *this << std::endl;
-			break;
-		case '2':
-			if (this->InputNewName()) isUpdated = true;
-			break;
-		case '3':
-			if (this->InputNewCity()) isUpdated = true;
-			break;
-		case '4':
-			if (this->WorkWithISBNPublicationPart()) isUpdated = true;
-			break;
-		default:
-			OutputWarning("Извините, такого варианта не существует. Пожалуйста, повторите выбор");
-		}
-
-		PauseConsole();
-		ClearConsole();
+		OutputConsole("Введите ISBN:");
+		Stream::Input(this->cl_ISBN);
 	}
-	while (true);
+	else
+	{
+		cl_ISBN = ISBN;
+	}
 
-
-	return false;
+	this->GetConnectedCountryDB()->AddByISBN(this->cl_ISBN);
+	OutputConsole("Введите название издания:");
+	Stream::Input(this->cl_name);
+	OutputConsole("Введите авторов:");
+	Stream::Input(this->cl_authors);
+	OutputConsole("Введите год издания:");
+	Stream::Input(this->cl_yearOfPublication);
 }
 */

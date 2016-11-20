@@ -105,7 +105,7 @@ std::string AJIOB_BinaryFileInputOutput::ReadStringFromFile()
 {
 	if (!fin.is_open() || fin.eof())
 	{
-		throw MyException("Ошибка чтения строки из файла " + std::string(cl_fileName) + ". Файл не открыт или уже закончился");
+		throw FReadException("Ошибка чтения строки из файла " + std::string(cl_fileName) + ". Файл не открыт или уже закончился");
 	}
 
 	size_t len = readSize_tFromFile();
@@ -135,7 +135,7 @@ std::string AJIOB_BinaryFileInputOutput::ReadStringFromFile()
 	if (fin.eof())
 	{
 		delete [] tmp;
-		throw MyException("Ошибка чтения строки из файла " + std::string(cl_fileName) + ". Файл закончился");
+		throw FReadException("Имя файла: " + std::string(cl_fileName) + ". Файл закончился");
 	}
 
 	std::string for_return(tmp, len);
@@ -148,7 +148,7 @@ size_t AJIOB_BinaryFileInputOutput::readSize_tFromFile()
 {
 	if (!fin.is_open() || fin.eof())
 	{
-		throw MyException("Ошибка чтения строки из файла " + std::string(cl_fileName) + ". Файл не открыт или уже закончился");
+		throw FReadException("Имя файла: " + std::string(cl_fileName) + ". Файл не открыт или уже закончился");
 	}
 
 	//читаем сам size_t
@@ -157,7 +157,7 @@ size_t AJIOB_BinaryFileInputOutput::readSize_tFromFile()
 	
 	if (fin.eof())
 	{
-		throw MyException("Ошибка чтения строки из файла " + std::string(cl_fileName) + ". Файл закончился");
+		throw FReadException("Имя файла: " + std::string(cl_fileName) + ". Файл закончился");
 	}
 
 	return tmp;

@@ -7,9 +7,6 @@
     <Filter Include="controller">
       <UniqueIdentifier>{8414354a-4994-4449-9411-2c5782cb9a62}</UniqueIdentifier>
     </Filter>
-    <Filter Include="external">
-      <UniqueIdentifier>{f18eae94-4551-4c46-94cd-6acdc7557d46}</UniqueIdentifier>
-    </Filter>
     <Filter Include="model">
       <UniqueIdentifier>{32cc9b48-892d-40ce-b37f-6df30d089c38}</UniqueIdentifier>
     </Filter>
@@ -70,12 +67,6 @@
     <Filter Include="controller\headers">
       <UniqueIdentifier>{13196337-a467-4ea9-acc8-70a1b2a1a50b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="external\headers">
-      <UniqueIdentifier>{5dbcf470-6bb1-470e-a758-2758d41d3d20}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="external\source">
-      <UniqueIdentifier>{f39f1a58-3f61-4fb1-82e9-590ddfecb258}</UniqueIdentifier>
-    </Filter>
     <Filter Include="controller\source">
       <UniqueIdentifier>{ccbc7af9-4dc9-4ca6-ab3d-c90b45a759c5}</UniqueIdentifier>
     </Filter>
@@ -100,6 +91,15 @@
     <Filter Include="model\exceptions\source">
       <UniqueIdentifier>{9a4068d8-1e97-4abf-ba79-7a020b76f6ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Recycle Bin\external">
+      <UniqueIdentifier>{f18eae94-4551-4c46-94cd-6acdc7557d46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Recycle Bin\external\headers">
+      <UniqueIdentifier>{5dbcf470-6bb1-470e-a758-2758d41d3d20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Recycle Bin\external\source">
+      <UniqueIdentifier>{f39f1a58-3f61-4fb1-82e9-590ddfecb258}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="project\code\model\binary input&amp;output\headers\BFileIO.h">
@@ -107,9 +107,6 @@
     </ClInclude>
     <ClInclude Include="project\code\model\binary input&amp;output\templates\BStringIO.h">
       <Filter>model\BinaryIO\templates</Filter>
-    </ClInclude>
-    <ClInclude Include="project\code\model\dbs\headers\LoginDBClass.h">
-      <Filter>model\dbs\headers</Filter>
     </ClInclude>
     <ClInclude Include="project\code\model\dbs\templates\CryptedDB.h">
       <Filter>model\dbs\templates</Filter>
@@ -133,10 +130,7 @@
       <Filter>controller\headers</Filter>
     </ClInclude>
     <ClInclude Include="project\code\external\headers\ExternalLib.h">
-      <Filter>external\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="project\code\model\other\templates\DefaultID.h">
-      <Filter>model\other\templates</Filter>
+      <Filter>Recycle Bin\external\headers</Filter>
     </ClInclude>
     <ClInclude Include="project\code\other\headers\MyLibrary.h">
       <Filter>other\headers</Filter>
@@ -204,6 +198,36 @@
     <ClInclude Include="project\code\model\other\headers\IsPublicationGetted.h">
       <Filter>model\other\headers</Filter>
     </ClInclude>
+    <ClInclude Include="project\code\model\other\headers\DefaultID.h">
+      <Filter>model\other\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\dbs\headers\CopiesDBClass.h">
+      <Filter>model\dbs\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\one element of db\headers\User.h">
+      <Filter>model\OneElementOf\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\dbs\headers\UserDBClass.h">
+      <Filter>model\dbs\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\controller\headers\AJIOB_DBSystem.h">
+      <Filter>controller\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\dbs\headers\AuthDBClass.h">
+      <Filter>model\dbs\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\other\headers\typedefs.h">
+      <Filter>model\other\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\exceptions\headers\OutOfBStringLimitException.h">
+      <Filter>model\exceptions\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\exceptions\headers\FReadException.h">
+      <Filter>model\exceptions\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\other\headers\CancelStruct.h">
+      <Filter>model\other\headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="project\code\controller\source\AJIOBMenuClass.cpp">
@@ -213,13 +237,10 @@
       <Filter>controller\source</Filter>
     </ClCompile>
     <ClCompile Include="project\code\external\source\ExternalLib.cpp">
-      <Filter>external\source</Filter>
+      <Filter>Recycle Bin\external\source</Filter>
     </ClCompile>
     <ClCompile Include="project\code\model\binary input&amp;output\source\BFileIO.cpp">
       <Filter>model\BinaryIO\source</Filter>
-    </ClCompile>
-    <ClCompile Include="project\code\model\dbs\source\LoginDBClass.cpp">
-      <Filter>model\dbs\source</Filter>
     </ClCompile>
     <ClCompile Include="project\code\model\one element of db\source\Auth.cpp">
       <Filter>model\OneElementOf\source</Filter>
@@ -272,8 +293,26 @@
     <ClCompile Include="project\code\model\other\source\IsPublicationGetted.cpp">
       <Filter>model\other\source</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
+    <ClCompile Include="project\code\model\other\source\DefaultID.cpp">
+      <Filter>model\other\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\model\dbs\source\CopiesDBClass.cpp">
+      <Filter>model\dbs\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\model\one element of db\source\User.cpp">
+      <Filter>model\OneElementOf\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\model\dbs\source\UserDBClass.cpp">
+      <Filter>model\dbs\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\controller\source\AJIOB_DBSystem.cpp">
+      <Filter>controller\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\model\dbs\source\AuthDBClass.cpp">
+      <Filter>model\dbs\source</Filter>
+    </ClCompile>
+    <ClCompile Include="project\code\model\other\source\CancelStruct.cpp">
+      <Filter>model\other\source</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

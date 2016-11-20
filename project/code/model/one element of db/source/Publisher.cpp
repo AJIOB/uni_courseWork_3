@@ -1,5 +1,5 @@
 ﻿#include "../headers/Publisher.h"
-#include "../../binary input&output/templates/BStringIO.h"
+//#include "../../binary input&output/templates/BStringIO.h"
 
 std::ostream& OneElementOf::operator<<(std::ostream& s, const Publisher& that)
 {
@@ -21,7 +21,7 @@ std::istream& OneElementOf::operator>>(std::istream& s, Publisher& that)
 	return s;
 }
 
-void OneElementOf::Publisher::BWrite(const std::string& bInfo, strPos& it)
+void OneElementOf::Publisher::BWrite(const bString& bInfo, strPos& it)
 {
 	Publisher buffer(cl_parent);
 	buffer.cl_name = BStringIO::ReadBInfo<std::string>(bInfo, it);
@@ -42,7 +42,7 @@ OneElementOf::Publisher::Publisher(const Publisher& that)
 	(*this) = that;
 }
 
-OneElementOf::Publisher::Publisher(const std::string& bInfo, strPos& it, void* parent)
+OneElementOf::Publisher::Publisher(const bString& bInfo, strPos& it, void* parent)
 {
 	cl_parent = reinterpret_cast<Country*> (parent);
 	BWrite(bInfo, it);
@@ -82,9 +82,9 @@ MyContainer<ISBNOnePart> OneElementOf::Publisher::GetISBNParts() const
 	return cl_ISBN_PublisherPart;
 }
 
-std::string OneElementOf::Publisher::BRead() const
+bString OneElementOf::Publisher::BRead() const
 {
-	return (BStringIO::GetBString(cl_name) + BStringIO::GetBString(cl_city) + cl_ISBN_PublisherPart.BRead());
+	return (BStringIO::MakeBString(cl_name) + BStringIO::MakeBString(cl_city) + cl_ISBN_PublisherPart.BRead());
 }
 
 bool OneElementOf::Publisher::WorkWithISBNPublisherPart()
@@ -192,7 +192,4 @@ bool OneElementOf::Publisher::UpdateMe()
 		ClearConsole();
 	}
 	while (true);
-
-
-	return false;
 }

@@ -1,6 +1,6 @@
 ﻿#include "../headers/AJIOBMenuClass.h"
 
-
+/*
 OneElementOf::Auth AJIOBMenuClass::Auth()
 {
 	AuthClass localAuth(&cl_loginDB);
@@ -58,7 +58,7 @@ void AJIOBMenuClass::WithLoginDB()
 			cl_loginDB.Add();
 			break;
 		case '2':
-			cl_loginDB.Show();
+			cl_loginDB.Get();
 			break;
 		case '3':
 			cl_loginDB.Update();
@@ -105,7 +105,7 @@ void AJIOBMenuClass::WithCountryDB()
 			cl_countriesDB.Add();
 			break;
 		case '2':
-			cl_countriesDB.Show();
+			cl_countriesDB.Get();
 			break;
 		case '3':
 			cl_countriesDB.Update();
@@ -152,7 +152,7 @@ void AJIOBMenuClass::WithPublicationsDB()
 			cl_publicationsDB.Add();
 			break;
 		case '2':
-			cl_publicationsDB.Show();
+			cl_publicationsDB.Get();
 			break;
 		case '3':
 			cl_publicationsDB.Update();
@@ -170,6 +170,53 @@ void AJIOBMenuClass::WithPublicationsDB()
 	while (true);
 }
 
+void AJIOBMenuClass::WithCopiesDB()
+{
+	ClearConsole();
+	std::cout << "Взаимодействие с базой данных копий книг в библиотеке" << std::endl;
+
+	do
+	{		
+		std::cout << "Выберите, пожалуйста, что вы хотите сделать:" << std::endl;
+		std::cout << "1) Добавить экземпляры в библиотеку" << std::endl;
+		std::cout << "2) Просмотреть все экземпляры" << std::endl;
+		std::cout << "3) Обновить информацию об экземпляре" << std::endl;
+		std::cout << "4) Удалить все экземпляры издания" << std::endl;
+		std::cout << "9) Сохранить информацию в файл" << std::endl;
+		std::cout << "0) Назад" << std::endl;
+		std::cout << "Пожалуйста, сделайте свой выбор" << std::endl;
+	
+		auto k = Stream::Get();
+
+		switch (k)
+		{
+		case '9':
+			cl_copiesDB.Save();
+			break;
+		case '0':
+			return;
+		case '1':
+			cl_copiesDB.Add();
+			break;
+		case '2':
+			cl_copiesDB.Get();
+			break;
+		case '3':
+			cl_copiesDB.Update();
+			break;
+		case '4':
+			cl_copiesDB.Delete();
+			break;
+		default:
+			OutputWarning("Извините, такого варианта не существует. Пожалуйста, повторите выбор");
+		}
+
+		PauseConsole();
+		ClearConsole();
+	}
+	while (true);
+}*/
+
 void AJIOBMenuClass::AdminMenu()
 {
 	ClearConsole();
@@ -181,7 +228,9 @@ void AJIOBMenuClass::AdminMenu()
 		std::cout << "1) Логины и пароли пользователей" << std::endl;
 		std::cout << "2) Управление ISBN регионов и их издательств" << std::endl;
 		std::cout << "3) Управление изданиями" << std::endl;
-		std::cout << "8) Управление своим профилем" << std::endl;
+		std::cout << "4) Управление экземплярами изданий" << std::endl;
+		std::cout << "5) BETA Управление пользователями" << std::endl;
+		//std::cout << "8) Управление своим профилем" << std::endl;
 		std::cout << "9) Сохранить все изменения" << std::endl;
 		std::cout << "0) Выход" << std::endl;
 		std::cout << "Пожалуйста, сделайте свой выбор" << std::endl;
@@ -193,21 +242,28 @@ void AJIOBMenuClass::AdminMenu()
 		switch (k)
 		{
 		case '0':
-			return;
+			return;//TODO
 		case '1':
-			WithLoginDB();
+			SelectFunction("auth");
 			break;
 		case '2':
-			WithCountryDB();
+			SelectFunction("countries");
 			break;
 		case '3':
-			WithPublicationsDB();
+			SelectFunction("publications");
 			break;
+		case '4':
+			SelectFunction("bookcopies");
+			break;
+		case '5':
+			SelectFunction("users");
+			break;
+			/*
 		case '8':
 			ManageYourProfile();
-			break;
+			break;*/
 		case '9':
-			SaveAllChanges();
+			SaveAll();
 			break;
 		default:
 			OutputWarning("Извините, такого варианта не существует. Пожалуйста, повторите выбор");
@@ -276,12 +332,90 @@ void AJIOBMenuClass::ClientMenu()
 	std::cout << "Здравствуйте. Вы зашли как читатель библиотеки." << std::endl;
 }
 
+void AJIOBMenuClass::SelectFunction(const std::string& dbName)
+{
+	ClearConsole();
+	std::cout << "Взаимодействие с базой данных " << dbName << std::endl;
+
+	do
+	{		
+		std::cout << "Выберите, пожалуйста, что вы хотите сделать:" << std::endl;
+		std::cout << "1) Добавить элементы" << std::endl;
+		std::cout << "2) Просмотреть все элементы" << std::endl;
+		std::cout << "3) Обновить информацию об элементе" << std::endl;
+		std::cout << "4) Удалить элемент издания" << std::endl;
+		//std::cout << "9) Сохранить информацию в файл" << std::endl;
+		std::cout << "0) Назад" << std::endl;
+		std::cout << "Пожалуйста, сделайте свой выбор" << std::endl;
+	
+		auto k = Stream::Get();
+
+		switch (k)
+		{/*
+		case '9':
+			cl_copiesDB.Save();
+			break;*/
+		case '0':
+			return;
+		case '1':
+			Add(dbName);
+			break;
+		case '2':
+			Show(dbName);
+			break;
+		case '3':
+			Update(dbName);
+			break;
+		case '4':
+			Delete(dbName);
+			break;
+		default:
+			OutputWarning("Извините, такого варианта не существует. Пожалуйста, повторите выбор");
+		}
+
+		PauseConsole();
+		ClearConsole();
+	}
+	while (true);
+}
+
+void AJIOBMenuClass::Add(const std::string& dbName)
+{
+	
+}
+
+void AJIOBMenuClass::Show(const std::string& dbName)
+{
+}
+
+void AJIOBMenuClass::Update(const std::string& dbName)
+{
+}
+
+void AJIOBMenuClass::Delete(const std::string& dbName)
+{
+}
+
+void AJIOBMenuClass::SaveAll()
+{
+	bString result;
+
+	if (cl_localCopyOfDBSys.ExecuteQuery("save", result))
+	{
+		OutputConsole("Все изменения успешно сохранены");
+		return;
+	}
+
+	OutputConsole("В файле записана актуальная информация");
+}
+
+/*
 void AJIOBMenuClass::SaveAllChanges()
 {
 	cl_loginDB.Save();
 	cl_countriesDB.Save();
 	cl_publicationsDB.Save();
-
+	cl_copiesDB.Save();
 	//
 }
 
@@ -320,7 +454,7 @@ void AJIOBMenuClass::ChangeYourPassword()
 {
 	ClearConsole();
 
-	auto index = cl_loginDB.Find(cl_loggedUser);
+	auto index = cl_loginDB.Find(cl_authPriveleges);
 	if (index < 0)
 	{
 		throw MyException("Видимо, что-то пошло не так");
@@ -331,38 +465,51 @@ void AJIOBMenuClass::ChangeYourPassword()
 		cl_loginDB.SomethingIsChanged();
 	}
 
-	cl_loggedUser = cl_loginDB[index];
+	cl_authPriveleges = cl_loginDB[index];
 	cl_loginDB.Save();
 }
-
-AJIOBMenuClass::AJIOBMenuClass() :
-	cl_loginDB(), cl_countriesDB(), cl_publicationsDB(&cl_countriesDB), /**/ cl_loggedUser(&cl_loginDB)
+*/
+AJIOBMenuClass::AJIOBMenuClass() : cl_localCopyOfDBSys()
 {
-
+	//todo
+	cl_authPriveleges = cl_localCopyOfDBSys.RunLoginProcess();
 }
 
 AJIOBMenuClass::~AJIOBMenuClass()
 {
-	//cl_loginDB.Unload();
 }
 
 int AJIOBMenuClass::run()
 {
-	int errorCode = 0;
-
-	auto user = Auth();
-	if (user.GetLogin().GetType() != AJIOBTypes::PrivelegeType::none)
+	if (cl_authPriveleges == AJIOBTypes::PrivelegeType::none)
 	{
-		this->cl_loggedUser = user;
-		errorCode = LoginSuccessfully();
+		OutputConsole("Извините, у вас нету доступа к каким-либо базам данных");
+		return  1;
 	}
 
-	return errorCode;
-}
+	//auto loggedType = cl_authPriveleges.GetLogin().GetType();
+	switch (cl_authPriveleges)
+	{
+	case AJIOBTypes::PrivelegeType::user:
+		ClientMenu();
+		break;
+	case AJIOBTypes::PrivelegeType::worker:
+		WorkerMenu();
+		break;
+	case AJIOBTypes::PrivelegeType::admin:
+		AdminMenu();
+		break;
+	default:
+		OutputConsole("Извините, у вас нету доступа к каким-либо базам данных");
+		return 1;
+	}
 
+	return 0;
+}
+/*
 int AJIOBMenuClass::LoginSuccessfully()
 {
-	auto loggedType = cl_loggedUser.GetLogin().GetType();
+	auto loggedType = cl_authPriveleges.GetLogin().GetType();
 	switch (loggedType)
 	{
 	case AJIOBTypes::PrivelegeType::user:
@@ -380,3 +527,4 @@ int AJIOBMenuClass::LoginSuccessfully()
 
 	return 0;
 }
+*/

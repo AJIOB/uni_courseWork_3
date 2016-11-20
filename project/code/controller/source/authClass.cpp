@@ -1,21 +1,12 @@
 #include "../headers/authClass.h"
 
-/*
-void AuthClass::AuthProcessing()
+AuthClass::AuthClass() : cl_loginDB(new AuthDBClass()), cl_currentUser(cl_loginDB)
 {
-	OneElementOf::Auth currentLogin;
-	currentLogin;
-	OutputConsole("¬ведите логин:\n");
-	currentLogin.setPassword(getpass("¬ведите пароль:"));
-}
-*/
-AuthClass::AuthClass() : cl_loginDB(new LoginDBClass()), cl_currentUser(cl_loginDB)
-{
-	//loginDB = new LoginDBClass();
+	//loginDB = new AuthDBClass();
 	cl_isGetDBbyExternal = false;
 }
 
-AuthClass::AuthClass(LoginDBClass* loginDBnew) : cl_currentUser(loginDBnew)
+AuthClass::AuthClass(AuthDBClass* loginDBnew) : cl_currentUser(loginDBnew)
 {
 	cl_loginDB = loginDBnew;
 	cl_isGetDBbyExternal = true;

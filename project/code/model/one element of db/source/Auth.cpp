@@ -1,15 +1,15 @@
 ﻿#include "../headers/Auth.h"
 
-void OneElementOf::Auth::BWrite(const std::string& bInfo, strPos& it)
+void OneElementOf::Auth::BWrite(const bString& bInfo, strPos& it)
 {
-	DefaultID <AJIOBTypes::PrivelegeType::PrivelegeType> buflogin(bInfo, it);
+	DefaultID buflogin(bInfo, it);
 	cl_login = buflogin;
 	cl_password = BStringIO::ReadBInfo<std::string>(bInfo, it);
 }
 
 OneElementOf::Auth::Auth(void* parentDB):cl_login()
 {
-	cl_parentDB = reinterpret_cast<LoginDBClass*> (parentDB);
+	cl_parentDB = reinterpret_cast<AuthDBClass*> (parentDB);
 }
 
 OneElementOf::Auth::Auth(const Auth& that)
@@ -17,9 +17,9 @@ OneElementOf::Auth::Auth(const Auth& that)
 	(*this) = that;
 }
 
-OneElementOf::Auth::Auth(const std::string& bInfo, strPos& it, void* parentDB)
+OneElementOf::Auth::Auth(const bString& bInfo, strPos& it, void* parentDB)
 {
-	cl_parentDB = reinterpret_cast<LoginDBClass*> (parentDB);
+	cl_parentDB = reinterpret_cast<AuthDBClass*> (parentDB);
 	BWrite(bInfo, it);
 }
 
@@ -37,7 +37,7 @@ OneElementOf::Auth& OneElementOf::Auth::operator=(const Auth& that)
 	return (*this);
 }
 
-DefaultID<AJIOBTypes::PrivelegeType::PrivelegeType> OneElementOf::Auth::GetLogin() const
+DefaultID OneElementOf::Auth::GetLogin() const
 {
 	return this->cl_login;
 }
@@ -62,7 +62,7 @@ void OneElementOf::Auth::InputNewPrivelege()
 
 bool OneElementOf::Auth::InputNewPassword()
 {
-	std::string currPwd = getpass("Введите старый пароль");
+	std::string currPwd = Stream::getpass("Введите старый пароль");
 
 	if (currPwd != cl_password)
 	{
@@ -72,8 +72,8 @@ bool OneElementOf::Auth::InputNewPassword()
 
 	while (true)
 	{
-		std::string buffTry1 = getpass("Введите новый пароль");
-		std::string buffTry2 = getpass("Повторите новый пароль");
+		std::string buffTry1 = Stream::getpass("Введите новый пароль");
+		std::string buffTry2 = Stream::getpass("Повторите новый пароль");
 
 		if (buffTry1 == buffTry2)
 		{
@@ -98,16 +98,16 @@ void OneElementOf::Auth::ResetPassword()
 	OutputConsole("Новый пароль: " + cl_password);
 }
 
-std::string OneElementOf::Auth::BRead()
+bString OneElementOf::Auth::BRead() const
 {
-	return (cl_login.BRead() + BStringIO::GetBString(cl_password));
+	return (cl_login.BRead() + BStringIO::MakeBString(cl_password));
 }
 
 void OneElementOf::Auth::InputAuthFromConsole()
 {
 	OutputConsole("Введите логин:");
 	cl_login.SetID(Stream::Input<uli>());
-	cl_password = getpass("Введите пароль:");
+	cl_password = Stream::getpass("Введите пароль:");
 }
 
 bool OneElementOf::Auth::EqualByAll(const Auth& that) const
@@ -137,8 +137,8 @@ std::istream& OneElementOf::operator>>(std::istream& s, Auth& that)
 
 	while (true)
 	{
-		std::string buffTry1 = getpass("Введите пароль");
-		std::string buffTry2 = getpass("Повторите пароль");
+		std::string buffTry1 = Stream::getpass("Введите пароль");
+		std::string buffTry2 = Stream::getpass("Повторите пароль");
 
 		if (buffTry1 == buffTry2)
 		{

@@ -20,29 +20,37 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="project\code\controller\headers\AJIOBMenuClass.h" />
+    <ClInclude Include="project\code\controller\headers\AJIOB_DBSystem.h" />
     <ClInclude Include="project\code\controller\headers\authClass.h" />
     <ClInclude Include="project\code\external\headers\ExternalLib.h" />
     <ClInclude Include="project\code\model\binary input&amp;output\headers\BFileIO.h" />
     <ClInclude Include="project\code\model\binary input&amp;output\templates\BStringIO.h" />
+    <ClInclude Include="project\code\model\dbs\headers\CopiesDBClass.h" />
     <ClInclude Include="project\code\model\dbs\headers\CountryDBClass.h" />
-    <ClInclude Include="project\code\model\dbs\headers\LoginDBClass.h" />
+    <ClInclude Include="project\code\model\dbs\headers\AuthDBClass.h" />
     <ClInclude Include="project\code\model\dbs\headers\PublicationDBClass.h" />
+    <ClInclude Include="project\code\model\dbs\headers\UserDBClass.h" />
     <ClInclude Include="project\code\model\dbs\templates\CryptedDB.h" />
     <ClInclude Include="project\code\model\dbs\templates\DefaultDB.h" />
     <ClInclude Include="project\code\model\enums\ISBNType.h" />
     <ClInclude Include="project\code\model\enums\PrivelegeType.h" />
     <ClInclude Include="project\code\model\exceptions\headers\CtrlCException.h" />
+    <ClInclude Include="project\code\model\exceptions\headers\FReadException.h" />
     <ClInclude Include="project\code\model\exceptions\headers\KeyException.h" />
+    <ClInclude Include="project\code\model\exceptions\headers\OutOfBStringLimitException.h" />
     <ClInclude Include="project\code\model\one element of db\headers\Copies.h" />
     <ClInclude Include="project\code\model\one element of db\headers\Publication.h" />
     <ClInclude Include="project\code\model\one element of db\headers\Country.h" />
     <ClInclude Include="project\code\model\one element of db\headers\Publisher.h" />
+    <ClInclude Include="project\code\model\one element of db\headers\User.h" />
+    <ClInclude Include="project\code\model\other\headers\CancelStruct.h" />
+    <ClInclude Include="project\code\model\other\headers\DefaultID.h" />
     <ClInclude Include="project\code\model\other\headers\ISBNClass.h" />
     <ClInclude Include="project\code\model\other\headers\ISBNOnePart.h" />
     <ClInclude Include="project\code\model\other\headers\IsPublicationGetted.h" />
+    <ClInclude Include="project\code\model\other\headers\typedefs.h" />
     <ClInclude Include="project\code\model\other\templates\MyContainer.h" />
     <ClInclude Include="project\code\model\other\headers\StringFuncs.h" />
-    <ClInclude Include="project\code\model\other\templates\DefaultID.h" />
     <ClInclude Include="project\code\model\one element of db\headers\Auth.h" />
     <ClInclude Include="project\code\model\exceptions\headers\RangeException.h" />
     <ClInclude Include="project\code\model\exceptions\headers\MyException.h" />
@@ -56,17 +64,23 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="project\code\controller\source\AJIOBMenuClass.cpp" />
+    <ClCompile Include="project\code\controller\source\AJIOB_DBSystem.cpp" />
     <ClCompile Include="project\code\controller\source\authClass.cpp" />
     <ClCompile Include="project\code\external\source\ExternalLib.cpp" />
     <ClCompile Include="project\code\model\binary input&amp;output\source\BFileIO.cpp" />
+    <ClCompile Include="project\code\model\dbs\source\CopiesDBClass.cpp" />
     <ClCompile Include="project\code\model\dbs\source\CountryDBClass.cpp" />
-    <ClCompile Include="project\code\model\dbs\source\LoginDBClass.cpp" />
+    <ClCompile Include="project\code\model\dbs\source\AuthDBClass.cpp" />
     <ClCompile Include="project\code\model\dbs\source\PublicationDBClass.cpp" />
+    <ClCompile Include="project\code\model\dbs\source\UserDBClass.cpp" />
     <ClCompile Include="project\code\model\one element of db\source\Auth.cpp" />
     <ClCompile Include="project\code\model\one element of db\source\Copies.cpp" />
     <ClCompile Include="project\code\model\one element of db\source\Publication.cpp" />
     <ClCompile Include="project\code\model\one element of db\source\Country.cpp" />
     <ClCompile Include="project\code\model\one element of db\source\Publisher.cpp" />
+    <ClCompile Include="project\code\model\one element of db\source\User.cpp" />
+    <ClCompile Include="project\code\model\other\source\CancelStruct.cpp" />
+    <ClCompile Include="project\code\model\other\source\DefaultID.cpp" />
     <ClCompile Include="project\code\model\other\source\ISBNClass.cpp" />
     <ClCompile Include="project\code\model\other\source\ISBNOnePart.cpp" />
     <ClCompile Include="project\code\model\other\source\IsPublicationGetted.cpp" />
@@ -77,9 +91,6 @@
     <ClCompile Include="project\code\view\source\log.cpp" />
     <ClCompile Include="project\code\view\source\StreamInput.cpp" />
     <ClCompile Include="project\code\view\source\StreamOutput.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9C0348B1-C919-4152-8F5E-5E6FBDAA6541}</ProjectGuid>

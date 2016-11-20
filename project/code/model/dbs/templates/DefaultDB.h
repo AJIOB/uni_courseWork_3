@@ -1,12 +1,14 @@
 #pragma once
 
 #include <vector>
+#include <stack>
 
 #include "../../binary input&output/headers/BFileIO.h"
 #include "../../binary input&output/templates/BStringIO.h"
-#include "../../../view/headers/view.h"
+//#include "../../../view/headers/view.h"
 #include "../../other/headers/StringFuncs.h"
 #include "../../../model/exceptions/AllExceptions.h"
+#include "../../other/headers/CancelStruct.h"
 
 template <typename oneElementOfDB>
 class DefaultDB : public AJIOB_BinaryFileInputOutput
@@ -21,32 +23,39 @@ protected:
 	//для чтения или нет?
 	bool cl_readOnly;
 
-//protected:
+	std::stack<CancelStruct> cl_cancelStack;
+
 	void WriteAllIfNeed();
 
 	virtual bool UpdateElement(oneElementOfDB&) = 0;
 	void* GetMe();
 
 public:
-	DefaultDB(const std::string& wayToFile, bool isReadOnly = true);
+	DefaultDB(const std::string& wayToFile, bool isReadOnly = false);
 	virtual ~DefaultDB();
 
-	virtual void SaveChangesToFile();
+	virtual bool SaveChangesToFile();
+	
+	bool Save();
+	void Unload();
 
 	//методы
 	virtual void ReadAll();
 	virtual void WriteAll();
 
-	virtual void Add(bool IsUnique = false);
-	virtual void Show() const;
-	virtual void Update();
-	virtual void Delete();
-	virtual int Find(const oneElementOfDB& elem) const;
+	virtual bool Add(const bString& bStr/*, ilu& pos*/);
+	virtual bool Get(const bString& bStrQuery, bString& result) const;
+	virtual bool Update(const bString& bStr);
+	virtual bool Delete(const bString& bStr);
+
+	//virtual int Find(const oneElementOfDB& elem) const;
 
 	void SetReadOnly(const bool isReadOnly);
 	bool GetReadOnly() const;
 
 	virtual void SomethingIsChanged();
+	//todo
+	virtual bool ExecuteQuery(const std::string& query, bString& result);
 };
 
 
@@ -87,7 +96,7 @@ void DefaultDB<oneElementOfDB>::WriteAll()
 	FileReset();
 
 	//Пишем количество строк в файле
-	WriteStringToFile(BStringIO::GetBString(cl_ourArray.size()));
+	WriteStringToFile(BStringIO::MakeBString(cl_ourArray.size()));
 	
 	for (auto it = cl_ourArray.begin(); it != cl_ourArray.end(); ++it)
 	{
@@ -99,11 +108,204 @@ void DefaultDB<oneElementOfDB>::WriteAll()
 }
 
 template <typename oneElementOfDB>
-void DefaultDB<oneElementOfDB>::Add(bool isUnique)
+bool DefaultDB<oneElementOfDB>::Add(const bString& bStr)
 {
 	if (cl_readOnly)
 	{
-		return;
+		return false;
+	}
+
+	strPos it = 0;
+
+	oneElementOfDB buff(GetMe());
+
+	//попытка распознавания бинарной строки
+	try
+	{
+		buff = oneElementOfDB(bStr, it, GetMe());
+	}
+	catch (const OutOfBStringLimitException& e)
+	{
+		OutputConsole(e.what());
+		return false;
+	}
+	/*//todo: find
+	auto findIndex = Find(buff);
+	if (findIndex >= 0)
+	{
+		OutputError("Попытка добавить уже имеющийся элемент");
+		return false;
+	}*/
+
+	if (it < bStr.size())
+	{
+		try
+		{
+			uli pos = BStringIO::ReadBInfo<uli>(bStr, it);
+			//todo: test
+			cl_ourArray.insert(cl_ourArray.begin() + pos, buff);
+		}
+		catch (const OutOfBStringLimitException& e)
+		{
+			OutputConsole(e.what());
+			return false;
+		}
+	}
+	//проверка запроса на законченность
+	/*else if (it < cl_ourArray.size())
+	{
+		return false;
+	}*/
+	else
+	{
+		cl_ourArray.push_back(buff);
+	}
+
+	//создание инверсного запроса
+	CancelStruct tmp;
+	time(&(tmp.time));
+	tmp.query = "delete." + BStringIO::MakeBString(cl_ourArray.size() - 1);
+	cl_cancelStack.push(tmp);
+
+	return true;
+}
+
+template <typename oneElementOfDB>
+bool DefaultDB<oneElementOfDB>::Get(const bString& bStrQuery, bString& result) const
+{
+	result = "";
+
+	std::string checkWord;
+	bString bStr;
+
+	//todo: test
+	AJIOBStringFuncs::BreakStringTo2Strings(bStrQuery, checkWord, bStr, '.');
+
+	if (checkWord == "all")
+	{
+		if (bStr != "")
+		{
+			return false;
+		}
+		//todo: test
+		//result = (reinterpret_cast<MyContainer<oneElementOfDB>>(cl_ourArray)).BRead();
+
+		return true;
+	}
+
+	if (checkWord != "one")
+	{
+		return false;
+	}
+
+	strPos it = 0;
+	uli indexToRead = 0;
+
+	try
+	{
+		indexToRead = BStringIO::ReadBInfo<uli>(bStr, it);
+	}
+	catch(const OutOfBStringLimitException& e)
+	{
+		OutputConsole(e.what());
+		return false;
+	}
+
+	if ((indexToRead >= cl_ourArray.size()) || (it < bStr.size()))
+	{
+		return false;
+	}
+
+	result = cl_ourArray[indexToRead].BRead();
+
+	return true;
+}
+
+template <typename oneElementOfDB>
+bool DefaultDB<oneElementOfDB>::Update(const bString& bStr)
+{
+	if (cl_readOnly)
+	{
+		return false;
+	}
+
+	strPos it = 0;
+	uli indexToUpdate = 0;
+	oneElementOfDB newElem(GetMe());
+
+	try
+	{
+		newElem = oneElementOfDB(bStr, it, GetMe());
+		indexToUpdate = BStringIO::ReadBInfo<uli>(bStr, it);
+	}
+	catch(const OutOfBStringLimitException& e)
+	{
+		OutputConsole(e.what());
+		return false;
+	}
+
+	if (indexToUpdate >= cl_ourArray.size())
+	{
+		return false;
+	}
+
+	//todo: test
+	//создание инверсного запроса
+	CancelStruct tmp;
+	time(&(tmp.time));
+	tmp.query = "update." + cl_ourArray[indexToUpdate].BRead() + BStringIO::MakeBString(indexToUpdate);
+	cl_cancelStack.push(tmp);
+
+	cl_ourArray[indexToUpdate] = newElem;
+
+	return true;
+}
+
+template <typename oneElementOfDB>
+bool DefaultDB<oneElementOfDB>::Delete(const bString& bStr)
+{
+	if (cl_readOnly)
+	{
+		return false;
+	}
+
+	strPos it = 0;
+	uli indexToDelete = 0;
+
+	try
+	{
+		indexToDelete = BStringIO::ReadBInfo<uli>(bStr, it);
+	}
+	catch(const OutOfBStringLimitException& e)
+	{
+		OutputConsole(e.what());
+		return false;
+	}
+
+	if (indexToDelete >= cl_ourArray.size())
+	{
+		return false;
+	}
+
+	//todo: test
+	//создание инверсного запроса
+	CancelStruct tmp;
+	time(&(tmp.time));
+	tmp.query = "add." + cl_ourArray[indexToDelete].BRead() + BStringIO::MakeBString(indexToDelete);
+	cl_cancelStack.push(tmp);
+
+	cl_ourArray.erase(cl_ourArray.begin() + indexToDelete);
+
+	return true;
+}
+
+/*
+template <typename oneElementOfDB>
+int DefaultDB<oneElementOfDB>::Add(bool isUnique)
+{
+	if (cl_readOnly)
+	{
+		return -1;
 	}
 
 	ClearConsole();
@@ -122,11 +324,13 @@ void DefaultDB<oneElementOfDB>::Add(bool isUnique)
 			continue;
 		}
 
-		if (isUnique && (Find(buff) >= 0))
+		auto findIndex = Find(buff);
+
+		if (isUnique && (findIndex >= 0))
 		{
 			if (Stream::GetOnlyYN("Извините, такой объект уже имеется. Отменить ввод?") == 'Y')
 			{
-				return;
+				return findIndex;
 			}
 
 			continue;
@@ -135,10 +339,10 @@ void DefaultDB<oneElementOfDB>::Add(bool isUnique)
 		cl_ourArray.push_back(buff);
 		cl_isChanged = true;
 
-		break;
+		return (cl_ourArray.size() - 1);
 	} while (true);
-}
-
+}*/
+/*
 template <typename oneElementOfDB>
 void DefaultDB<oneElementOfDB>::Show() const
 {
@@ -216,7 +420,7 @@ void DefaultDB<oneElementOfDB>::Delete()
 
 	cl_isChanged = true;
 }
-
+*//*
 template <typename oneElementOfDB>
 int DefaultDB<oneElementOfDB>::Find(const oneElementOfDB& elem) const
 {
@@ -228,7 +432,7 @@ int DefaultDB<oneElementOfDB>::Find(const oneElementOfDB& elem) const
 		}
 	}
 	return -1;
-}
+}*/
 
 template <typename oneElementOfDB>
 void DefaultDB<oneElementOfDB>::SetReadOnly(const bool isReadOnly)
@@ -255,6 +459,41 @@ template <typename oneElementOfDB>
 void DefaultDB<oneElementOfDB>::SomethingIsChanged()
 {
 	cl_isChanged = true;
+}
+
+template <typename oneElementOfDB>
+bool DefaultDB<oneElementOfDB>::ExecuteQuery(const std::string& query, std::string& result)
+{
+	result = "";
+	//todo: обработка других команд
+
+	//select command to execute query
+	std::string whatCommand;
+	std::string rightPart;
+
+	AJIOBStringFuncs::BreakStringTo2Strings(query, whatCommand, rightPart, '.');
+
+	if (whatCommand == "add")
+	{
+		return Add(rightPart);
+	}
+	
+	if (whatCommand == "get")
+	{
+		return Get(rightPart, result);
+	}
+
+	if (whatCommand == "update")
+	{
+		return Update(rightPart);
+	}
+
+	if (whatCommand == "delete")
+	{
+		return Delete(rightPart);
+	}
+
+	return false;
 }
 
 template <typename oneElementOfDB>
@@ -296,14 +535,26 @@ DefaultDB<oneElementOfDB>::~DefaultDB()
 }
 
 template <typename oneElementOfDB>
-void DefaultDB<oneElementOfDB>::SaveChangesToFile()
+bool DefaultDB<oneElementOfDB>::SaveChangesToFile()
 {
 	if (cl_readOnly || !cl_isChanged)
 	{
-		OutputConsole("В файле записана актуальная информация");
-		return;
+		return false;
 	}
 
 	WriteAll();
-	OutputConsole("Все изменения успешно сохранены");
+	
+	return true;
+}
+
+template <typename oneElementOfDB>
+bool DefaultDB<oneElementOfDB>::Save()
+{
+	return SaveChangesToFile();
+}
+
+template <typename oneElementOfDB>
+void DefaultDB<oneElementOfDB>::Unload()
+{
+	WriteAllIfNeed();
 }

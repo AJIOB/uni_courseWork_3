@@ -32,7 +32,7 @@ std::istream& OneElementOf::operator>>(std::istream& s, Country& that)
 	return s;
 }
 
-void OneElementOf::Country::BWrite(const std::string& bInfo, strPos& it)
+void OneElementOf::Country::BWrite(const bString& bInfo, strPos& it)
 {
 	Country buffer(cl_parentDB);
 	buffer.cl_nameOfCountry = BStringIO::ReadBInfo<std::string>(bInfo, it);
@@ -104,7 +104,7 @@ OneElementOf::Country::Country(const Country& that)
 	(*this) = that;
 }
 
-OneElementOf::Country::Country(const std::string& bInfo, strPos& it, void* parentDB) : cl_countryISBNPart()
+OneElementOf::Country::Country(const bString& bInfo, strPos& it, void* parentDB) : cl_countryISBNPart()
 {
 	cl_parentDB = reinterpret_cast<CountryDBClass*> (parentDB);
 	BWrite(bInfo, it);
@@ -138,9 +138,9 @@ MyContainer<OneElementOf::Publisher> OneElementOf::Country::GetPublishers() cons
 	return cl_publishers;
 }
 
-std::string OneElementOf::Country::BRead() const
+bString OneElementOf::Country::BRead() const
 {
-	return (BStringIO::GetBString(cl_nameOfCountry) + BStringIO::GetBString(cl_countryISBNPart) + cl_publishers.BRead());
+	return (BStringIO::MakeBString(cl_nameOfCountry) + BStringIO::MakeBString(cl_countryISBNPart) + cl_publishers.BRead());
 }
 
 bool OneElementOf::Country::InputNewName()

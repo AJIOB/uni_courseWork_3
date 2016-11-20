@@ -5,28 +5,28 @@
 
 const char LoginDBDefaultWay[] = "project\\dbs\\auth.db";
 
-class LoginDBClass : private CryptedDB<OneElementOf::Auth>
+class AuthDBClass : public CryptedDB<OneElementOf::Auth>
 {
 	void Load(bool isReadOnly = true);
 
 	bool UpdateElement(OneElementOf::Auth& elem) override;
 
 public:
-	LoginDBClass(bool isReadOnly = false);
-	~LoginDBClass();
-	
+	AuthDBClass(bool isReadOnly = false);
+	~AuthDBClass();
+	/*
 	void Save();
 	void Unload();
-
+	/*
 	void Add();
-	void Show() const override;
+	void Show() const;*/
 	int Find(const OneElementOf::Auth& currLP) const;
-	void Update() override;
-	void Delete() override;
-
+	/*void Update();
+	void Delete();
+	/*/
 	OneElementOf::Auth& GetElement(int index);
 	const OneElementOf::Auth& GetElement(int index) const;
 	OneElementOf::Auth& operator[](int index);
 
-	void SomethingIsChanged() override;
+	//void SomethingIsChanged() override;
 };

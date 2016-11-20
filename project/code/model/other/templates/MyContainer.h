@@ -5,12 +5,9 @@
 #include "../../../view/headers/view.h"
 #include "../../exceptions/AllExceptions.h"
 #include "../../other/headers/StringFuncs.h"
-//#include "../../binary input&output/templates/BStringIO.h"
+#include "../headers/typedefs.h"
+#include "../../binary input&output/templates/BStringIO.h"
 
-#ifndef AJIOB_STRPOS
-#define AJIOB_STRPOS
-typedef unsigned int strPos;
-#endif
 
 template <typename Type>
 class MyContainer : public std::vector<Type>
@@ -19,7 +16,7 @@ public:
 	//std::string cl_whatWeStoreHere;
 
 	std::string BRead() const;
-	void BWrite(const std::string& bInfo, strPos& it);
+	void BWrite(const bString& bInfo, strPos& it);
 
 	template <typename T>
 	friend std::ostream& operator<< (std::ostream& s, const MyContainer<T>& that);
@@ -44,19 +41,19 @@ public:
 //cpp
 
 template <typename Type>
-std::string MyContainer<Type>::BRead() const
+bString MyContainer<Type>::BRead() const
 {
-	std::string buffer = BStringIO::GetBString(this->size());
+	std::string buffer = BStringIO::MakeBString(this->size());
 	for (auto it = this->begin(); it != this->end(); ++it)
 	{
-		buffer += BStringIO::GetBString(*it);
+		buffer += BStringIO::MakeBString(*it);
 	}
 
 	return buffer;
 }
 
 template <typename Type>
-void MyContainer<Type>::BWrite(const std::string& bInfo, strPos& it)
+void MyContainer<Type>::BWrite(const bString& bInfo, strPos& it)
 {
 	size_t numOfElements = BStringIO::ReadBInfo<size_t>(bInfo, it);
 	this->clear();
@@ -151,6 +148,42 @@ bool MyContainer<Type>::Add(bool isUnique)
 	} while (true);
 }
 
+template <>
+inline bool MyContainer<std::string>::Add(bool isUnique)
+{
+	ClearConsole();
+
+	std::string buff;
+
+	do
+	{
+		OutputConsole("Введите информацию для добавления/изменения.");
+		Stream::Input(buff);
+		ClearConsole();
+		OutputConsole("Пожалуйста, проверьте правильность распознавания введенной Вами информации.");
+		std::cout << buff << std::endl;
+
+		if (Stream::GetOnlyYN("Всё введено корректно?") == 'N')
+		{
+			continue;
+		}
+
+		if (isUnique && (Find(buff) >= 0))
+		{
+			if (Stream::GetOnlyYN("Извините, такой объект уже имеется. Отменить ввод?") == 'Y')
+			{
+				return false;
+			}
+
+			continue;
+		}
+
+		this->push_back(buff);
+		return true;
+
+	} while (true);
+}
+
 template <typename oneElementOfDB>
 void MyContainer<oneElementOfDB>::Show() const
 {
@@ -194,6 +227,36 @@ bool MyContainer<oneElementOfDB>::Update()
 	return (this->at(index).UpdateMe());
 }
 
+template <>
+inline bool MyContainer<std::string>::Update()
+{
+	int index = 0;
+	do
+	{
+		try
+		{
+			index = Stream::InputInRange("Введите индекс элемента, который вы хотите обновить:", 1, static_cast<int> (this->size())) - 1;
+			std::cout << this->at(index);
+		}
+		catch(const RangeException&)
+		{
+			OutputConsole("База данных пуста.");
+			return false;
+		}
+	} while (Stream::GetOnlyYN("Вы хотите обновить именно этот элемент?") == 'N');
+
+	if (!Add(true))
+	{
+		return false;
+	}
+
+	//заменяем нужный элемент
+	this->at(index) = this->back();
+	this->pop_back();
+
+	return true;
+}
+
 template <typename oneElementOfDB>
 bool MyContainer<oneElementOfDB>::Delete()
 {
@@ -222,6 +285,35 @@ bool MyContainer<oneElementOfDB>::Delete()
 	return true;
 }
 
+template <>
+inline bool MyContainer<std::string>::Delete()
+{
+	ClearConsole();
+
+	int delPos = 0;
+
+	do
+	{
+		try
+		{
+			 delPos = Stream::InputInRange("Введите № удаляемого элемента:", 1, static_cast<int> (this->size())) - 1;
+			 std::cout << this->at(delPos) << std::endl;
+
+		}
+		catch(const RangeException&)
+		{
+			OutputConsole("База данных пуста. Нечего удалять");
+			return false;
+		}
+	} while (Stream::GetOnlyYN("Вы хотите удалить именно этот элемент?") == 'N');
+
+	this->erase(this->begin() + delPos);
+		
+
+	return true;
+}
+
+
 template <typename Type>
 int MyContainer<Type>::Find(const Type& elementToFind) const
 {
@@ -235,13 +327,6 @@ int MyContainer<Type>::Find(const Type& elementToFind) const
 
 	return -1;
 }
-/*
-template <typename Type>
-MyContainer<Type>& MyContainer<Type>::operator=(const MyContainer& x)
-{
-	std::vector<Type>::operator=(x);
-	return (*this);
-}*/
 
 template <typename Type>
 std::ostream& operator<<(std::ostream& s, const MyContainer<Type>& container)

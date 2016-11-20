@@ -13,11 +13,6 @@ CountryDBClass::~CountryDBClass()
 	Unload();
 }
 
-void CountryDBClass::Save()
-{
-	DefaultDB<OneElementOf::Country>::SaveChangesToFile();
-}
-
 void CountryDBClass::Load(bool isReadOnly)
 {
 	cl_readOnly = isReadOnly;
@@ -67,11 +62,7 @@ bool CountryDBClass::UpdateElement(OneElementOf::Country& elem)
 	while (true);
 }
 
-void CountryDBClass::Unload()
-{
-	WriteAllIfNeed();
-}
-
+/*
 void CountryDBClass::Add()
 {
 	DefaultDB<OneElementOf::Country>::Add(true);
@@ -81,7 +72,7 @@ void CountryDBClass::Show() const
 {
 	DefaultDB<OneElementOf::Country>::Show();
 }
-
+*/
 bool CountryDBClass::AddByISBN(const ISBNClass& currentISBN)
 {
 	OneElementOf::Country tmpCountry(this);
@@ -120,7 +111,7 @@ bool CountryDBClass::AddByISBN(const ISBNClass& currentISBN)
 
 	return result;
 }
-
+/*
 void CountryDBClass::Update()
 {
 	DefaultDB<OneElementOf::Country>::Update();
@@ -130,7 +121,7 @@ void CountryDBClass::Delete()
 {
 	DefaultDB<OneElementOf::Country>::Delete();
 }
-
+*/
 OneElementOf::Country& CountryDBClass::GetElement(int index)
 {
 	return cl_ourArray[index];
@@ -196,8 +187,9 @@ std::string CountryDBClass::GetInfo(const ISBNClass& num)
 
 	return buffer;
 }
-
+/*
 void CountryDBClass::SomethingIsChanged()
 {
 	DefaultDB<OneElementOf::Country>::SomethingIsChanged();
 }
+*/

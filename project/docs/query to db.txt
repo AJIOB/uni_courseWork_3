@@ -1,0 +1,31 @@
+Синтаксис:
+имя базы.имя операции.параметры запроса
+Пример:
+client.show
+
+Виды БД
+"countries"
+"auth"
+"publications"
+"bookcopies"
+"users"
+
+
+Виды запросов
+"add"
+"get"
+"update"
+"delete"
+
+
+[all in <> is bInfo]
+add.<new element><[optional] position to add>
+delete.<indexToDelete>
+update.<new element><indexToUpdate>
+get.all
+get.one.<indexToGet>
+save
+
+
+find.<element>
+

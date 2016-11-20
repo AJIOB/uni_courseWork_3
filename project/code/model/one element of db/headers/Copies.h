@@ -5,6 +5,8 @@
 #include "../../../view/headers/StreamInput.h"
 #include "../../other/templates/MyContainer.h"
 #include "../../other/headers/ISBNClass.h"
+#include "../../other/headers/IsPublicationGetted.h"
+#include "../../dbs/headers/PublicationDBClass.h"
 //#include "Country.h"
 /*
 #ifndef AJIOB_UI
@@ -20,7 +22,7 @@ typedef unsigned long int uli;
 typedef unsigned int strPos;
 #endif
 
-//class PublisherBDClass;
+class CopiesDBClass;
 
 namespace OneElementOf
 {
@@ -31,28 +33,28 @@ class OneElementOf::Copies
 {
 	
 	ISBNClass cl_ISBN;
-	/*std::string cl_name;
-	std::string cl_authors;
-	uli cl_yearOfCopies;
-	/*/
-	//CopiesDBClass* cl_parent;
+	MyContainer<IsPublicationGetted> cl_isThisCopyGetted;
 
-	void BWrite(const std::string& bInfo, strPos& it);
+	CopiesDBClass* cl_parent;
 
+	void BWrite(const bString& bInfo, strPos& it);
+
+	int CopiesThatNotArchieved() const;
+	int CopiesYouCanGetNow() const;
+
+	PublicationDBClass* GetConnectedPublicationDB() const;
 public:
 	Copies(void* parent = nullptr);
 	Copies(const Copies& that);
-	Copies(const std::string& bInfo, strPos& it, void* parent);
+	Copies(const bString& bInfo, strPos& it, void* parent);
 	~Copies();
 
 	Copies& operator=(const Copies& that);
 
 	ISBNClass GetISBN() const;
-	std::string GetName() const;
-	std::string GetAuthor() const;
-	uli GetYearOfPublicatiion() const;
+	MyContainer<IsPublicationGetted> GetArrayOfInfoAboutCopies() const;
 
-	std::string BRead() const;
+	bString BRead() const;
 
 	friend std::ostream& operator<< (std::ostream& s, const Copies& that);
 	friend std::istream& operator>> (std::istream& s, Copies& that);
@@ -60,11 +62,8 @@ public:
 	bool EqualByISBN(const Copies& that) const;
 
 	bool operator==(const Copies& that) const;
-
+	
 	//Update
 	bool InputNewISBN();
-	bool InputNewName();
-	bool InputNewAuthor();
-	bool InputNewYear();
-
+	bool WorkWithCopies();
 };

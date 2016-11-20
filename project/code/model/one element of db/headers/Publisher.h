@@ -1,39 +1,30 @@
 ﻿#pragma once
 #include <string>
-#include <vector>
+//#include <vector>
 
-#include "../../../view/headers/StreamInput.h"
+//#include "../../../view/headers/StreamInput.h"
 #include "../../other/templates/MyContainer.h"
 #include "../../other/headers/ISBNOnePart.h"
+#include "../../binary input&output/templates/BStringIO.h"
 //#include "Country.h"
-/*
-#ifndef AJIOB_UI
-#define AJIOB_UI
-
-typedef unsigned long int uli;
-
-#endif*/
 
 #ifndef AJIOB_BStringIO_header
 #define AJIOB_BStringIO_header
 
-#ifndef AJIOB_STRPOS
-#define AJIOB_STRPOS
-typedef unsigned int strPos;
-#endif
+#include "../../other/headers/typedefs.h"
 
 namespace BStringIO
 {
 	template <typename InfoType>
-	InfoType ReadBInfo(const std::string& str, strPos& iterator);
+	InfoType ReadBInfo(const bString& str, strPos& iterator);
 
 	template <typename InfoType>
-	std::string GetBString(const InfoType& info);
+	bString MakeBString(const InfoType& info);
 }
 
 #endif
 
-//class PublisherBDClass;
+//class PublisherDBClass;
 
 namespace OneElementOf
 {
@@ -48,15 +39,16 @@ class OneElementOf::Publisher
 	std::string cl_name;
 	std::string cl_city;
 	MyContainer<ISBNOnePart> cl_ISBN_PublisherPart;
+	//int cl_ISBN_PublisherPart;
 
 	Country* cl_parent;
 
-	void BWrite(const std::string& bInfo, strPos& it);
+	void BWrite(const bString& bInfo, strPos& it);
 
 public:
 	Publisher(void* parent = nullptr);
 	Publisher(const Publisher& that);
-	Publisher(const std::string& bInfo, strPos& it, void* parent);
+	Publisher(const bString& bInfo, strPos& it, void* parent);
 	~Publisher();
 
 	bool AddISBNPart(const ISBNOnePart& newISBN);
@@ -68,10 +60,10 @@ public:
 	MyContainer<ISBNOnePart> GetISBNParts() const;
 
 
-	std::string BRead() const;
+	bString BRead() const;
 	
-	friend Publisher BStringIO::ReadBInfo<Publisher>(const std::string& str, strPos& iterator);
-	friend std::string GetBString(const Publisher& info);
+	//friend Publisher BStringIO::ReadBInfo<Publisher>(const std::string& str, strPos& iterator);
+	//friend std::string BStringIO::MakeBString(const Publisher& info);
 
 	friend std::ostream& operator<< (std::ostream& s, const Publisher& that);
 	friend std::istream& operator>> (std::istream& s, Publisher& that);
@@ -90,3 +82,18 @@ public:
 
 	bool UpdateMe();
 };
+
+//for publisher
+template <>
+inline OneElementOf::Publisher BStringIO::ReadBInfo<OneElementOf::Publisher>(const bString& str, strPos& iterator)
+{
+	return OneElementOf::Publisher(str, iterator, nullptr);
+}
+
+template <>
+inline bString BStringIO::MakeBString<OneElementOf::Publisher>(const OneElementOf::Publisher& info)
+{
+	//return (MakeBString(info.length()) + info);
+	//return std::string();
+	return info.BRead();
+}

@@ -1,53 +1,112 @@
 ﻿#include "../headers/Copies.h"
-/*
+#include "../../dbs/headers/CopiesDBClass.h"
+
 std::ostream& OneElementOf::operator<<(std::ostream& s, const Copies& that)
 {
-	s << "ISBN: " << that.cl_ISBN.GetAsString() << std::endl;
-	s << "Название издания: " << that.cl_name << std::endl;
-	s << "Авторы: " << that.cl_authors << std::endl;
-	s << "Год издания: " << that.cl_yearOfCopies <<std::endl;
-	s << (that.GetConnectedCountryDB()->GetInfo(that.cl_ISBN));
+	auto findIndex = that.GetConnectedPublicationDB()->FindByISBN(that.cl_ISBN);
+
+	if (findIndex < 0)
+	{
+		s << "ISBN: " << that.cl_ISBN << std::endl;
+	}
+	else
+	{
+		s << that.GetConnectedPublicationDB()[0][findIndex];
+	}
+
+	s << "Всего " << that.CopiesThatNotArchieved() << " экземпляров (-а)" << std::endl;
+	s << "В наличии " << that.CopiesYouCanGetNow() << " экземпляров (-а)" << std::endl;
 	return s;
 }
 
 std::istream& OneElementOf::operator>>(std::istream& s, Copies& that)
 {
-	OutputConsole("Введите ISBN:");
-	Stream::Input(that.cl_ISBN);
-	that.GetConnectedCountryDB()->AddByISBN(that.cl_ISBN);
-	OutputConsole("Введите название издания:");
-	Stream::Input(that.cl_name);
-	OutputConsole("Введите авторов:");
-	Stream::Input(that.cl_authors);
-	OutputConsole("Введите год издания:");
-	Stream::Input(that.cl_yearOfCopies);
+	Copies buff(that);
+
+	do
+	{
+		OutputConsole("Введите ISBN:");
+		Stream::Input(buff.cl_ISBN);
+
+		//auto findIndex = that.cl_parent->FindByISBN(buff.cl_ISBN);
+
+		if (that.cl_parent->FindByISBN(buff.cl_ISBN) < 0)
+		{
+			break;
+		}
+
+		if (Stream::GetOnlyYN("Был введен ISBN, который уже есть в этой базе. Отменить ввод?") == 'Y')
+		{
+			return s;
+		}
+		
+		OutputConsole("Пожалуйста, введите уникальный ISBN или выберите другую операцию");
+	} while (true);
+
+	uli iBuffer;
+	OutputConsole("Введите количество экземпляров издания:");
+	Stream::Input(iBuffer);
+	buff.cl_isThisCopyGetted.resize(iBuffer);
+
+	that = buff;
 
 	return s;
 }
 
-void OneElementOf::Copies::BWrite(const std::string& bInfo, strPos& it)
+void OneElementOf::Copies::BWrite(const bString& bInfo, strPos& it)
 {
 	Copies buffer(cl_parent);
 
 	buffer.cl_ISBN = ISBNClass(bInfo, it);
-	buffer.cl_name = BStringIO::ReadBInfo<std::string>(bInfo, it);
-	buffer.cl_authors = BStringIO::ReadBInfo<std::string>(bInfo, it);
-	buffer.cl_yearOfCopies = BStringIO::ReadBInfo<uli>(bInfo, it);
-	
+	buffer.cl_isThisCopyGetted.BWrite(bInfo, it);
 	(*this) = buffer;
 }
 
+int OneElementOf::Copies::CopiesThatNotArchieved() const
+{
+	int num = 0;
+	
+	for (auto it = cl_isThisCopyGetted.begin(); it != cl_isThisCopyGetted.end(); it++)
+	{
+		if (!(it->GetIsArchieved()))
+		{
+			num++;
+		}
+	}
+
+	return num;
+}
+
+int OneElementOf::Copies::CopiesYouCanGetNow() const
+{
+	int num = 0;
+	
+	for (auto it = cl_isThisCopyGetted.begin(); it != cl_isThisCopyGetted.end(); ++it)
+	{
+		if ((!(it->GetIsArchieved())) && (!(it->GetIsGetted())))
+		{
+			num++;
+		}
+	}
+
+	return num;
+}
+
+PublicationDBClass* OneElementOf::Copies::GetConnectedPublicationDB() const
+{
+	return cl_parent->cl_connected_PublicationDB;
+}
+
+/*
 CountryDBClass* OneElementOf::Copies::GetConnectedCountryDB() const
 {
 	return (cl_parent->cl_connected_CountryDB);
-}
+}*/
 
 OneElementOf::Copies::Copies(void* parent)
 {
-	cl_yearOfCopies = 0;
 
 	cl_parent = reinterpret_cast<CopiesDBClass*> (parent);
-	//cl_countryISBNPart = -1;
 }
 
 OneElementOf::Copies::Copies(const Copies& that)
@@ -55,7 +114,7 @@ OneElementOf::Copies::Copies(const Copies& that)
 	(*this) = that;
 }
 
-OneElementOf::Copies::Copies(const std::string& bInfo, strPos& it, void* parent)
+OneElementOf::Copies::Copies(const bString& bInfo, strPos& it, void* parent)
 {
 	cl_parent = reinterpret_cast<CopiesDBClass*> (parent);
 	BWrite(bInfo, it);
@@ -68,9 +127,8 @@ OneElementOf::Copies::~Copies()
 OneElementOf::Copies& OneElementOf::Copies::operator=(const Copies& that)
 {
 	cl_ISBN = that.cl_ISBN;
-	cl_name = that.cl_name;
-	cl_authors = that.cl_authors;
-	cl_yearOfCopies = that.cl_yearOfCopies;
+	cl_isThisCopyGetted = that.cl_isThisCopyGetted;
+
 	cl_parent = that.cl_parent;
 
 	return (*this);
@@ -81,24 +139,14 @@ ISBNClass OneElementOf::Copies::GetISBN() const
 	return cl_ISBN;
 }
 
-std::string OneElementOf::Copies::GetName() const
+MyContainer<IsPublicationGetted> OneElementOf::Copies::GetArrayOfInfoAboutCopies() const
 {
-	return cl_name;
+	return cl_isThisCopyGetted;
 }
 
-std::string OneElementOf::Copies::GetAuthor() const
+bString OneElementOf::Copies::BRead() const
 {
-	return cl_authors;
-}
-
-uli OneElementOf::Copies::GetYearOfPublicatiion() const
-{
-	return cl_yearOfCopies;
-}
-
-std::string OneElementOf::Copies::BRead() const
-{
-	return (cl_ISBN.BRead() + BStringIO::GetBString(cl_name) + BStringIO::GetBString(cl_authors) + BStringIO::GetBString(cl_yearOfCopies));
+	return (cl_ISBN.BRead() + cl_isThisCopyGetted.BRead());
 }
 
 bool OneElementOf::Copies::EqualByISBN(const Copies& that) const
@@ -121,7 +169,7 @@ bool OneElementOf::Copies::InputNewISBN()
 			OutputConsole("Введите новое название издания.");
 			Stream::Input(buffer.cl_ISBN);
 
-			if (cl_parent->FindByISBNPart(buffer.cl_ISBN) < 0)
+			if (cl_parent->FindByISBN(buffer.cl_ISBN) < 0)
 			{
 				break;
 			}
@@ -137,6 +185,13 @@ bool OneElementOf::Copies::InputNewISBN()
 	return true;
 }
 
+bool OneElementOf::Copies::WorkWithCopies()
+{
+	return cl_isThisCopyGetted.Update();
+}
+
+
+/*
 bool OneElementOf::Copies::InputNewName()
 {
 	Copies buffer(*this);

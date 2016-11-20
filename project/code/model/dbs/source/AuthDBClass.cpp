@@ -1,29 +1,24 @@
-﻿#include "../headers/LoginDBClass.h"
+﻿#include "../headers/AuthDBClass.h"
 
-LoginDBClass::LoginDBClass(bool isReadOnly)
+AuthDBClass::AuthDBClass(bool isReadOnly)
 	: CryptedDB<OneElementOf::Auth>(LoginDBDefaultWay, isReadOnly)
 {
 	//cl_readOnly = isReadOnly;
 	Load(isReadOnly);
 }
 
-LoginDBClass::~LoginDBClass()
+AuthDBClass::~AuthDBClass()
 {
 	Unload();
 }
 
-void LoginDBClass::Save()
-{
-	CryptedDB<OneElementOf::Auth>::SaveChangesToFile();
-}
-
-void LoginDBClass::Load(bool isReadOnly)
+void AuthDBClass::Load(bool isReadOnly)
 {
 	cl_readOnly = isReadOnly;
 	ReadAll();
 }
 
-bool LoginDBClass::UpdateElement(OneElementOf::Auth& elem)
+bool AuthDBClass::UpdateElement(OneElementOf::Auth& elem)
 {
 	ClearConsole();
 	bool isUpdated = false;
@@ -60,22 +55,18 @@ bool LoginDBClass::UpdateElement(OneElementOf::Auth& elem)
 	while (true);
 }
 
-void LoginDBClass::Unload()
-{
-	WriteAllIfNeed();
-}
-
-void LoginDBClass::Add()
+/*
+void AuthDBClass::Add()
 {
 	CryptedDB<OneElementOf::Auth>::Add();
 }
 
-void LoginDBClass::Show() const
+void AuthDBClass::Show() const
 {
 	CryptedDB<OneElementOf::Auth>::Show();
-}
+}*/
 
-int LoginDBClass::Find(const OneElementOf::Auth& currLP) const
+int AuthDBClass::Find(const OneElementOf::Auth& currLP) const
 {
 	for (auto i = 0; i < cl_ourArray.size(); ++i)
 	{
@@ -87,33 +78,34 @@ int LoginDBClass::Find(const OneElementOf::Auth& currLP) const
 
 	return -1;
 }
-
-void LoginDBClass::Update()
+/*
+void AuthDBClass::Update()
 {
 	CryptedDB<OneElementOf::Auth>::Update();
 }
 
-void LoginDBClass::Delete()
+void AuthDBClass::Delete()
 {
 	CryptedDB<OneElementOf::Auth>::Delete();
-}
+}*/
 
-OneElementOf::Auth& LoginDBClass::GetElement(int index)
+OneElementOf::Auth& AuthDBClass::GetElement(int index)
 {
 	return cl_ourArray[index];
 }
 
-const OneElementOf::Auth& LoginDBClass::GetElement(int index) const
+const OneElementOf::Auth& AuthDBClass::GetElement(int index) const
 {
 	return cl_ourArray[index];
 }
 
-OneElementOf::Auth& LoginDBClass::operator[](int index)
+OneElementOf::Auth& AuthDBClass::operator[](int index)
 {
 	return GetElement(index);
 }
-
-void LoginDBClass::SomethingIsChanged()
+/*
+void AuthDBClass::SomethingIsChanged()
 {
 	CryptedDB<OneElementOf::Auth>::SomethingIsChanged();
 }
+*/

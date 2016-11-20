@@ -1,8 +1,9 @@
 ﻿#pragma once
 #include <string>
+#include <vector>
 
 #include "../../../model/exceptions/AllExceptions.h"
-#include "ISBNOnePart.h"
+//#include "ISBNOnePart.h"
 
 namespace AJIOBStringFuncs
 {
@@ -12,5 +13,6 @@ namespace AJIOBStringFuncs
 
 	void Invert(std::string& str);
 
-	std::vector<std::string> BreakStringToArrayOfUIntStrings(const std::string& str, const char devider = ' ');
+	std::vector<std::string> BreakStringToArrayOfStrings(const std::string& str, const char devider = ' ');
+	void BreakStringTo2Strings(const std::string str, std::string& leftResult, std::string& rightResult, const char devider = ' ');
 }

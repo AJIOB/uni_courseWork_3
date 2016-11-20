@@ -3,16 +3,12 @@
 #include <vector>
 
 #include "../../view/headers/view.h"
-//#include "../../view/headers/WorkWithStreams.h"
-//#include "../../external/headers/ExternalLib.h"
-//#include "../../model/dbs/templates/CryptedDB.h"
-//#include "../../model/one element of db/headers/Auth.h"
-#include "../../model/dbs/headers/LoginDBClass.h"
+#include "../../model/dbs/headers/AuthDBClass.h"
 #include "../../model/exceptions/AllExceptions.h"
 
 class AuthClass
 {
-	LoginDBClass* cl_loginDB;
+	AuthDBClass* cl_loginDB;
 	bool cl_isGetDBbyExternal;
 
 	OneElementOf::Auth cl_currentUser;
@@ -21,7 +17,7 @@ public:
 	//конструктор (загрузка из БД)
 	AuthClass();
 
-	AuthClass(LoginDBClass* loginDB);
+	AuthClass(AuthDBClass* loginDB);
 	//деструктор
 	~AuthClass();
 

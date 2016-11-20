@@ -72,7 +72,7 @@ void AJIOBStringFuncs::Invert(std::string& str)
 	}
 }
 
-std::vector<std::string> AJIOBStringFuncs::BreakStringToArrayOfUIntStrings(const std::string& str, const char devider)
+std::vector<std::string> AJIOBStringFuncs::BreakStringToArrayOfStrings(const std::string& str, const char devider)
 {
 	std::vector<std::string> result;
 	std::string buff;
@@ -92,4 +92,26 @@ std::vector<std::string> AJIOBStringFuncs::BreakStringToArrayOfUIntStrings(const
 	result.push_back(buff);
 
 	return result;
+}
+
+void AJIOBStringFuncs::BreakStringTo2Strings(const std::string str, std::string& leftResult, std::string& rightResult, const char devider)
+{
+	leftResult = "";
+	rightResult = "";
+
+	bool isFind = false;
+
+	std::string* writeptr = &leftResult;
+
+	for (auto it = str.begin(); it != str.end(); ++it)
+	{
+		if ((*it) == devider && !isFind)
+		{
+			isFind = true;
+			writeptr = &rightResult;
+			continue;
+		}
+
+		writeptr->push_back(*it);
+	}
 }

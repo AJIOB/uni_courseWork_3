@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <conio.h>
 
 #include "StreamOutput.h"
 //#include "../../other/headers/MyException.h"
@@ -18,10 +19,10 @@ namespace Stream
 	void Input(InputType& elem);
 
 	char Get();
-	
 	char GetOnlyYN(const std::string& infoText);
 	int InputEnum(const std::vector<std::string>& texts, int numOfTheFirstElementToShow = 1);
 
+	std::string getpass(const char *prompt, bool show_asterisk = true);
 
 	template<typename InputType>
 	InputType InputInRange(const std::string& shownText, const InputType& min, const InputType& max);
@@ -37,6 +38,22 @@ namespace Stream
 inline void Stream::Clear()
 {
 	std::cin.clear();
+
+	std::streambuf* tmp = std::cin.rdbuf();
+
+	/*for debug only
+	auto size = tmp->in_avail();
+	std::cout << size << std::endl;
+	/*/
+
+	while ( tmp->in_avail() != 0 )
+	{
+		//переход на следующий символ
+		tmp->sbumpc();
+    }
+
+	/*	//old
+	std::cin.clear();
 	//std::cin.good();
 
 	if (std::cin.peek() == std::char_traits<char>::eof())
@@ -44,7 +61,7 @@ inline void Stream::Clear()
 		return;
 	}
 
-	while (std::cin.get() != AJIOB_END_OF_LINE);
+	while (std::cin.get() != AJIOB_END_OF_LINE);*/
 }
 
 template<typename InputType>
@@ -109,7 +126,7 @@ InputType Stream::InputInRange(const std::string& shownText, const InputType& mi
 {
 	if (min > max)
 	{
-		//throw RangeException();
+		throw RangeException();
 	}
 
 	InputType buffer;

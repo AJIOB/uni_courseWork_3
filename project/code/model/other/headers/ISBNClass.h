@@ -4,6 +4,7 @@
 #include "ISBNOnePart.h"
 #include "../../binary input&output/templates/BStringIO.h"
 #include "../../exceptions/AllExceptions.h"
+#include "StringFuncs.h"
 
 const auto numOfISBNFields = 4;
 
@@ -25,11 +26,11 @@ class ISBNClass
 
 	bool ParseConsoleString(const std::string&);
 
-	void BWrite(const std::string& bInfo, strPos& it);
+	void BWrite(const bString& bInfo, strPos& it);
 
 public:
 	ISBNClass();
-	ISBNClass(const std::string& bInfo, strPos& it);
+	ISBNClass(const bString& bInfo, strPos& it);
 	~ISBNClass();
 
 	std::string BRead() const;

@@ -28,7 +28,7 @@ class OneElementOf::Country
 
 	CountryDBClass* cl_parentDB;
 
-	void BWrite(const std::string& bInfo, strPos& it);
+	void BWrite(const bString& bInfo, strPos& it);
 
 	bool AddByISBN(const ISBNClass& num);
 
@@ -36,7 +36,7 @@ class OneElementOf::Country
 public:
 	Country(void* parentDB = nullptr);
 	Country(const Country& that);
-	Country(const std::string& bInfo, strPos& it, void* parentDB);
+	Country(const bString& bInfo, strPos& it, void* parentDB);
 	~Country();
 
 	Country& operator=(const Country& that);
@@ -45,7 +45,7 @@ public:
 	ISBNOnePart GetISBNPart() const;
 	MyContainer<OneElementOf::Publisher> GetPublishers() const;
 
-	std::string BRead() const;
+	bString BRead() const;
 
 	friend std::ostream& operator<< (std::ostream& s, const Country& that);
 	friend std::istream& operator>> (std::istream& s, Country& that);
