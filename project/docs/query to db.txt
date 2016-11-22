@@ -10,22 +10,30 @@ client.show
 "bookcopies"
 "users"
 
-
+/*
 Виды запросов
 "add"
 "get"
 "update"
 "delete"
+*/
+
+saveall
 
 
 [all in <> is bInfo]
-add.<new element><[optional] position to add>
-delete.<indexToDelete>
-update.<new element><indexToUpdate>
-get.all
-get.one.<indexToGet>
-save
+add.<new element><[optional] position to add>		""
+delete.<indexToDelete>								""
+update.<new element><indexToUpdate>					""
+get.all												<MyContainer<element>>
+get.one.<indexToGet>								<element>
+get.address											<address of parent>
+get.size											<size>
+save												""
+cancel.last											""
 
 
-find.<element>
+find.<element>										<int pos>
+show.all											<"infoToShow">
+show.one.<indexToGet>								<"infoToShow">
 

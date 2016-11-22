@@ -3,13 +3,20 @@
 
 std::ostream& OneElementOf::operator<<(std::ostream& s, const Copies& that)
 {
-	auto findIndex = that.GetConnectedPublicationDB()->FindByISBN(that.cl_ISBN);
+	auto connectedPublicationDB = that.GetConnectedPublicationDB();
+
+	int findIndex = -1;
+
+	if (connectedPublicationDB)
+	{
+		findIndex = connectedPublicationDB->FindByISBN(that.cl_ISBN);
+	}
 
 	if (findIndex < 0)
 	{
 		s << "ISBN: " << that.cl_ISBN << std::endl;
 	}
-	else
+	else if (that.GetConnectedPublicationDB())
 	{
 		s << that.GetConnectedPublicationDB()[0][findIndex];
 	}
@@ -23,14 +30,21 @@ std::istream& OneElementOf::operator>>(std::istream& s, Copies& that)
 {
 	Copies buff(that);
 
+	auto parent = that.cl_parent;
+
 	do
 	{
 		OutputConsole("Введите ISBN:");
 		Stream::Input(buff.cl_ISBN);
 
-		//auto findIndex = that.cl_parent->FindByISBN(buff.cl_ISBN);
+		int findIndex = -1;
 
-		if (that.cl_parent->FindByISBN(buff.cl_ISBN) < 0)
+		if (parent)
+		{
+			findIndex = that.cl_parent->FindByISBN(buff.cl_ISBN);
+		}
+
+		if (findIndex < 0)
 		{
 			break;
 		}
@@ -66,7 +80,7 @@ int OneElementOf::Copies::CopiesThatNotArchieved() const
 {
 	int num = 0;
 	
-	for (auto it = cl_isThisCopyGetted.begin(); it != cl_isThisCopyGetted.end(); it++)
+	for (auto it = cl_isThisCopyGetted.begin(); it != cl_isThisCopyGetted.end(); ++it)
 	{
 		if (!(it->GetIsArchieved()))
 		{
@@ -94,6 +108,11 @@ int OneElementOf::Copies::CopiesYouCanGetNow() const
 
 PublicationDBClass* OneElementOf::Copies::GetConnectedPublicationDB() const
 {
+	if (!cl_parent)
+	{
+		return nullptr;
+	}
+
 	return cl_parent->cl_connected_PublicationDB;
 }
 
@@ -169,7 +188,7 @@ bool OneElementOf::Copies::InputNewISBN()
 			OutputConsole("Введите новое название издания.");
 			Stream::Input(buffer.cl_ISBN);
 
-			if (cl_parent->FindByISBN(buffer.cl_ISBN) < 0)
+			if (cl_parent && (cl_parent->FindByISBN(buffer.cl_ISBN) < 0))
 			{
 				break;
 			}

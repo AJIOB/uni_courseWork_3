@@ -3,11 +3,12 @@
 
 #include "../../../model/exceptions/AllExceptions.h"
 #include "../../other/headers/typedefs.h"
+#include "../../../view/headers/view.h"
 //#include "../../one element of db/headers/Publisher.h"
-
+/*
 #ifndef AJIOB_BStringIO_header
 #define AJIOB_BStringIO_header
-
+*/
 namespace BStringIO
 {
 	template <typename InfoType>
@@ -15,9 +16,42 @@ namespace BStringIO
 
 	template <typename InfoType>
 	bString MakeBString(const InfoType& info);
+
+	template <typename TypeInfo>
+	bool ReadBStringFromDB(const bString& read, TypeInfo& result);
 }
 
-#endif
+//#endif
+
+
+
+
+
+
+//cpp
+
+template <typename TypeInfo>
+bool BStringIO::ReadBStringFromDB(const bString& toRead, TypeInfo& result)
+{
+	TypeInfo buff;
+	strPos it = 0;
+
+	try
+	{
+		buff =  BStringIO::ReadBInfo<TypeInfo>(toRead, it);
+	}
+	catch(const OutOfBStringLimitException& e)
+	{
+		OutputError(e.what());
+		return false;
+	}
+
+	result = buff;
+	return true;
+}
+
+
+
 
 
 //default

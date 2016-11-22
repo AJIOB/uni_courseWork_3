@@ -156,12 +156,6 @@
     <ClInclude Include="project\code\model\exceptions\AllExceptions.h">
       <Filter>model\exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="project\code\model\exceptions\headers\KeyException.h">
-      <Filter>model\exceptions\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="project\code\model\exceptions\headers\CtrlCException.h">
-      <Filter>model\exceptions\headers</Filter>
-    </ClInclude>
     <ClInclude Include="project\code\model\one element of db\headers\Publisher.h">
       <Filter>model\OneElementOf\headers</Filter>
     </ClInclude>
@@ -227,6 +221,9 @@
     </ClInclude>
     <ClInclude Include="project\code\model\other\headers\CancelStruct.h">
       <Filter>model\other\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="project\code\model\exceptions\headers\RepeatException.h">
+      <Filter>model\exceptions\headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,12 @@ std::ostream& OneElementOf::operator<<(std::ostream& s, const Publication& that)
 	s << "Название издания: " << that.cl_name << std::endl;
 	s << "Авторы: " << that.cl_authors << std::endl;
 	s << "Год издания: " << that.cl_yearOfPublication <<std::endl;
-	s << (that.GetConnectedCountryDB()->GetInfo(that.cl_ISBN));
+
+	auto parent = that.GetConnectedCountryDB();
+	if (parent)
+	{
+		s << (parent->GetInfo(that.cl_ISBN));
+	}
 
 	if (that.cl_userTags.size() > 0)
 	{
@@ -31,9 +36,27 @@ std::ostream& OneElementOf::operator<<(std::ostream& s, const Publication& that)
 
 std::istream& OneElementOf::operator>>(std::istream& s, Publication& that)
 {
-	OutputConsole("Введите ISBN:");
-	Stream::Input(that.cl_ISBN);
-	that.GetConnectedCountryDB()->AddByISBN(that.cl_ISBN);
+	do
+	{
+		OutputConsole("Введите ISBN:");
+		Stream::Input(that.cl_ISBN);
+		if (that.GetConnectedCountryDB())
+		{
+			that.GetConnectedCountryDB()->AddByISBN(that.cl_ISBN);
+		}
+
+		if (!(that.cl_parent) || (that.cl_parent->FindByISBN(that.cl_ISBN) < 0))
+		{
+			break;
+		}
+
+		if (Stream::GetOnlyYN("Данное издание уже имеется. Отменить ввод?") == 'Y')
+		{
+			throw RepeatException();
+		}
+	}
+	while (true);
+
 	OutputConsole("Введите название издания:");
 	Stream::Input(that.cl_name);
 	OutputConsole("Введите авторов:");
@@ -59,6 +82,11 @@ void OneElementOf::Publication::BWrite(const bString& bInfo, strPos& it)
 
 CountryDBClass* OneElementOf::Publication::GetConnectedCountryDB() const
 {
+	if (!cl_parent)
+	{
+		return nullptr;
+	}
+
 	return (cl_parent->cl_connected_CountryDB);
 }
 /*

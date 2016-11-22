@@ -34,9 +34,8 @@
     <ClInclude Include="project\code\model\dbs\templates\DefaultDB.h" />
     <ClInclude Include="project\code\model\enums\ISBNType.h" />
     <ClInclude Include="project\code\model\enums\PrivelegeType.h" />
-    <ClInclude Include="project\code\model\exceptions\headers\CtrlCException.h" />
     <ClInclude Include="project\code\model\exceptions\headers\FReadException.h" />
-    <ClInclude Include="project\code\model\exceptions\headers\KeyException.h" />
+    <ClInclude Include="project\code\model\exceptions\headers\RepeatException.h" />
     <ClInclude Include="project\code\model\exceptions\headers\OutOfBStringLimitException.h" />
     <ClInclude Include="project\code\model\one element of db\headers\Copies.h" />
     <ClInclude Include="project\code\model\one element of db\headers\Publication.h" />

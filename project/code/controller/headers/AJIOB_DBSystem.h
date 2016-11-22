@@ -24,22 +24,9 @@ class AJIOB_DBSystem
 
 	DefaultID cl_loggedUserID;
 
-
 	//???
 	OneElementOf::Auth Auth();
-	//int LoginSuccessfully();
-	/*
-	void WithLoginDB();
-	void WithCountryDB();
-	void WithPublicationsDB();
-	void WithCopiesDB();
-
-	//
-	/*
-	void AdminMenu();
-	void WorkerMenu();
-	void ClientMenu();
-	*/
+	
 	bool SaveAllChanges();
 
 	void ManageYourProfile();

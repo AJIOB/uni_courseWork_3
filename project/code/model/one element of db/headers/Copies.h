@@ -2,25 +2,14 @@
 #include <string>
 #include <vector>
 
-#include "../../../view/headers/StreamInput.h"
 #include "../../other/templates/MyContainer.h"
 #include "../../other/headers/ISBNClass.h"
 #include "../../other/headers/IsPublicationGetted.h"
 #include "../../dbs/headers/PublicationDBClass.h"
+#include "../../other/headers/typedefs.h"
+
 //#include "Country.h"
-/*
-#ifndef AJIOB_UI
-#define AJIOB_UI
 
-typedef unsigned long int uli;
-
-#endif*/
-
-
-#ifndef AJIOB_STRPOS
-#define AJIOB_STRPOS
-typedef unsigned int strPos;
-#endif
 
 class CopiesDBClass;
 
@@ -67,3 +56,16 @@ public:
 	bool InputNewISBN();
 	bool WorkWithCopies();
 };
+
+
+template <>
+inline OneElementOf::Copies BStringIO::ReadBInfo<OneElementOf::Copies>(const bString& str, strPos& iterator)
+{
+	return OneElementOf::Copies(str, iterator, nullptr);
+}
+
+template <>
+inline bString BStringIO::MakeBString<OneElementOf::Copies>(const OneElementOf::Copies& info)
+{
+	return info.BRead();
+}

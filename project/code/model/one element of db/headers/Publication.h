@@ -62,3 +62,15 @@ public:
 
 	//void InputElem(bool ISBNIsGettedByParametr, const ISBNClass ISBN = ISBNClass());
 };
+
+template <>
+inline OneElementOf::Publication BStringIO::ReadBInfo<OneElementOf::Publication>(const bString& str, strPos& iterator)
+{
+	return OneElementOf::Publication(str, iterator, nullptr);
+}
+
+template <>
+inline bString BStringIO::MakeBString<OneElementOf::Publication>(const OneElementOf::Publication& info)
+{
+	return info.BRead();
+}

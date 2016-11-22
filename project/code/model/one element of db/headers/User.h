@@ -26,9 +26,9 @@ class OneElementOf::User
 
 	void BWrite(const bString& bInfo, strPos& it);
 public:
-	User(void* parentDB);
+	User(void* parentDB = nullptr);
 	User(const User& that);
-	User(const bString& bInfo, strPos& it, void* parentDB);
+	User(const bString& bInfo, strPos& it, void* parentDB = nullptr);
 	~User();
 
 	User& operator=(const User& that);
@@ -56,3 +56,15 @@ public:
 
 	bool operator==(const User& that) const;
 };
+
+template <>
+inline OneElementOf::User BStringIO::ReadBInfo<OneElementOf::User>(const bString& str, strPos& iterator)
+{
+	return OneElementOf::User(str, iterator, nullptr);
+}
+
+template <>
+inline bString BStringIO::MakeBString<OneElementOf::User>(const OneElementOf::User& info)
+{
+	return info.BRead();
+}

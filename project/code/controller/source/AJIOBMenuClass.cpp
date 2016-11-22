@@ -242,21 +242,21 @@ void AJIOBMenuClass::AdminMenu()
 		switch (k)
 		{
 		case '0':
-			return;//TODO
+			return;//TODO: check & test
 		case '1':
-			SelectFunction("auth");
+			SelectFunction<OneElementOf::Auth>("auth");
 			break;
 		case '2':
-			SelectFunction("countries");
+			SelectFunction<OneElementOf::Country>("countries");
 			break;
 		case '3':
-			SelectFunction("publications");
+			SelectFunction<OneElementOf::Publication>("publications");
 			break;
 		case '4':
-			SelectFunction("bookcopies");
+			SelectFunction<OneElementOf::Copies>("bookcopies");
 			break;
 		case '5':
-			SelectFunction("users");
+			SelectFunction<OneElementOf::User>("users");
 			break;
 			/*
 		case '8':
@@ -332,53 +332,25 @@ void AJIOBMenuClass::ClientMenu()
 	std::cout << "Здравствуйте. Вы зашли как читатель библиотеки." << std::endl;
 }
 
-void AJIOBMenuClass::SelectFunction(const std::string& dbName)
+bool AJIOBMenuClass::LocalGetFromDB(const std::string& req)
 {
-	ClearConsole();
-	std::cout << "Взаимодействие с базой данных " << dbName << std::endl;
+	bString res;
 
-	do
-	{		
-		std::cout << "Выберите, пожалуйста, что вы хотите сделать:" << std::endl;
-		std::cout << "1) Добавить элементы" << std::endl;
-		std::cout << "2) Просмотреть все элементы" << std::endl;
-		std::cout << "3) Обновить информацию об элементе" << std::endl;
-		std::cout << "4) Удалить элемент издания" << std::endl;
-		//std::cout << "9) Сохранить информацию в файл" << std::endl;
-		std::cout << "0) Назад" << std::endl;
-		std::cout << "Пожалуйста, сделайте свой выбор" << std::endl;
-	
-		auto k = Stream::Get();
-
-		switch (k)
-		{/*
-		case '9':
-			cl_copiesDB.Save();
-			break;*/
-		case '0':
-			return;
-		case '1':
-			Add(dbName);
-			break;
-		case '2':
-			Show(dbName);
-			break;
-		case '3':
-			Update(dbName);
-			break;
-		case '4':
-			Delete(dbName);
-			break;
-		default:
-			OutputWarning("Извините, такого варианта не существует. Пожалуйста, повторите выбор");
-		}
-
-		PauseConsole();
-		ClearConsole();
+	if (!cl_localCopyOfDBSys.ExecuteQuery(req, res))
+	{
+		OutputConsole("При получении ответа БД произошла какая-то ошибка");
+		return false;
 	}
-	while (true);
+
+	return true;
 }
 
+/*
+void AJIOBMenuClass::SelectFunction(const std::string& dbName)
+{
+	
+}
+/*
 void AJIOBMenuClass::Add(const std::string& dbName)
 {
 	
@@ -394,7 +366,7 @@ void AJIOBMenuClass::Update(const std::string& dbName)
 
 void AJIOBMenuClass::Delete(const std::string& dbName)
 {
-}
+}*/
 
 void AJIOBMenuClass::SaveAll()
 {

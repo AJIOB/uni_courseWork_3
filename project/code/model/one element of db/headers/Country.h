@@ -60,3 +60,16 @@ public:
 
 	bool operator==(const Country& that) const;
 };
+
+
+template <>
+inline OneElementOf::Country BStringIO::ReadBInfo<OneElementOf::Country>(const bString& str, strPos& iterator)
+{
+	return OneElementOf::Country(str, iterator, nullptr);
+}
+
+template <>
+inline bString BStringIO::MakeBString<OneElementOf::Country>(const OneElementOf::Country& info)
+{
+	return info.BRead();
+}

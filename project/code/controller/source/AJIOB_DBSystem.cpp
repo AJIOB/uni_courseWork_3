@@ -254,7 +254,7 @@ bool AJIOB_DBSystem::SaveAllChanges()
 	return false;
 
 
-	//todo: add
+	//todo: add dbs
 }
 
 void AJIOB_DBSystem::ManageYourProfile()
@@ -315,6 +315,7 @@ AJIOB_DBSystem::AJIOB_DBSystem() :
 
 AJIOB_DBSystem::~AJIOB_DBSystem()
 {
+	SaveAllChanges();
 }
 
 AJIOBTypes::PrivelegeType::PrivelegeType AJIOB_DBSystem::RunLoginProcess()
@@ -344,10 +345,11 @@ AJIOBTypes::PrivelegeType::PrivelegeType AJIOB_DBSystem::RunLoginProcess()
 	}
 	while (Stream::GetOnlyYN("Желаете повторить ввод?") == 'Y');
 
-	//return loggedAuthElement;
+	//todo: поправить права доступа
 
+	cl_loggedUserID = loggedAuthElement.GetLogin();
 
-	return AJIOBTypes::PrivelegeType::none;
+	return cl_loggedUserID.GetType();
 }
 
 bool AJIOB_DBSystem::ExecuteQuery(const std::string& query, bString& result)
@@ -392,7 +394,7 @@ bool AJIOB_DBSystem::ExecuteQuery(const std::string& query, bString& result)
 		return cl_userDB.ExecuteQuery(rightPart, result);
 	}
 
-	if (whatDB == "save")
+	if (whatDB == "saveall")
 	{
 		return SaveAllChanges();
 	}

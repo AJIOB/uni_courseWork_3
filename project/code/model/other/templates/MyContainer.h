@@ -35,6 +35,12 @@ public:
 	//MyContainer& operator= (const MyContainer& x);
 };
 
+//спецификация шаблонов
+template <typename Type>
+MyContainer<Type> ConvertVectorToMyContainer(const std::vector<Type>& vec);
+
+
+
 
 
 
@@ -329,13 +335,26 @@ int MyContainer<Type>::Find(const Type& elementToFind) const
 }
 
 template <typename Type>
+MyContainer<Type> ConvertVectorToMyContainer(const std::vector<Type>& vec)
+{
+	MyContainer<Type> toReturn;
+
+	for (auto it = vec.begin(); it != vec.end(); ++it)
+	{
+		toReturn.push_back(*it);
+	}
+
+	return toReturn;
+}
+
+template <typename Type>
 std::ostream& operator<<(std::ostream& s, const MyContainer<Type>& container)
 {
 	s << "Массив:" << std::endl;
 	int i = 0;
 	for (auto it = container.begin(); it != container.end(); ++i, ++it)
 	{
-		s << "\t[" << i << "]: " << *it << std::endl; 
+		s << /*"\t["*/ "[" << i << "]: " /*<< std::endl*/ << *it << std::endl; 
 	}
 	return s;
 }

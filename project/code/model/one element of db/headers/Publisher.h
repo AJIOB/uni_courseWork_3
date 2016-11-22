@@ -83,7 +83,7 @@ public:
 	bool UpdateMe();
 };
 
-//for publisher
+
 template <>
 inline OneElementOf::Publisher BStringIO::ReadBInfo<OneElementOf::Publisher>(const bString& str, strPos& iterator)
 {
@@ -93,7 +93,5 @@ inline OneElementOf::Publisher BStringIO::ReadBInfo<OneElementOf::Publisher>(con
 template <>
 inline bString BStringIO::MakeBString<OneElementOf::Publisher>(const OneElementOf::Publisher& info)
 {
-	//return (MakeBString(info.length()) + info);
-	//return std::string();
 	return info.BRead();
 }
