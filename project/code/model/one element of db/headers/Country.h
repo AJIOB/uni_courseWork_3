@@ -59,6 +59,10 @@ public:
 	bool EqualByISBNPart(const Country& that) const;
 
 	bool operator==(const Country& that) const;
+	bool operator<(const Country& that) const;
+	bool operator>(const Country& that) const;
+
+	bool UpdateMe();
 };
 
 

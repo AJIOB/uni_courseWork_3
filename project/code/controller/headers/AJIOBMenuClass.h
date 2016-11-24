@@ -95,7 +95,7 @@ void AJIOBMenuClass::SelectFunction(const std::string& dbName)
 		std::cout << "3) Обновить информацию об элементе" << std::endl;
 		std::cout << "4) Удалить элемент" << std::endl;
 		std::cout << "5) Отмена последнего действия" << std::endl;
-		//std::cout << "9) Сохранить информацию в файл" << std::endl;
+		std::cout << "9) Сохранить информацию в файл" << std::endl;
 		std::cout << "0) Назад" << std::endl;
 		std::cout << "Пожалуйста, сделайте свой выбор" << std::endl;
 	
@@ -221,7 +221,77 @@ void AJIOBMenuClass::Show(const std::string& dbName)
 template <typename oneElemOfDB>
 void AJIOBMenuClass::Update(const std::string& dbName)
 {
-	//todo
+	//todo: test&check
+	ClearConsole();
+
+	void* parent = nullptr;
+
+	//получим адрес родительской базы
+	if (!LocalGetFromDB(dbName + ".get.address", parent))
+	{
+		return;
+	}
+
+	oneElemOfDB elemToUpdate(parent);
+
+	size_t size = 0;
+
+	//получим размер массива
+	if (!LocalGetFromDB(dbName + ".get.size", size))
+	{
+		return;
+	}
+
+
+	uli updatePos = 0;
+
+	do
+	{
+		try
+		{
+			updatePos = Stream::InputInRange("Введите № элемента, который вы хотите обновить:", 1, static_cast<int> (size)) - 1;
+		}
+		catch(const RangeException&)
+		{
+			OutputConsole("База данных пуста. Нечего обновлять");
+			return;
+		}
+
+		//получаем обновляемый элемент
+		bString res;
+
+		if (!cl_localCopyOfDBSys.ExecuteQuery(dbName + ".get.one." + BStringIO::MakeBString(updatePos), res))
+		{
+			OutputConsole("При получении ответа БД произошла какая-то ошибка");
+			return;
+		}
+
+		try
+		{
+			strPos it = 0;
+			elemToUpdate =  oneElemOfDB(res, it, parent);
+		}
+		catch(const OutOfBStringLimitException& e)
+		{
+			OutputError(e.what());
+			return;
+		}
+
+		//показываем обновляемый элемент
+		std::cout << elemToUpdate << std::endl;
+
+	} while (Stream::GetOnlyYN("Вы хотите обновить именно этот элемент?") == 'N');
+
+	elemToUpdate.UpdateMe();
+
+	if (!LocalGetFromDB(dbName + ".update." + elemToUpdate.BRead() + BStringIO::MakeBString(updatePos)))
+	{
+		OutputConsole("При обновлении произошла какая-то ошибка");
+	}
+	else
+	{
+		OutputConsole("Обновление прошло успешно");
+	}
 }
 
 template <typename oneElemOfDB>
@@ -243,7 +313,7 @@ void AJIOBMenuClass::Delete(const std::string& dbName)
 	{
 		try
 		{
-			delPos = Stream::InputInRange("Введите № удаляемого элемента:", 1, static_cast<int> (size) - 1);
+			delPos = Stream::InputInRange("Введите № удаляемого элемента:", 1, static_cast<int> (size)) - 1;
 		}
 		catch(const RangeException&)
 		{
@@ -278,13 +348,22 @@ void AJIOBMenuClass::Cancel(const std::string& dbName)
 	if (!LocalGetFromDB(dbName + ".cancel.last"))
 	{
 		OutputConsole("Возможно, нечего отменять");
+		return;
 	}
+	
+	OutputConsole("Последнее действие отменено");
 }
 
 template <typename oneElemOfDB>
 void AJIOBMenuClass::Save(const std::string& dbName)
 {
-	LocalGetFromDB(dbName + ".save");
+	if (!LocalGetFromDB(dbName + ".save"))
+	{
+		OutputConsole("В файле записана актуальная информация");
+		return;
+	}
+	
+	OutputConsole("Все изменения успешно сохранены");
 }
 
 /*

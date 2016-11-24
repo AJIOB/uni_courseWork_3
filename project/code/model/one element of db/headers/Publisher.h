@@ -79,6 +79,8 @@ public:
 	bool EqualByISBNPart(const ISBNOnePart& ISBNpart) const;
 
 	bool operator==(const Publisher& that) const;
+	bool operator>(const Publisher& that) const;
+	bool operator<(const Publisher& that) const;
 
 	bool UpdateMe();
 };

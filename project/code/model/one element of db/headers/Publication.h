@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include <string>
 
-
 #include "../../binary input&output/templates/BStringIO.h"
 #include "../../other/headers/ISBNClass.h"
 #include "../../dbs/headers/CountryDBClass.h"
@@ -52,6 +51,8 @@ public:
 	bool EqualByISBN(const Publication& that) const;
 
 	bool operator==(const Publication& that) const;
+	bool operator<(const Publication& that) const;
+	bool operator>(const Publication& that) const;
 
 	//Update
 	bool InputNewISBN();
@@ -61,6 +62,8 @@ public:
 	bool WorkWithTags();
 
 	//void InputElem(bool ISBNIsGettedByParametr, const ISBNClass ISBN = ISBNClass());
+
+	bool UpdateMe();
 };
 
 template <>

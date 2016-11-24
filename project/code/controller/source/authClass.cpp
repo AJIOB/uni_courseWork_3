@@ -1,31 +1,33 @@
 #include "../headers/authClass.h"
 
-AuthClass::AuthClass() : cl_loginDB(new AuthDBClass()), cl_currentUser(cl_loginDB)
+AuthClass::AuthClass() : cl_dbWithAuthInfo(new UserDBClass())/*, cl_currentUser(cl_dbWithAuthInfo)*/
 {
 	//loginDB = new AuthDBClass();
 	cl_isGetDBbyExternal = false;
 }
 
-AuthClass::AuthClass(AuthDBClass* loginDBnew) : cl_currentUser(loginDBnew)
+AuthClass::AuthClass(UserDBClass* loginDBnew) /*: cl_currentUser(loginDBnew)*/
 {
-	cl_loginDB = loginDBnew;
+	cl_dbWithAuthInfo = loginDBnew;
 	cl_isGetDBbyExternal = true;
 }
 
 AuthClass::~AuthClass()
 {
-	if (!cl_isGetDBbyExternal && cl_loginDB)
+	if (!cl_isGetDBbyExternal && cl_dbWithAuthInfo)
 	{
-		delete cl_loginDB;
+		delete cl_dbWithAuthInfo;
 	}
 }
 
-OneElementOf::Auth AuthClass::run()
+DefaultID AuthClass::run()
 {
-	OneElementOf::Auth currentLoginPassword(this);
-	currentLoginPassword.InputAuthFromConsole();
+	//todo: remake
 
-	int index = cl_loginDB->Find(currentLoginPassword);
+	OneElementOf::User currentLoginPassword(this);
+	currentLoginPassword.InputAuthInfoFromConsole();
+
+	int index = cl_dbWithAuthInfo->FindByAuthInfo(currentLoginPassword);
 
 	if (index < 0)
 	{
@@ -34,12 +36,12 @@ OneElementOf::Auth AuthClass::run()
 
 	try
 	{
-		return cl_loginDB->GetElement(index);
+		return cl_dbWithAuthInfo->GetElement(index).GetLogin();
 	}
 	catch(std::out_of_range& e)
 	{
 		OutputConsole(e.what());
 		OutputLog(e.what());
-		return OneElementOf::Auth(this);
+		return DefaultID();
 	}	
 }

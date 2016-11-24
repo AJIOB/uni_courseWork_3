@@ -91,15 +91,6 @@
     <Filter Include="model\exceptions\source">
       <UniqueIdentifier>{9a4068d8-1e97-4abf-ba79-7a020b76f6ae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Recycle Bin\external">
-      <UniqueIdentifier>{f18eae94-4551-4c46-94cd-6acdc7557d46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Recycle Bin\external\headers">
-      <UniqueIdentifier>{5dbcf470-6bb1-470e-a758-2758d41d3d20}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Recycle Bin\external\source">
-      <UniqueIdentifier>{f39f1a58-3f61-4fb1-82e9-590ddfecb258}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="project\code\model\binary input&amp;output\headers\BFileIO.h">
@@ -117,9 +108,6 @@
     <ClInclude Include="project\code\model\enums\PrivelegeType.h">
       <Filter>model\enums</Filter>
     </ClInclude>
-    <ClInclude Include="project\code\model\one element of db\headers\Auth.h">
-      <Filter>model\OneElementOf\headers</Filter>
-    </ClInclude>
     <ClInclude Include="project\code\view\headers\log.h">
       <Filter>view\headers</Filter>
     </ClInclude>
@@ -128,9 +116,6 @@
     </ClInclude>
     <ClInclude Include="project\code\controller\headers\authClass.h">
       <Filter>controller\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="project\code\external\headers\ExternalLib.h">
-      <Filter>Recycle Bin\external\headers</Filter>
     </ClInclude>
     <ClInclude Include="project\code\other\headers\MyLibrary.h">
       <Filter>other\headers</Filter>
@@ -207,9 +192,6 @@
     <ClInclude Include="project\code\controller\headers\AJIOB_DBSystem.h">
       <Filter>controller\headers</Filter>
     </ClInclude>
-    <ClInclude Include="project\code\model\dbs\headers\AuthDBClass.h">
-      <Filter>model\dbs\headers</Filter>
-    </ClInclude>
     <ClInclude Include="project\code\model\other\headers\typedefs.h">
       <Filter>model\other\headers</Filter>
     </ClInclude>
@@ -233,14 +215,8 @@
     <ClCompile Include="project\code\controller\source\authClass.cpp">
       <Filter>controller\source</Filter>
     </ClCompile>
-    <ClCompile Include="project\code\external\source\ExternalLib.cpp">
-      <Filter>Recycle Bin\external\source</Filter>
-    </ClCompile>
     <ClCompile Include="project\code\model\binary input&amp;output\source\BFileIO.cpp">
       <Filter>model\BinaryIO\source</Filter>
-    </ClCompile>
-    <ClCompile Include="project\code\model\one element of db\source\Auth.cpp">
-      <Filter>model\OneElementOf\source</Filter>
     </ClCompile>
     <ClCompile Include="project\code\other\source\MyLibrary.cpp">
       <Filter>other\source</Filter>
@@ -304,9 +280,6 @@
     </ClCompile>
     <ClCompile Include="project\code\controller\source\AJIOB_DBSystem.cpp">
       <Filter>controller\source</Filter>
-    </ClCompile>
-    <ClCompile Include="project\code\model\dbs\source\AuthDBClass.cpp">
-      <Filter>model\dbs\source</Filter>
     </ClCompile>
     <ClCompile Include="project\code\model\other\source\CancelStruct.cpp">
       <Filter>model\other\source</Filter>

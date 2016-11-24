@@ -19,49 +19,6 @@ void CountryDBClass::Load(bool isReadOnly)
 	ReadAll();
 }
 
-bool CountryDBClass::UpdateElement(OneElementOf::Country& elem)
-{
-	ClearConsole();
-	bool isUpdated = false;
-
-	do
-	{
-		std::cout << "Выберите, пожалуйста, что вы хотите сделать:" << std::endl;
-		std::cout << "1) Просмотреть текущий элемент" << std::endl;
-		std::cout << "2) Изменить название региона расположения" << std::endl;
-		std::cout << "3) Изменить ISBN код региона" << std::endl;
-		std::cout << "4) Поработать с издательствами" << std::endl;
-		std::cout << "0) Назад" << std::endl;
-		std::cout << "Пожалуйста, сделайте свой выбор" << std::endl;
-	
-		auto k = Stream::Get();
-		
-		switch (k)
-		{
-		case '0':
-			return isUpdated;
-		case '1':
-			std::cout << elem << std::endl;
-			break;
-		case '2':
-			if (elem.InputNewName()) isUpdated = true;
-			break;
-		case '3':
-			if (elem.InputNewISBNPart()) isUpdated = true;
-			break;
-		case '4':
-			if (elem.WorkWithPublishers()) isUpdated = true;
-			break;
-		default:
-			OutputWarning("Извините, такого варианта не существует. Пожалуйста, повторите выбор");
-		}
-
-		PauseConsole();
-		ClearConsole();
-	}
-	while (true);
-}
-
 /*
 void CountryDBClass::Add()
 {
@@ -121,7 +78,7 @@ void CountryDBClass::Delete()
 {
 	DefaultDB<OneElementOf::Country>::Delete();
 }
-*/
+*//*
 OneElementOf::Country& CountryDBClass::GetElement(int index)
 {
 	return cl_ourArray[index];
@@ -135,7 +92,7 @@ const OneElementOf::Country& CountryDBClass::GetElement(int index) const
 OneElementOf::Country& CountryDBClass::operator[](int index)
 {
 	return GetElement(index);
-}
+}*/
 
 int CountryDBClass::FindByName(const std::string& strToFind)
 {

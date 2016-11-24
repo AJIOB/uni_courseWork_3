@@ -13,8 +13,6 @@ class CountryDBClass : public DefaultDB<OneElementOf::Country>
 	friend OneElementOf::Country;
 	void Load(bool isReadOnly = true);
 
-	bool UpdateElement(OneElementOf::Country& elem) override;
-
 public:
 	CountryDBClass(bool isReadOnly = false);
 	~CountryDBClass();
@@ -25,11 +23,11 @@ public:
 	bool AddByISBN(const ISBNClass& currentISBN);/*
 	void Update() override;
 	void Delete() override;
-	/*/
+	/*//*
 	OneElementOf::Country& GetElement(int index);
 	const OneElementOf::Country& GetElement(int index) const;
 	OneElementOf::Country& operator[](int index);
-
+	/*/
 	int FindByName(const std::string& strToFind);
 	int FindByISBNPart(const ISBNOnePart& partToFind);
 

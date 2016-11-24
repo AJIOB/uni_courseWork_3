@@ -209,6 +209,16 @@ bool ISBNClass::operator!=(const ISBNClass& that) const
 	return (!operator==(that));
 }
 
+bool ISBNClass::operator>(const ISBNClass& that) const
+{
+	return (GetAsNumWithoutCheckDigit() > that.GetAsNumWithoutCheckDigit());
+}
+
+bool ISBNClass::operator<(const ISBNClass& that) const
+{
+	return (GetAsNumWithoutCheckDigit() < that.GetAsNumWithoutCheckDigit());
+}
+
 ISBNOnePart& ISBNClass::operator[](const int index)
 {
 	if ((index < 0) || (index >= numOfISBNFields))

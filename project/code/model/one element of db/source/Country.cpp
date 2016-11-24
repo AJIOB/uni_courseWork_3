@@ -202,3 +202,56 @@ bool OneElementOf::Country::operator==(const Country& that) const
 {
 	return EqualByISBNPart(that);
 }
+
+bool OneElementOf::Country::operator<(const Country& that) const
+{
+	return (cl_countryISBNPart.GetString() < that.cl_countryISBNPart.GetString());
+}
+
+bool OneElementOf::Country::operator>(const Country& that) const
+{
+	return (cl_countryISBNPart.GetString() > that.cl_countryISBNPart.GetString());
+}
+
+bool OneElementOf::Country::UpdateMe()
+{
+	ClearConsole();
+	bool isUpdated = false;
+
+	do
+	{
+		std::cout << "Выберите, пожалуйста, что вы хотите сделать:" << std::endl;
+		std::cout << "1) Просмотреть текущий элемент" << std::endl;
+		std::cout << "2) Изменить название региона расположения" << std::endl;
+		std::cout << "3) Изменить ISBN код региона" << std::endl;
+		std::cout << "4) Поработать с издательствами" << std::endl;
+		std::cout << "0) Назад" << std::endl;
+		std::cout << "Пожалуйста, сделайте свой выбор" << std::endl;
+	
+		auto k = Stream::Get();
+		
+		switch (k)
+		{
+		case '0':
+			return isUpdated;
+		case '1':
+			std::cout << *this << std::endl;
+			break;
+		case '2':
+			if (InputNewName()) isUpdated = true;
+			break;
+		case '3':
+			if (InputNewISBNPart()) isUpdated = true;
+			break;
+		case '4':
+			if (WorkWithPublishers()) isUpdated = true;
+			break;
+		default:
+			OutputWarning("Извините, такого варианта не существует. Пожалуйста, повторите выбор");
+		}
+
+		PauseConsole();
+		ClearConsole();
+	}
+	while (true);
+}

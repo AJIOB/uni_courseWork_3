@@ -4,7 +4,7 @@
 
 #include "../../binary input&output/templates/BStringIO.h"
 
-//1 сутки
+//время отмены запроса = 1 сутки
 const time_t liveTime = 60*60*24;
 
 struct CancelStruct

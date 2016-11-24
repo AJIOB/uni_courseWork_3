@@ -21,6 +21,8 @@ struct ISBNOnePart
 
 	bool operator==(const ISBNOnePart& that) const;
 	bool operator!=(const ISBNOnePart& that) const;
+	bool operator<(const ISBNOnePart& that) const;
+	bool operator>(const ISBNOnePart& that) const;
 
 	bool UpdateMe();
 };

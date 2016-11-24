@@ -42,6 +42,8 @@ public:
 
 	bool operator==(const ISBNClass& that) const;
 	bool operator!=(const ISBNClass& that) const;
+	bool operator>(const ISBNClass& that) const;
+	bool operator<(const ISBNClass& that) const;
 
 	ISBNOnePart& operator[](const int index);
 	const ISBNOnePart& operator[](const int index) const;

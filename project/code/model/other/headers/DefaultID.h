@@ -1,17 +1,11 @@
 ﻿#pragma once
 
 #include <string>
+
 #include "../../binary input&output/templates/BStringIO.h"
 #include "../../../view/headers/view.h"
 #include "../../enums/PrivelegeType.h"
-
-#ifndef AJIOB_UI
-#define AJIOB_UI
-
-typedef unsigned long int uli;
-
-#endif
-
+#include "typedefs.h"
 
 class DefaultID
 {

@@ -9,11 +9,15 @@ class UserDBClass : public CryptedDB<OneElementOf::User>
 {
 	void Load(bool isReadOnly = true);
 
-	bool UpdateElement(OneElementOf::User& elem) override;
-
 public:
 	UserDBClass(bool isReadOnly = false);
 	~UserDBClass();
+
+	uli GetNewID() const;
+
+	int FindByAuthInfo(const DefaultID& login, const std::string& password) const;
+	int FindByAuthInfo(const OneElementOf::User& checkedUser) const;
+
 	/*
 	void Save();
 	void Unload();
@@ -23,10 +27,10 @@ public:
 	int Find(const OneElementOf::User& currLP) const;
 	void Update() override;
 	void Delete() override;
-	/*/
+	/*//*
 	OneElementOf::User& GetElement(int index);
 	const OneElementOf::User& GetElement(int index) const;
 	OneElementOf::User& operator[](int index);
-
-	void SomethingIsChanged() override;
+	*/
+	//void SomethingIsChanged() override;
 };

@@ -4,7 +4,7 @@
 #include "../../model/exceptions/AllExceptions.h"
 #include "../headers/authClass.h"
 
-#include "../../model/dbs/headers/AuthDBClass.h"
+//#include "../../model/dbs/headers/AuthDBClass.h"
 #include "../../model/dbs/headers/CountryDBClass.h"
 #include "../../model/dbs/headers/PublicationDBClass.h"
 #include "../../model/dbs/headers/CopiesDBClass.h"
@@ -14,7 +14,7 @@
 
 class AJIOB_DBSystem
 {
-	AuthDBClass cl_loginDB;
+	//AuthDBClass cl_loginDB;
 	CountryDBClass cl_countriesDB;
 	PublicationDBClass cl_publicationsDB;
 	CopiesDBClass cl_copiesDB;
@@ -24,8 +24,8 @@ class AJIOB_DBSystem
 
 	DefaultID cl_loggedUserID;
 
-	//???
-	OneElementOf::Auth Auth();
+	//сам процесс авторизации
+	DefaultID Auth();
 	
 	bool SaveAllChanges();
 

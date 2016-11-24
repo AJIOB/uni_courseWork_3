@@ -11,6 +11,7 @@
 #include "../../../model/exceptions/AllExceptions.h"
 #include "../../other/headers/CancelStruct.h"
 #include "../../other/templates/MyContainer.h"
+#include <algorithm>
 
 template <typename oneElementOfDB>
 class DefaultDB : public AJIOB_BinaryFileInputOutput
@@ -30,7 +31,7 @@ protected:
 	void WriteAllIfNeed();
 
 	//???
-	virtual bool UpdateElement(oneElementOfDB&) = 0;
+	//virtual bool UpdateElement(oneElementOfDB&) = 0;
 
 	void* GetMe();
 	const void* GetMe() const;
@@ -69,6 +70,10 @@ public:
 	virtual bool Cancel(const bString& bStrQuery, bString& result);
 
 	//virtual int Find(const oneElementOfDB& elem) const;
+
+	oneElementOfDB& GetElement(int index);
+	const oneElementOfDB& GetElement(int index) const;
+	oneElementOfDB& operator[](int index);
 
 	void SetReadOnly(const bool isReadOnly);
 	bool GetReadOnly() const;
@@ -178,6 +183,8 @@ bool DefaultDB<oneElementOfDB>::Add(const bString& bStr)
 	{
 		cl_ourArray.push_back(buff);
 	}
+
+	std::sort(cl_ourArray.begin(), cl_ourArray.end());
 
 	//создание инверсного запроса
 	CancelStruct tmp;
@@ -369,6 +376,24 @@ bool DefaultDB<oneElementOfDB>::Cancel(const bString& bStrQuery, bString& result
 	}
 
 	return false;
+}
+
+template <typename oneElementOfDB>
+oneElementOfDB& DefaultDB<oneElementOfDB>::GetElement(int index)
+{
+	return cl_ourArray[index];
+}
+
+template <typename oneElementOfDB>
+const oneElementOfDB& DefaultDB<oneElementOfDB>::GetElement(int index) const
+{
+	return cl_ourArray[index];
+}
+
+template <typename oneElementOfDB>
+oneElementOfDB& DefaultDB<oneElementOfDB>::operator[](int index)
+{
+	return cl_ourArray[index];
 }
 
 template <typename oneElementOfDB>

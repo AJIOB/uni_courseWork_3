@@ -5,7 +5,6 @@ client.show
 
 Виды БД
 "countries"
-"auth"
 "publications"
 "bookcopies"
 "users"
@@ -18,9 +17,12 @@ client.show
 "delete"
 */
 
+
+//запросы, принимаемые как имя БД
 saveall
 
 
+//Запросы к конкретной БД (должен начинаться с "имя_базы.")
 [all in <> is bInfo]
 add.<new element><[optional] position to add>		""
 delete.<indexToDelete>								""

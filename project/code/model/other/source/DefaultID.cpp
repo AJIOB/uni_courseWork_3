@@ -47,7 +47,8 @@ bool DefaultID::SetID(const uli& newID)
 
 void DefaultID::InputNewType()
 {
-	Stream::Input(cl_type);
+	//Stream::Input(cl_type);
+	cl_type = static_cast<AJIOBTypes::PrivelegeType::PrivelegeType> (Stream::InputEnum(AJIOBTypes::PrivelegeFieldsAsVector));
 }
 
 bool DefaultID::EqualByID(const DefaultID& that) const
@@ -88,7 +89,7 @@ std::istream& operator>>(std::istream& s, DefaultID& ID)
 	OutputConsole("Введите уникальный числовой идентификатор пользователя: ");
 	ID.cl_id = Stream::Input<uli>();
 	OutputConsole("Введите права доступа пользователя: ");
-	ID.cl_type = static_cast<AJIOBTypes::PrivelegeType::PrivelegeType> (Stream::InputEnum(AJIOBTypes::PrivelegeFieldsAsVector));
+	ID.InputNewType();
 
 	return s;
 }

@@ -151,6 +151,16 @@ bool OneElementOf::Publisher::operator==(const Publisher& that) const
 	return EqualByNameAndCity(that);
 }
 
+bool OneElementOf::Publisher::operator>(const Publisher& that) const
+{
+	return ((cl_name > that.cl_name) || ((cl_name == that.cl_name) && (cl_city > that.cl_city)));
+}
+
+bool OneElementOf::Publisher::operator<(const Publisher& that) const
+{
+	return ((cl_name < that.cl_name) || ((cl_name == that.cl_name) && (cl_city < that.cl_city)));
+}
+
 bool OneElementOf::Publisher::UpdateMe()
 {
 	ClearConsole();

@@ -14,8 +14,6 @@ class CopiesDBClass : public DefaultDB<OneElementOf::Copies>
 
 	void Load(bool isReadOnly = true);
 
-	bool UpdateElement(OneElementOf::Copies& elem) override;
-
 public:
 	CopiesDBClass(PublicationDBClass* dbToConnect, bool isReadOnly = false);
 	~CopiesDBClass();
@@ -27,11 +25,11 @@ public:
 	void Show() const override;
 	void Update() override;
 	void Delete() override;
-	/*/
+	/*//*
 	OneElementOf::Copies& GetElement(int index);
 	const OneElementOf::Copies& GetElement(int index) const;
 	OneElementOf::Copies& operator[](int index);
-
+	/*/
 	//void SomethingIsChanged() override;
 
 	int FindByISBN(const ISBNClass& ISBNToFind) const;

@@ -171,6 +171,16 @@ bool OneElementOf::Publication::operator==(const Publication& that) const
 	return EqualByISBN(that);
 }
 
+bool OneElementOf::Publication::operator<(const Publication& that) const
+{
+	return (cl_ISBN < that.cl_ISBN);
+}
+
+bool OneElementOf::Publication::operator>(const Publication& that) const
+{
+	return (cl_ISBN > that.cl_ISBN);
+}
+
 bool OneElementOf::Publication::InputNewISBN()
 {
 	Publication buffer(*this);
@@ -246,6 +256,58 @@ bool OneElementOf::Publication::WorkWithTags()
 {
 	return cl_userTags.OperationsWithElements();
 }
+
+bool OneElementOf::Publication::UpdateMe()
+{
+	ClearConsole();
+	bool isUpdated = false;
+
+	do
+	{
+		std::cout << "Выберите, пожалуйста, что вы хотите сделать:" << std::endl;
+		std::cout << "1) Просмотреть текущий элемент" << std::endl;
+		std::cout << "2) Изменить ISBN издания" << std::endl;
+		std::cout << "3) Изменить название издания" << std::endl;
+		std::cout << "4) Изменить авторов" << std::endl;
+		std::cout << "5) Изменить год издания" << std::endl;
+		std::cout << "6) Поработать с пользовательскими метками" << std::endl;
+		std::cout << "0) Назад" << std::endl;
+		std::cout << "Пожалуйста, сделайте свой выбор" << std::endl;
+	
+		auto k = Stream::Get();
+		
+		switch (k)
+		{
+		case '0':
+			return isUpdated;
+		case '1':
+			std::cout << *this << std::endl;
+			break;
+		case '2':
+			if (this->InputNewISBN()) isUpdated = true;
+			break;
+		case '3':
+			if (this->InputNewName()) isUpdated = true;
+			break;
+		case '4':
+			if (this->InputNewAuthor()) isUpdated = true;
+			break;
+		case '5':
+			if (this->InputNewYear()) isUpdated = true;
+			break;
+		case '6':
+			if (this->WorkWithTags()) isUpdated = true;
+			break;
+		default:
+			OutputWarning("Извините, такого варианта не существует. Пожалуйста, повторите выбор");
+		}
+
+		PauseConsole();
+		ClearConsole();
+	}
+	while (true);
+}
+
 /*
 void OneElementOf::Publication::InputElem(bool ISBNIsGettedByParametr, const ISBNClass ISBN)
 {

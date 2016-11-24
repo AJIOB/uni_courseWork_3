@@ -12,48 +12,48 @@ UserDBClass::~UserDBClass()
 	Unload();
 }
 
+uli UserDBClass::GetNewID() const
+{
+	if (cl_ourArray.size() == 0)
+	{
+		return 1;
+	}
+
+	return (cl_ourArray.back().GetLogin().GetID() + 1);
+}
+
+int UserDBClass::FindByAuthInfo(const DefaultID& login, const std::string& password) const
+{
+	for (auto it = cl_ourArray.begin(); it != cl_ourArray.end(); ++it)
+	{
+		if (it->GetLogin().EqualByID(login) && (it->CheckPassword(password)))
+		{
+			return (it - cl_ourArray.begin());
+		}
+	}
+
+	return -1;
+}
+
+int UserDBClass::FindByAuthInfo(const OneElementOf::User& checkedUser) const
+{
+	for (auto it = cl_ourArray.begin(); it != cl_ourArray.end(); ++it)
+	{
+		if (it->EqualByAuth(checkedUser))
+		{
+			return (it - cl_ourArray.begin());
+		}
+	}
+
+	return -1;
+}
+
 void UserDBClass::Load(bool isReadOnly)
 {
 	cl_readOnly = isReadOnly;
 	ReadAll();
 }
 
-bool UserDBClass::UpdateElement(OneElementOf::User& elem)
-{
-	ClearConsole();
-	bool isUpdated = false;
-
-	do
-	{		
-		std::cout << "Выберите, пожалуйста, что вы хотите сделать:" << std::endl;
-		//std::cout << "1) Сбросить пароль" << std::endl;
-		//std::cout << "2) Изменить права доступа" << std::endl;
-		std::cout << "0) Выход" << std::endl;
-		std::cout << "Пожалуйста, сделайте свой выбор" << std::endl;
-	
-		auto k = Stream::Get();
-		
-		switch (k)
-		{
-		case '0':
-			return isUpdated;/*
-		case '1':
-			elem.ResetPassword();
-			isUpdated = true;
-			break;
-		case '2':
-			elem.InputNewPrivelege();
-			isUpdated = true;
-			break;*/
-		default:
-			OutputWarning("Извините, такого варианта не существует. Пожалуйста, повторите выбор");
-		}
-
-		PauseConsole();
-		ClearConsole();
-	}
-	while (true);
-}
 /*
 void UserDBClass::Unload()
 {
@@ -92,7 +92,7 @@ void UserDBClass::Delete()
 {
 	CryptedDB<OneElementOf::User>::Delete();
 }
-*/
+*//*
 OneElementOf::User& UserDBClass::GetElement(int index)
 {
 	return cl_ourArray[index];
@@ -112,3 +112,4 @@ void UserDBClass::SomethingIsChanged()
 {
 	CryptedDB<OneElementOf::User>::SomethingIsChanged();
 }
+*/

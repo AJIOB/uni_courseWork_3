@@ -32,6 +32,7 @@ int Stream::InputEnum(const std::vector<std::string>& texts, int numOfTheFirstEl
 
 	while (true)
 	{
+		//демонстрация вариантов для выбора
 		std::cout << "Пожалуйста, введите цифру, соответсувующую вашему выбору:" << std::endl;
 		for (long int i = numOfTheFirstElementToShow; i < static_cast<long int>(texts.size()); ++i)
 		{
@@ -40,7 +41,9 @@ int Stream::InputEnum(const std::vector<std::string>& texts, int numOfTheFirstEl
 
 		OutputConsole("Пожалуйста, сделайте свой выбор:");
 
-		if ((std::cin >> result) && (result >= numOfTheFirstElementToShow) && (result < static_cast<long int>(texts.size())))
+		Input(result);
+
+		if ((result >= numOfTheFirstElementToShow) && (result < static_cast<long int>(texts.size())))
 		{
 			Clear();
 			break;
@@ -55,7 +58,7 @@ int Stream::InputEnum(const std::vector<std::string>& texts, int numOfTheFirstEl
 	return result;
 }
 
-std::string Stream::getpass(const char* prompt, bool show_asterisk)
+std::string Stream::Getpass(const char* prompt, bool show_asterisk)
 {
 	const char BACKSPACE=8;
 	const char RETURN=13;

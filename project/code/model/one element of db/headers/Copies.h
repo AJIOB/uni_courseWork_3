@@ -51,10 +51,14 @@ public:
 	bool EqualByISBN(const Copies& that) const;
 
 	bool operator==(const Copies& that) const;
+	bool operator<(const Copies& that) const;
+	bool operator>(const Copies& that) const;
 	
 	//Update
 	bool InputNewISBN();
 	bool WorkWithCopies();
+
+	bool UpdateMe();
 };
 
 

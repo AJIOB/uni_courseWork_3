@@ -22,7 +22,7 @@ namespace Stream
 	char GetOnlyYN(const std::string& infoText);
 	int InputEnum(const std::vector<std::string>& texts, int numOfTheFirstElementToShow = 1);
 
-	std::string getpass(const char *prompt, bool show_asterisk = true);
+	std::string Getpass(const char *prompt, bool show_asterisk = true);
 
 	template<typename InputType>
 	InputType InputInRange(const std::string& shownText, const InputType& min, const InputType& max);

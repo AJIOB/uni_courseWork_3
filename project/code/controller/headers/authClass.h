@@ -3,24 +3,25 @@
 #include <vector>
 
 #include "../../view/headers/view.h"
-#include "../../model/dbs/headers/AuthDBClass.h"
+//#include "../../model/dbs/headers/AuthDBClass.h"
 #include "../../model/exceptions/AllExceptions.h"
+#include "../../model/dbs/headers/UserDBClass.h"
 
 class AuthClass
 {
-	AuthDBClass* cl_loginDB;
+	UserDBClass* cl_dbWithAuthInfo;
 	bool cl_isGetDBbyExternal;
 
-	OneElementOf::Auth cl_currentUser;
+	//OneElementOf::Auth cl_currentUser;
 
 public:
 	//конструктор (загрузка из БД)
 	AuthClass();
 
-	AuthClass(AuthDBClass* loginDB);
+	AuthClass(UserDBClass* loginDB);
 	//деструктор
 	~AuthClass();
 
 	//основная функция. Возвращает ID авторизованного пользователя
-	OneElementOf::Auth run();
+	DefaultID run();
 };

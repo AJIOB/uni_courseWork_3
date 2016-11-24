@@ -65,6 +65,16 @@ bool ISBNOnePart::operator!=(const ISBNOnePart& that) const
 	return (!operator==(that));
 }
 
+bool ISBNOnePart::operator<(const ISBNOnePart& that) const
+{
+	return (GetString() < that.GetString());
+}
+
+bool ISBNOnePart::operator>(const ISBNOnePart& that) const
+{
+	return (GetString() > that.GetString());
+}
+
 bool ISBNOnePart::UpdateMe()
 {
 	OutputConsole("¬ведите новое значение ISBN части");

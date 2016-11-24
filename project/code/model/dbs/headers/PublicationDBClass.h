@@ -16,7 +16,7 @@ class PublicationDBClass : public DefaultDB<OneElementOf::Publication>
 
 	void Load(bool isReadOnly = true);
 
-	bool UpdateElement(OneElementOf::Publication& elem) override;
+	//bool UpdateElement(OneElementOf::Publication& elem) override;
 
 public:
 	PublicationDBClass(CountryDBClass* dbToConnect/*, CopiesDBClass* copiesDBToConnect*/, bool isReadOnly = false);
@@ -29,12 +29,12 @@ public:
 	void Show() const override;
 	void Update() override;
 	void Delete() override;
-	/*/
+	/*//*
 	OneElementOf::Publication& GetElement(int index);
 	const OneElementOf::Publication& GetElement(int index) const;
 	OneElementOf::Publication& operator[](int index);
 
 	void SomethingIsChanged() override;
-
+	/*/
 	int FindByISBN(const ISBNClass& ISBNToFind) const;
 };

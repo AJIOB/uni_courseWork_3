@@ -22,12 +22,10 @@
     <ClInclude Include="project\code\controller\headers\AJIOBMenuClass.h" />
     <ClInclude Include="project\code\controller\headers\AJIOB_DBSystem.h" />
     <ClInclude Include="project\code\controller\headers\authClass.h" />
-    <ClInclude Include="project\code\external\headers\ExternalLib.h" />
     <ClInclude Include="project\code\model\binary input&amp;output\headers\BFileIO.h" />
     <ClInclude Include="project\code\model\binary input&amp;output\templates\BStringIO.h" />
     <ClInclude Include="project\code\model\dbs\headers\CopiesDBClass.h" />
     <ClInclude Include="project\code\model\dbs\headers\CountryDBClass.h" />
-    <ClInclude Include="project\code\model\dbs\headers\AuthDBClass.h" />
     <ClInclude Include="project\code\model\dbs\headers\PublicationDBClass.h" />
     <ClInclude Include="project\code\model\dbs\headers\UserDBClass.h" />
     <ClInclude Include="project\code\model\dbs\templates\CryptedDB.h" />
@@ -50,7 +48,6 @@
     <ClInclude Include="project\code\model\other\headers\typedefs.h" />
     <ClInclude Include="project\code\model\other\templates\MyContainer.h" />
     <ClInclude Include="project\code\model\other\headers\StringFuncs.h" />
-    <ClInclude Include="project\code\model\one element of db\headers\Auth.h" />
     <ClInclude Include="project\code\model\exceptions\headers\RangeException.h" />
     <ClInclude Include="project\code\model\exceptions\headers\MyException.h" />
     <ClInclude Include="project\code\other\headers\MyLibrary.h" />
@@ -65,14 +62,11 @@
     <ClCompile Include="project\code\controller\source\AJIOBMenuClass.cpp" />
     <ClCompile Include="project\code\controller\source\AJIOB_DBSystem.cpp" />
     <ClCompile Include="project\code\controller\source\authClass.cpp" />
-    <ClCompile Include="project\code\external\source\ExternalLib.cpp" />
     <ClCompile Include="project\code\model\binary input&amp;output\source\BFileIO.cpp" />
     <ClCompile Include="project\code\model\dbs\source\CopiesDBClass.cpp" />
     <ClCompile Include="project\code\model\dbs\source\CountryDBClass.cpp" />
-    <ClCompile Include="project\code\model\dbs\source\AuthDBClass.cpp" />
     <ClCompile Include="project\code\model\dbs\source\PublicationDBClass.cpp" />
     <ClCompile Include="project\code\model\dbs\source\UserDBClass.cpp" />
-    <ClCompile Include="project\code\model\one element of db\source\Auth.cpp" />
     <ClCompile Include="project\code\model\one element of db\source\Copies.cpp" />
     <ClCompile Include="project\code\model\one element of db\source\Publication.cpp" />
     <ClCompile Include="project\code\model\one element of db\source\Country.cpp" />

@@ -19,7 +19,7 @@ void PublicationDBClass::Load(bool isReadOnly)
 	cl_readOnly = isReadOnly;
 	ReadAll();
 }
-
+/*
 bool PublicationDBClass::UpdateElement(OneElementOf::Publication& elem)
 {
 	ClearConsole();
@@ -71,7 +71,7 @@ bool PublicationDBClass::UpdateElement(OneElementOf::Publication& elem)
 	while (true);
 
 	//return false;
-}
+}*/
 /*
 int PublicationDBClass::Add()
 {
@@ -92,7 +92,7 @@ void PublicationDBClass::Delete()
 {
 	DefaultDB<OneElementOf::Publication>::Delete();
 }
-*/
+*//*
 OneElementOf::Publication& PublicationDBClass::GetElement(int index)
 {
 	return cl_ourArray[index];
@@ -112,7 +112,7 @@ void PublicationDBClass::SomethingIsChanged()
 {
 	DefaultDB<OneElementOf::Publication>::SomethingIsChanged();
 }
-
+*/
 int PublicationDBClass::FindByISBN(const ISBNClass& ISBNToFind) const
 {
 	for (auto i = 0; i < cl_ourArray.size(); ++i)
