@@ -1,17 +1,7 @@
 ﻿#pragma once
-/*
-#include "../../view/headers/view.h"
-#include "../../model/exceptions/AllExceptions.h"*/
+
 #include "../headers/authClass.h"
 #include "AJIOB_DBSystem.h"
-
-/*
-#include "../../model/dbs/headers/AuthDBClass.h"
-#include "../../model/dbs/headers/CountryDBClass.h"
-#include "../../model/dbs/headers/PublicationDBClass.h"
-#include "../../model/dbs/headers/CopiesDBClass.h"
-#include "../../model/dbs/headers/UserDBClass.h"
-*/
 
 class AJIOBMenuClass
 {

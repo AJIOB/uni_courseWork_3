@@ -30,19 +30,7 @@ uli ISBNClass::CalculateISBN13CheckDigit() const
 
 	return (10 - sum);
 }
-/*
-bool ISBNClass::CheckISBN10(const std::string&)
-{
-	//TODO
-	return false;
-}
 
-bool ISBNClass::CheckISBN13(const std::string&)
-{
-	//TODO
-	return false;
-}
-*/
 ulli ISBNClass::GetAsNumWithoutCheckDigit() const
 {
 	ulli result = 0;

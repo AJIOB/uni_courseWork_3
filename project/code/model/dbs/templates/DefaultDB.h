@@ -3,6 +3,7 @@
 #include <vector>
 #include <stack>
 #include <sstream>
+#include <algorithm>
 
 #include "../../binary input&output/headers/BFileIO.h"
 #include "../../binary input&output/templates/BStringIO.h"
@@ -11,7 +12,6 @@
 #include "../../../model/exceptions/AllExceptions.h"
 #include "../../other/headers/CancelStruct.h"
 #include "../../other/templates/MyContainer.h"
-#include <algorithm>
 
 template <typename oneElementOfDB>
 class DefaultDB : public AJIOB_BinaryFileInputOutput
@@ -29,9 +29,7 @@ protected:
 	std::stack<CancelStruct> cl_cancelStack;
 
 	void WriteAllIfNeed();
-
-	//???
-	//virtual bool UpdateElement(oneElementOfDB&) = 0;
+	virtual bool SaveChangesToFile();
 
 	void* GetMe();
 	const void* GetMe() const;
@@ -48,16 +46,6 @@ protected:
 	virtual bool ShowAll(const bString& bStrQuery, bString& result) const;
 	virtual bool ShowOne(const bString& bStrQuery, bString& result) const;
 
-public:
-	DefaultDB(const std::string& wayToFile, bool isReadOnly = false);
-	virtual ~DefaultDB();
-
-	virtual bool SaveChangesToFile();
-	
-	bool Save();
-	void Unload();
-
-	//методы
 	virtual void ReadAll();
 	virtual void WriteAll();
 
@@ -69,8 +57,13 @@ public:
 	virtual bool Show(const bString& bStrQuery, bString& result);
 	virtual bool Cancel(const bString& bStrQuery, bString& result);
 
-	//virtual int Find(const oneElementOfDB& elem) const;
-
+public:
+	DefaultDB(const std::string& wayToFile, bool isReadOnly = false);
+	virtual ~DefaultDB();
+	
+	bool Save();
+	void Unload();
+	
 	oneElementOfDB& GetElement(int index);
 	const oneElementOfDB& GetElement(int index) const;
 	oneElementOfDB& operator[](int index);
@@ -79,8 +72,8 @@ public:
 	bool GetReadOnly() const;
 
 	virtual void SomethingIsChanged();
-	//todo
-	virtual bool ExecuteQuery(const std::string& query, bString& result);
+
+	virtual bool ExecuteQuery(const bString& query, bString& result);
 };
 
 

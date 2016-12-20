@@ -32,20 +32,21 @@ std::string ISBNOnePart::GetString() const
 
 bool ISBNOnePart::SetString(const std::string& num)
 {
-	ISBNpart = 0;
-	numOfElements = 0;
+	ISBNOnePart buffer;
 
 	for (int i = 0; i < num.size(); i++)
 	{
 		if ((num[i] > '9') || (num[i] < '0'))
 		{
-			break;
+			return false;
 		}
 
-		ISBNpart *= 10;
-		ISBNpart += num[i] - '0';
-		numOfElements++;
+		buffer.ISBNpart *= 10;
+		buffer.ISBNpart += num[i] - '0';
+		buffer.numOfElements++;
 	}
+
+	(*this) = buffer;
 
 	return true;
 }
