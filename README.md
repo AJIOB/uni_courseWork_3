@@ -1,4 +1,5 @@
 # Проект "Библиотека"
+[![Build status](https://ci.appveyor.com/api/projects/status/frioxp0k7kr48ysw/branch/master?svg=true)](https://ci.appveyor.com/project/AJIOB/uni-coursework-3/branch/master)
 Курсовой по КПиЯП. 3 семестр.
 
 В проекте реализованы функции каталога книг с использовнием реальных ISBN номеров (происходит проверка на явно несуществующие). Работает только меню администратора. Присутствует возможность использования пользовательской системы.
